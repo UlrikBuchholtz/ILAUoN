@@ -3,6 +3,7 @@
 <!--********************************************************************
 Copyright 2019 Dan Margalit and Joseph Rabinoff
 Copyright 2020 Ben Williams
+Copyright 2022 Ulrik Buchholtz
 
 Permission is granted to copy, distribute and/or modify this document
 under the terms of the GNU Free Documentation License, Version 1.3
@@ -23,18 +24,18 @@ Free Documentation License"
 
     <restrict-version versions="default">
       <title>Interactive Linear Algebra</title>
-      <subtitle>UBC edition</subtitle>
+      <subtitle>UoN edition</subtitle>
     </restrict-version>
 
     <!-- Title Page, Preface, etc. -->
     <xi:include href="./frontmatter.xml" />
-    
+
     <!-- Chapters -->
     <chapter xml:id="chap-vectors">
       <title>Vectors: Algebra and Geometry</title>
 
       <introduction>
-	<note type-name="Primary Goals"> 
+	<note type-name="Primary Goals">
           <p> The language of <term>vectors</term> is convenient for doing linear algebra. In this chapter, you should learn:
             <ol>
               <li>What vectors are, and how to do algebra and geometry with vectors;</li>
@@ -73,7 +74,7 @@ Free Documentation License"
       <xi:include href="./vectors.xml" />
       <xi:include href="./spans.xml" />
     </chapter>
-    
+
     <chapter xml:id="chap-algebra">
       <title>Systems of Linear Equations: Algebra</title>
 
@@ -95,7 +96,7 @@ Free Documentation License"
         </p>
 
         <p>
-          In <xref ref="systems-of-linear-equations"/>, we will introduce <em>systems of linear equations</em>, the
+          In <xref ref="systems-of-eqns"/>, we will introduce <em>systems of linear equations</em>, the
           class of equations whose study forms the subject of linear algebra.  In <xref ref="row-reduction"/>, will
           present a procedure, called <em>row reduction</em>, for finding all solutions of a system of linear equations.
           In <xref ref="parametric-form"/>, you will see how to express all solutions of a system of linear equations
@@ -106,7 +107,7 @@ Free Documentation License"
         </p>
       </introduction>
 
-      <xi:include href="./systems-of-linear-equations.xml" />
+      <xi:include href="./systems-eqns.xml" />
       <xi:include href="./row-reduction.xml" />
       <xi:include href="./parametric-form.xml" />
       <xi:include href="./matrixeq.xml" />
@@ -135,7 +136,7 @@ Free Documentation License"
             <li>the solution set of a matrix equation <m>Ax=b</m>, and</li>
             <li>the set of all <m>b</m> that makes a particular system consistent.</li>
           </ol>
-          The first object, the solution set, will be introduced in <xref ref="solution-sets"/>. The second object will be called the column space of <m>A</m>. 
+          The first object, the solution set, will be introduced in <xref ref="solution-sets"/>. The second object will be called the column space of <m>A</m>.
         </p>
 
 	<p>

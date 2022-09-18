@@ -1,7 +1,7 @@
 [submodule "mathbook-assets"]
 	path = mathbook-assets
-url=https://github.com/tbjw/mathbook-assets.git
-	branch = ila
+  url=https://github.com/UlrikBuchholtz/mathbook-assets.git
+	branch = UoN
 [submodule "mathbook"]
 	path = mathbook
 	url = https://github.com/QBobWatson/mathbook.git

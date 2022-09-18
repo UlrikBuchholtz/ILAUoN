@@ -15,7 +15,7 @@ Overview:
 
 First decide where you want to put all the files.  I have my files in `~/projects/`.  Change to that directory and run:
 ```
-~/projects$ git clone https://github.com/tbjw/UBCILA.git
+~/projects$ git clone https://github.com/UlrikBuchholtz/ILAUoN.git
 ~/projects$ cd ila
 ~/projects/ila$ git submodule update --init --recursive
 ```
@@ -23,16 +23,23 @@ This will put this repository in `ila/`, and will clone the submodules `mathbook
 
 ## Set up the build system
 
-The build system has a large number of dependencies, and is sensitive to versioning.  It also requires a patched version of Inkscape.  For this reason, I've packaged everything needed to build the book into a [Vagrant](https://www.vagrantup.com/) box.  This is a prepackaged virtual machine that can be launched from any Unix, Mac, or Windows computer.  It has two prerequisites:
-* VirtualBox: the underlying virtual machine software.  [Download](https://www.virtualbox.org/wiki/Downloads).
-* Vagrant: the program that manages the virtual machine.  [Download](https://www.vagrantup.com/downloads.html).
+The build system has a large number of dependencies, and is sensitive to versioning.  It also requires a patched version of Inkscape.  For this reason, I've packaged everything needed to build the book into a [Vagrant](https://www.vagrantup.com/) box.  This is a prepackaged virtual machine that can be launched from any Unix, Mac, or Windows computer.
 
-(If you know what you are doing, you can also use the `libvirt` provider, which is faster on a Linux system.)
+It can be run with either of two providers:
+* VirtualBox: [Download](https://www.virtualbox.org/wiki/Downloads).
+* libvirt: [Download](https://libvirt.org/downloads.html).
+
+(When in doubt, use VirtualBox. If you know what you are doing, use libvirt, which is faster on a Linux system.)
 
 To install the build environment, change into `ila/build-environment`, and type:
 ```
 ila/build-environment$ vagrant up --provider virtualbox
 ```
+or:
+```
+ila/build-environment$ vagrant up --provider libvirt
+```
+
 The box will now configure itself.  It installs an enormous number of packages, including all of `TeXLive`, so be patient.  It will also take about 12GB of disk space wherever your VirtualBox VMs are stored.  You may want to tweak `Vagrantfile` to configure how much memory and CPU resources to give to the virtual machine.
 
 If you want to poke around the virtual machine, use `vagrant ssh`.  To stop it, type `vagrant halt`.  All `vagrant` commands must be run from the `ila/build-environment` directory.
@@ -57,8 +64,8 @@ The build system accepts several options, which you pass to `scons`:
 * `--scratch` Empty the build directory before building (in case some files disappeared from the build; for production builds).
 * `--production` Synonym for `--build-pdf --minify --scratch`.  Also copies the build to `ila/html`.
 * `--delete-cache` The build system maintains a cache from previous builds in `/home/vagrant/cache` in the virtual machine.  Among other things, this contains hundreds of megabytes of cached LaTeX output converted to `svg` format.  Use this option to regenerate the cache (this takes a long time).  Implies `--scratch`.
-* `--theme THEME` Build with a specified visual theme.  Valid options for `THEME` are `gt` and `duke`.  Defaults to `gt`.
-* `--variant VARIANT` Build a variant of the book.  Currently the only variant is `1553`.  The default variant is `default`.
+* `--theme=THEME` Build with a specified visual theme.  Valid options for `THEME` are `uon`, `ubc, `gt` and `duke`.  Defaults to `uon`.
+* `--variant VARIANT` Build a variant of the book. The default variant is `default`.
 
 ## Editing XML
 
