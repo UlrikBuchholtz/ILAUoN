@@ -3,7 +3,7 @@
     xmlns:exsl="http://exslt.org/common"
     extension-element-prefixes="exsl">
 
-<xsl:param name="theme.sponsor" select="'http://www.duke.edu/'"/>
-<xsl:param name="theme.online" select="'http://https://services.math.duke.edu/~jdr/ila/'"/>
+<xsl:param name="theme.sponsor" select="'https://www.nottingham.ac.uk/'"/>
+<xsl:param name="theme.online" select="'https://ulrikbuchholtz.dk/ila/'"/>
 
 </xsl:stylesheet>

@@ -2,7 +2,7 @@
 /* JDR: I wish all the color theming happened in the scss files... */
 
 body, html body {
-    background: #545454;
+    background: #aaa;
 }
 
 article.theorem-like, article.objectives {

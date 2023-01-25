@@ -2,6 +2,7 @@
 
 <!--********************************************************************
 Copyright 2022 Dan Margalit and Joseph Rabinoff
+Copyright 2023 Ulrik buchholtz
 
 Permission is granted to copy, distribute and/or modify this document
 under the terms of the GNU Free Documentation License, Version 1.3 or
@@ -26,7 +27,12 @@ the license is included in gfdl.xml.
       <institution>Duke University</institution>
       <!-- <email>rabinoff@math.gatech.edu</email> -->
     </author>
-
+    <author>
+      <personname>Ulrik Buchholtz</personname>
+      <department>School of Computer Science</department>
+      <institution>University of Nottingham</institution>
+      <!-- <email>ulrik.buchholtz@nottingham.ac.uk</email> -->
+    </author>
     <date><today /></date>
   </titlepage>
 
@@ -34,8 +40,8 @@ the license is included in gfdl.xml.
     <edition>Duke University</edition>
 
     <copyright>
-      <year>2022</year>
-      <holder>Dan Margalit and Joseph Rabinoff</holder>
+      <year>2023</year>
+      <holder>Dan Margalit and Joseph Rabinoff and Ulrik Buchholtz</holder>
       <minilicense>GFDL License</minilicense>
       <shortlicense>Permission is granted to copy, distribute and/or modify this document under the terms of the GNU Free Documentation License, Version 1.2 or any later version published by the Free Software Foundation; with no Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.  A copy of the license is included in the appendix entitled <q>GNU Free Documentation License.</q>  All trademarks<trademark /> are the registered<registered /> marks of their respective owners.</shortlicense>
     </copyright>
@@ -76,6 +82,13 @@ the license is included in gfdl.xml.
         <institution>Duke University</institution>
         <email>jdr@math.duke.edu</email>
       </contributor>
+
+      <contributor xml:id="ulrik">
+        <personname>Ulrik Buchholtz</personname>
+        <department>School of Computer Science</department>
+        <institution>University of Nottingham</institution>
+        <email>ulrik.buchholtz@nottingham.ac.uk</email>
+      </contributor>
     </contributors>
 
     <p>
@@ -97,19 +110,26 @@ the license is included in gfdl.xml.
   </preface>
 
   <preface>
-    <title>Editions of this textbook</title>
+    <title>History of the UoN edition</title>
 
     <p>
       There are several variants of this textbook available.
       <ul>
         <li>
-          You are viewing the Duke Edition of this book.  This edition grew out of the Georgia Tech Edition, but was largely rewritten by Rabinoff for use as in Math 218D-1 at Duke University.
+          You are viewing the University of Nottingham (UoN) edition of this book,
+          rewritten by Ulrik Buchholtz for use in COMP1043 Mathematics for Computer Scientists 2.
+        </li>
+        <li>
+          This edition in turn grew out of the Duke edition, which was rewritten by
+          Joe Rabinoff for use
+          in Math 218D-1 at Duke University.
         </li>
         <li>
           The <url href="https://textbooks.math.gatech.edu/ila/">Georgia Tech Edition</url> has material on linear transformations and similar matrices, but does not cover the SVD or PCA.  It was designed for use as the textbook for Math 1553 at the Georgia Institute of Technology.
         </li>
         <li>
-          The <url href="https://personal.math.ubc.ca/~tbjw/ila/">UBC Edition</url> is similar to the Georgia Tech Edition.
+          The <url href="https://personal.math.ubc.ca/~tbjw/ila/">UBC Edition</url>
+          by Ben Williams is similar to the Georgia Tech Edition.
         </li>
       </ul>
     </p>
