@@ -28,6 +28,46 @@ Free Documentation License"
     <xi:include href="./frontmatter.xml" />
 
     <!-- Chapters -->
+    <!-- Chapters -->
+    <chapter xml:id="chap-vectors">
+      <title>Vectors: Algebra and Geometry</title>
+
+      <introduction>
+	<note type-name="Primary Goals"> 
+          <p> The language of <term>vectors</term> is convenient for doing linear algebra. In this chapter, you should learn:
+            <ol>
+              <li>What vectors are, and how to do algebra and geometry with vectors;</li>
+              <li>What it means to be a <term>linear combination</term> of given vectors;</li>
+	      <li>The concept of the <term>span</term> of some vectors, i.e., the set of all linear combinations of these vectors.</li>
+            </ol>
+          </p>
+          </note>
+
+	 <p> Linear algebra is the study of one or more <term>linear equations</term>, that is, equations that look like
+	  <me>2x+3y+5z=1</me>.
+	  The basic case of one linear equation in one variable, such as <m>2x=5</m>, is not very interesting. We know that
+	  there is a unique solution, and we know how to find it: <m>x=2.5</m>. The complications in linear algebra
+	  arise because we consider several simultaneous equations in several variables, for instance
+	  <me>
+          \syseq{
+    3x_1 + 4x_2 + 10x_3 + 19x_4 - 2x_5 - 3x_6 = 141;
+    7x_1 + 2x_2 - 13x_3 - 7x_4 + 21x_5 + 8x_6 = 2567;
+    -x_1 + 9x_2 + \frac 32x_3 + x_4 + 14x_5 + 27x_6 = 26;
+    \frac 12x_1 + 4x_2 + 10x_3 + 11x_4 + 2x_5 + x_6 = -15\rlap.
+  }
+          </me>
+	 </p>
+	 <p> In order to discuss systems of equations like this, it will be convenient for us to have notation for
+	 keeping track of multiple numbers at once. <term>Vectors</term> provide us with this notation. In the case of
+	 vectors with  2 or
+	 3 entries, there is a strong connection between vector algebra and geometry. This can be very helpful to
+	 us as we develop an intuition for vector algebra, even when there are more than 3 entries.
+	 </p>
+      </introduction>
+      <xi:include href="./vectors.xml" />
+      <xi:include href="./vector-spans.xml" />
+    </chapter>
+
     <chapter xml:id="chap-solution-sets">
       <title>Solving Systems of Linear Equations</title>
 
