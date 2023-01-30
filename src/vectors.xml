@@ -506,7 +506,7 @@ the license is included in gfdl.xml.
       <example hide-type="true">
         <title>Interactive: The parallelogram law for vector addition</title>
         <figure>
-          <caption>The parallelogram law for vector addition.  Click and drag the heads of <m></m> and <m>w</m>.</caption>
+          <caption>The parallelogram law for vector addition.  Click and drag the heads of <m>v</m> and <m>w</m>.</caption>
           <mathbox source="demos/vector-add.html" height="400px"/>
         </figure>
       </example>
