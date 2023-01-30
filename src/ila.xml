@@ -141,7 +141,7 @@ Free Documentation License"
 
         <p>
           We will develop a large amount of vocabulary that we will use to describe the above objects. In addition to
-	  the concept of the <term>span</term> of a set of vectors from <xref ref="spans"/>,  we will introduce linear independence (<xref ref="linear-independence"/>),
+	  the concept of the <term>span</term> of a set of vectors from <xref ref="vector-spans"/>,  we will introduce linear independence (<xref ref="linear-independence"/>),
           subspaces (<xref ref="subspaces"/>), dimension (<xref ref="dimension"/>), and bases (<xref ref="dimension"/>
 	  and <xref ref="bases-as-coord-systems"/>). Finally, we relate the dimension of the column space of <m>A</m> and the dimension of
 	  the solution set to <m>Ax = b</m> (strictly speaking, the solution set to <m>Ax=0</m>) in <xref ref="rank-thm"/>.

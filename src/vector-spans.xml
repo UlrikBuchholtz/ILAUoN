@@ -264,7 +264,7 @@ the license is included in gfdl.xml.
   \draw[grid lines] (-3,-2) grid (4, 3);
   \path[clip] (-3,-2) rectangle (4, 3);
   \node[seq4,whitebg] at (0,1) {$\Span\emptyset$};
-  \point at (0,0);
+  \point[seq4] at (0,0);
 \end{scope}
 
 \begin{scope}[xshift=8cm]
