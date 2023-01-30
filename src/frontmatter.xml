@@ -28,6 +28,14 @@ the license is included in gfdl.xml.
       <!-- <email>rabinoff@math.gatech.edu</email> -->
     </author>
     <author>
+      <contributortype>UBC edition by</contributortype>
+      <personname>Ben Williams</personname>
+      <department>Department of Mathematics</department>
+      <institution>University of British Columbia</institution>
+      <!-- <email>tbjw@math.ubc.ca</email> -->
+    </author>
+    <author>
+      <contributortype>UoN edition by</contributortype>
       <personname>Ulrik Buchholtz</personname>
       <department>School of Computer Science</department>
       <institution>University of Nottingham</institution>
@@ -37,11 +45,11 @@ the license is included in gfdl.xml.
   </titlepage>
 
   <colophon>
-    <edition>Duke University</edition>
+    <edition>University of Nottingham (UoN)</edition>
 
     <copyright>
-      <year>2023</year>
-      <holder>Dan Margalit and Joseph Rabinoff and Ulrik Buchholtz</holder>
+      <year>2017<ndash/>2023</year>
+      <holder>Dan Margalit and Joseph Rabinoff and Ben Williams and Ulrik Buchholtz</holder>
       <minilicense>GFDL License</minilicense>
       <shortlicense>Permission is granted to copy, distribute and/or modify this document under the terms of the GNU Free Documentation License, Version 1.2 or any later version published by the Free Software Foundation; with no Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.  A copy of the license is included in the appendix entitled <q>GNU Free Documentation License.</q>  All trademarks<trademark /> are the registered<registered /> marks of their respective owners.</shortlicense>
     </copyright>
@@ -83,6 +91,20 @@ the license is included in gfdl.xml.
         <email>jdr@math.duke.edu</email>
       </contributor>
 
+      <contributor xml:id="larry">
+        <personname>Larry Rolen</personname>
+        <department>School of Mathematics</department>
+        <institution>Georgia Institute of Technology</institution>
+        <email>	larry.rolen@math.gatech.edu</email>
+      </contributor>
+
+      <contributor xml:id="tbjw">
+        <personname>Ben Williams</personname>
+        <department>Department of Mathematics</department>
+        <institution>University of British Columbia</institution>
+        <email>tbjw@math.ubc.ca</email>
+      </contributor>
+
       <contributor xml:id="ulrik">
         <personname>Ulrik Buchholtz</personname>
         <department>School of Computer Science</department>
@@ -104,7 +126,8 @@ the license is included in gfdl.xml.
           The demonstrations are written in JavaScript+WebGL using Steven Wittens' brilliant framework called <url href="https://github.com/unconed/mathbox">MathBox</url>.
         </li>
       </ul>
-      All source code can be found on <url href="https://github.com/QBobWatson/ila">GitHub</url>.  It may be freely copied, modified, and redistributed, as detailed in the appendix entitled <q>GNU Free Documentation License.</q>
+      All source code can be found on <url href="https://github.com/UlrikBuchholtz/ILAUoN">GitHub</url>.
+      It may be freely copied, modified, and redistributed, as detailed in the appendix entitled <q>GNU Free Documentation License.</q>
     </p>
 
   </preface>
@@ -117,19 +140,16 @@ the license is included in gfdl.xml.
       <ul>
         <li>
           You are viewing the University of Nottingham (UoN) edition of this book,
-          rewritten by Ulrik Buchholtz for use in COMP1043 Mathematics for Computer Scientists 2.
+          adapted by Ulrik Buchholtz for use in COMP1043 Mathematics for Computer Scientists 2.
         </li>
         <li>
-          This edition in turn grew out of the Duke edition, which was rewritten by
+          This edition in turn grew out of the <url href="https://personal.math.ubc.ca/~tbjw/ila/">UBC Edition</url>,
+          by Ben Williams, which is similar to the <url href="https://textbooks.math.gatech.edu/ila/">Georgia Tech Edition</url>.
+        </li>
+        <li>
+          The underlying build system is from another version, rewritten by
           Joe Rabinoff for use
           in Math 218D-1 at Duke University.
-        </li>
-        <li>
-          The <url href="https://textbooks.math.gatech.edu/ila/">Georgia Tech Edition</url> has material on linear transformations and similar matrices, but does not cover the SVD or PCA.  It was designed for use as the textbook for Math 1553 at the Georgia Institute of Technology.
-        </li>
-        <li>
-          The <url href="https://personal.math.ubc.ca/~tbjw/ila/">UBC Edition</url>
-          by Ben Williams is similar to the Georgia Tech Edition.
         </li>
       </ul>
     </p>
