@@ -47,7 +47,7 @@ Free Documentation License"
 	 <p> Linear algebra is the study of one or more <term>linear equations</term>, that is, equations that look like
 	  <me>2x+3y+5z=1</me>.
 	  The basic case of one linear equation in one variable, such as <m>2x=5</m>, is not very interesting. We know that
-	  there is a unique solution, and we know how to find it: <m>x=2.5</m>. The complications in linear algebra
+	  there is a unique solution, and we know how to find it: <m>x=5/2=2.5</m>. The complications in linear algebra
 	  arise because we consider several simultaneous equations in several variables, for instance
 	  <me>
           \syseq{
@@ -63,6 +63,7 @@ Free Documentation License"
 	 vectors with  2 or
 	 3 entries, there is a strong connection between vector algebra and geometry. This can be very helpful to
 	 us as we develop an intuition for vector algebra, even when there are more than 3 entries.
+   (Some applications of linear algebra involve millions of entries.)
 	 </p>
       </introduction>
       <xi:include href="./vectors.xml" />

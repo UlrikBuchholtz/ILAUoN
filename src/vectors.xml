@@ -3,6 +3,7 @@
 <!--********************************************************************
 Copyright 2019 Dan Margalit and Joseph Rabinoff
 Copyright 2020 Ben Williams
+Copyright 2023 Ulrik Buchholtz
 
 Permission is granted to copy, distribute and/or modify this document
 under the terms of the GNU Free Documentation License, Version 1.3 or
@@ -42,8 +43,8 @@ the license is included in gfdl.xml.
         <description>Real <m>n</m>-space</description>
       </notation>
       <statement>
-        <p>Let <m>n</m> be a positive whole number.  We define
-        <me>\R^n = \text{all ordered $n$-tuples of real numbers }(x_1,x_2,x_3,\ldots,x_n).</me>
+        <p>Let <m>n\in\N</m> be a natural number.  We define
+        <me>\R^n = \text{the set of all ordered $n$-tuples of real numbers }(x_1,x_2,x_3,\ldots,x_n).</me>
         An <m>n</m>-tuple of real numbers is called a <term>point</term> of <m>\R^n</m>.
         </p>
       </statement>
@@ -58,19 +59,25 @@ the license is included in gfdl.xml.
       <p>When <m>n=1</m>, we just get <m>\R</m> back: <m>\R^1=\R</m>.  Geometrically, this is the number line.
       <latex-code>
     \begin{tikzpicture}
-      \draw [&lt;-&gt;, thick] (-3.5,0) -- (3.5,0);
+      \draw [-&gt;, thick] (-3.5,0) -- (3.5,0);
       \foreach \x in {-3,...,3}
          \draw[thin] (\x,-.1) -- (\x,0.1) node[anchor=south] {$\x$};
     \end{tikzpicture}
       </latex-code>
       </p>
     </specialcase>
-  
 
     <p><idx><h>Origin</h></idx>In any <m>\R^n</m>, the point corresponding to the <m>n</m>-tuple <m>(0,0, \dots, 0)</m> is special. We call it the
     <em>origin.</em></p>
-    </subsection>
-  
+
+    <remark hide-type="true">
+      <title>The trivial case</title>
+      <p>
+        Recall that zero is a natural number, so we also have the case <m>n=0</m> giving the set <m>\R^0=\{()\}</m> consisting only of the empty tuple. Since all the entries in the empty tuple are zero, this is in fact the origin of <m>\R^0</m>.
+      </p>
+    </remark>
+  </subsection>
+
   <subsection>
     <title>Vectors and geometry</title>
     <p>The elements of <m>\R^n</m> are lists of <m>n</m> numbers. When <m>n</m> is 2 or 3, we can represent these lists geometrically
@@ -118,6 +125,8 @@ the license is included in gfdl.xml.
     \end{tikzpicture}
             ]]>
       </latex-code>
+      Of course, to get this representation we have to pick a point to be the origin,
+      as well as three mutually orthogonal directions.
       </p>
     </specialcase>
 
@@ -176,7 +185,7 @@ the license is included in gfdl.xml.
         ]]>
       </latex-code></p>
       <p>
-	On the other hand, the vectors shown below are all equal, and have coordinates<m>\color{seq-green}\vec{1 2}</m>.
+	On the other hand, the vectors shown below are all equal, and have coordinates <m>\color{seq-green}\vec{1 2}</m>.
 	<latex-code>
 	  <![CDATA[
 		   \begin{tikzpicture}
@@ -406,12 +415,22 @@ the license is included in gfdl.xml.
       </figure>
     </example>
 
-    <p>In the above examples, it was useful from a psychological perspective to replace a list of four numbers (representing traffic flow) or of 841 numbers (representing a QR code) by a single piece of data: a point in some <m>\R^n</m>.  This is a powerful concept;   starting in <xref ref="spans"/>, we will almost exclusively record solutions of systems of linear equations in this way.</p>
+    <p>In the above examples, it was useful from a psychological perspective to replace a list of four numbers (representing traffic flow) or of 841 numbers (representing a QR code) by a single piece of data: a point in some <m>\R^n</m>.  This is a powerful concept;   starting in <xref ref="vector-spans"/>, we will almost exclusively record solutions of systems of linear equations in this way.</p>
+
+  <remark hide-type="false">
+    <title>Other number systems</title>
+    <p>
+      In this text we mostly deal with vectors of real numbers from the set <m>\R</m>, except in <xref ref="complex-eigenvalues"/> where we allow complex numbers, see <xref ref="complex-numbers"/>.
+      Common to both systems of numbers is that they can be added and multiplied, contain a zero and a one,
+      the usual algebraic laws hold, for instance <m>(x + y)z = xz + yz</m>, and every non-zero number <m>x</m>
+      has an inverse <m>x^{-1}=1/x</m>.
+      That is, both the real and complex numbers are examples of <em>fields</em>, and linear algebra works over any field.
+      Another example of a field is the residues of integers modulo a prime number <em>p</em>, that is, the set <m>\F_p = \{0,1,\ldots,p-1\}</m> under the usual operations mod <em>p</em>.
+      Of special importance to computer science is the case <em>p=2</em>, which gives a better representation for codes such as the QR codes above.
+    </p>
+  </remark>
+
   </subsection>
-
-
-
-
 
   <subsection>
     <title>Vector Algebra and Geometry</title>
