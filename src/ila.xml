@@ -105,7 +105,53 @@ Free Documentation License"
       <xi:include href="./row-reduction.xml" />
       <xi:include href="./parametric-form.xml" />
       <xi:include href="./matrixeq.xml" />
-	<!--  <xi:include href="./ch2exercises.xml" /> -->
+    </chapter>
+
+    <chapter xml:id="chap-geometry">
+      <title>Solution Sets and Subspaces</title>
+
+      <introduction>
+        <note type-name="Primary Goals">
+          <p> We will study two related questions:
+            <ol>
+              <li>What is the set of solutions to <m>Ax=b</m>?</li>
+              <li>What is the set of <m>b</m> so that <m>Ax=b</m> is consistent?</li>
+            </ol>
+	The first question is the kind you are used to from your first algebra class: what is the set of solutions to <m>x^2-1=0</m>.  The second is also something you could have studied in your previous algebra classes: for which <m>b</m> does <m>x^2=b</m> have a solution?  This question is more subtle at first glance, but you can solve it in the same way as the first question, with the quadratic formula.
+          </p>
+        </note>
+
+        <p>
+          In order to answer the two questions listed above, we will use geometry. This will be analogous to how you
+          used parabolas in order to understand the solutions to a quadratic equation in one variable. Specifically,
+          this chapter is devoted to the geometric study of two objects:
+          <ol>
+            <li>the solution set of a matrix equation <m>Ax=b</m>, and</li>
+            <li>the set of all <m>b</m> that makes a particular system consistent.</li>
+          </ol>
+          The first object, the solution set, will be introduced in <xref ref="solution-sets"/>. The second object will be called the column space of <m>A</m>. 
+        </p>
+
+	<p>
+	Instead of parabolas and hyperbolas, our geometric objects are subspaces, such as lines and planes.  Our
+	geometric objects will be something like 13-dimensional planes in <m>\R^{27}</m>, etc.  It is amazing that we
+	can say anything substantive about objects that we cannot directly visualize.
+	</p>
+
+        <p>
+          We will develop a large amount of vocabulary that we will use to describe the above objects. In addition to
+	  the concept of the <term>span</term> of a set of vectors from <xref ref="spans"/>,  we will introduce linear independence (<xref ref="linear-independence"/>),
+          subspaces (<xref ref="subspaces"/>), dimension (<xref ref="dimension"/>), and bases (<xref ref="dimension"/>
+	  and <xref ref="bases-as-coord-systems"/>). Finally, we relate the dimension of the column space of <m>A</m> and the dimension of
+	  the solution set to <m>Ax = b</m> (strictly speaking, the solution set to <m>Ax=0</m>) in <xref ref="rank-thm"/>.
+        </p>
+      </introduction>
+      <xi:include href="./solnsets.xml" />
+      <xi:include href="./linindep.xml" />
+      <xi:include href="./subspaces.xml" />
+      <xi:include href="./dimension.xml" />
+      <xi:include href="./b-coordinates.xml" />
+      <xi:include href="./rank-thm.xml" />
     </chapter>
 
     <xi:include href="./backmatter.xml" />

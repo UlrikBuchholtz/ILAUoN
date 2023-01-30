@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <!--********************************************************************
-Copyright 2022 Dan Margalit and Joseph Rabinoff
+Copyright 2019 Dan Margalit and Joseph Rabinoff
 
 Permission is granted to copy, distribute and/or modify this document
 under the terms of the GNU Free Documentation License, Version 1.3 or
@@ -10,487 +10,388 @@ the license is included in gfdl.xml.
 *********************************************************************-->
 
 <section xml:id="linear-independence">
-  <title>Linear Independence and Bases</title>
+  <title>Linear Independence</title>
 
   <objectives>
     <ol>
-      <li>Understand the concept of linear (in)dependence.</li>
-      <li>Learn various criteria for a set of vectors to be linearly (in)dependent.</li>
-      <li>Learn how to verify that a set of vectors is linearly (in)dependent.</li>
-      <li>Gain a geometric understanding of linear (in)dependence.</li>
-      <li>Understand the definition of a basis of a subspace and its relationship to the dimension of the subspace.</li>
-      <li><em>Recipes:</em> test if a set of vectors is linearly independent, compute a basis of a column space, compute a basis of a null space.</li>
-      <li><em>Picture:</em> linearly (in)dependent sets of vectors in <m>\R^2</m> and <m>\R^3</m>.</li>
-      <li><em>Theorem:</em> the Basis Theorem.</li>
-      <li><em>Vocabulary word:</em>  <term>linear relation.</term></li>
-      <li><em>Essential vocabulary words:</em> <term>linearly dependent,</term>  <term>linearly independent,</term> <term>basis,</term> <term>dimension.</term></li>
+      <li>Understand the concept of linear independence.</li>
+      <li>Learn two criteria for linear independence.</li>
+      <li>Understand the relationship between linear independence and pivot columns / free variables.</li>
+      <li><em>Recipe:</em> test if a set of vectors is linearly independent / find an equation of linear dependence.</li>
+      <li><em>Picture:</em> whether a set of vectors in <m>\R^2</m> or <m>\R^3</m> is linearly independent or not.</li>
+      <li><em>Vocabulary:</em> <term>linear dependence relation</term> / <term>equation of linear dependence</term>.</li>
+      <li><em>Essential Vocabulary:</em> <term>linearly independent</term>, <term>linearly dependent</term>.</li>
     </ol>
   </objectives>
 
   <introduction>
     <p>
-      In <xref ref="subspaces"/> we introduced the notion of a <term>spanning set</term> of a subspace.  This is a way of expressing a subset as a span of some number of vectors, or <xref ref="spans-are-parametric" text="title">said differently,</xref> giving a parametric description of a subspace:
-      <me>
-        \def\r{\textcolor{seq-red}}
-        \Span\left\{\vec{1 4 7},\;\vec{2 5 8},\;\vec{3 6 9}\right\}
-        = \spalignvector*{\text{vectors of} \text{the form}}\quad
-        \r{x_1}\vec{1 4 7} + \r{x_2}\vec{2 5 8} + \r{x_3}\vec{3 6 9}.
-      </me>
-      In this section we discuss <em>how many</em> vectors (or parameters) are needed to describe a subspace in this way.
+      Sometimes the span of a set of vectors is <q>smaller</q> than you expect from the
+number of vectors, as in the picture below.  This means that (at least) one of the vectors is redundant: it can be removed without affecting the span.  In the present section, we formalize this idea in the notion of <em>linear independence</em>.
     </p>
-  </introduction>
+    <figure xml:id="linindep-intro-pic">
+      <caption>Pictures of sets of vectors that are linearly dependent.  Note that in each case, one vector is in the span of the others<mdash/>so it doesn<rsq/>t make the span bigger.</caption>
+      <image>
+        <latex-image-code>
+          <![CDATA[
+\begin{tikzpicture}[thin border nodes, scale=.7, baseline=.5cm]
+  \draw[grid lines, light gray] (-3,-3) grid (4, 4);
+  \path[clip] (-3,-3) rectangle (4, 4);
+  \node[seq4] at (.5,2.5) {$\Span\{v,w\}$};
+  \draw[thin, seq4] ($-2*(2,2)$) -- ($2*(2,2)$);
+  \draw[vector, seq1] (0,0)
+    -- node[midway,above left,text=seq1] {$v$} (2,2);
+  \draw[vector, seq2] (0,0)
+    -- node[pos=.4,above left,text=seq2] {$w$} (-1,-1);
+  \point at (0,0);
+\end{tikzpicture}
+\qquad
+\begin{tikzpicture}[myxyz, thin border nodes, baseline=0cm]
+  \path[clip, resetxy] (-4,-3) rectangle (4,3);
 
-  <subsection>
-    <title>Linearly Dependent and Linearly Independent Vectors</title>
-
-    <p>
-      The notion of <term>linear dependence</term> captures the idea that one is using <em>too many</em> vectors (or parameters) to describe a subspace as a span.
-    </p>
-
-    <specialcase xml:id="eg-redundant-parameterization">
-      <p>
-        Consider the vectors
-        <me> v = \vec{1 4 7} \qquad w = \vec{2 5 8} \qquad u = \vec{3 6 9} </me>
-        and the subspace <m>V = \Span\{u,v,w\}.</m>  The vectors <m>v</m> and <m>w</m> <xref ref="span-2-vecs" text="title">span a plane</xref> since they are not collinear.  However, we have <m> u = -v + 2w, </m>
-        so the three vectors are <em>coplanar</em>.
-        <latex-code>
-\begin{tikzpicture}[y={(.3cm,0cm)}, x={(0cm,-1cm)}, z={(0cm,.3cm)},
-                    thin border nodes]
-
-  \def\v{(1,4,7)}
-  \def\w{(2,5,8)}
-  \def\u{(3,6,9)}
+  \def\v{(-1,2,1)}
+  \def\w{(1,2,.3)}
+  \def\u{(0,2,.65)}
 
   \node[coordinate] (X) at \v {};
   \node[coordinate] (Y) at \w {};
 
   \begin{scope}[x=(X), y=(Y), transformxy]
-    \fill[seq4!10, nearly opaque] (-1.5,-1) rectangle (1.5,2.5);
-    \draw[step=.5cm, seq4, very thin, opacity=.3] (-1.5,-1) grid (1.5,2.5);
+    \path[clip] (-1.5, 5) -- (1.5, -5) -- (1.5, -7) -- (-1.5, -7) -- cycle;
+    \fill[seq4!10, nearly opaque] (-1.5,-1) rectangle (1.5,2);
+    \draw[step=.5cm, seq4, very thin, opacity=.3] (-1.5,-1) grid (1.5,2);
   \end{scope}
 
-  \node[seq4] at (-1cm, 2cm) {$V=\Span\{u,v,w\}$};
+  \begin{scope}[transformxy]
+    \fill[white, nearly opaque] (-2, -2) rectangle (3, 3);
+    \draw[grid lines] (-2, -2) grid (3, 3);
+  \end{scope}
+
+  \begin{scope}[x=(X), y=(Y), transformxy]
+    \path[clip] (-1.5, 5) -- (1.5, -5) -- (1.5, 7) -- (-1.5, 7) -- cycle;
+    \fill[seq4!10, nearly opaque] (-1.5,-1) rectangle (1.5,2);
+    \draw[step=.5cm, seq4, very thin, opacity=.3] (-1.5,-1) grid (1.5,2);
+  \end{scope}
+
+  \node[seq4] at (-1cm, 2cm) {$\Span\{u,v,w\}$};
 
   \draw[vector, seq1] (0,0,0) --
-    node [midway, above left] {$v$} \v;
+    node [midway, above] {$v$} \v;
+  %\draw[thin, densely dotted] \v -- \projxy\v;
   \draw[vector, seq2] (0,0,0) --
-    \w node [right] {$w$};
+    node [midway, below] {\strut$w$} \w;
+  %\draw[thin, densely dotted] \w -- \projxy\w;
   \draw[vector, seq3] (0,0,0) --
     \u node [right] {$u$};
+  %\draw[thin, densely dotted] \u -- \projxy\u;
 
-  %\draw[thin, densely dotted] \v -- \u;
+  \draw[thin, densely dotted] \v -- \w;
 
   \point at (0,0,0);
 
 \end{tikzpicture}
-        </latex-code>
-        Adding <m>u</m> to the spanning set does not make the span any larger: we have <m>\Span\{u,v,w\} = \Span\{v,w\}.</m>
-        Our original description of <m>V</m> as the span of <em>three</em> vectors uses too much data.  Instead of using three parameters:
-        <me>
-          \def\r{\textcolor{seq-red}}
-          V = \spalignvector*{\text{vectors of} \text{the form}}\quad
-          \r{x_1}\vec{1 4 7} + \r{x_2}\vec{2 5 8} + \r{x_3}\vec{3 6 9}
-        </me>
-        we could have used two:
-        <me>
-          \def\r{\textcolor{seq-red}}
-          V = \spalignvector*{\text{vectors of} \text{the form}}\quad
-          \r{x_1}\vec{1 4 7} + \r{x_2}\vec{2 5 8}.
-        </me>
-        Moreover, the description with three parameters is <em>redundant</em>, in the sense that different values for the parameters can produce the same vector:
-        <me>
-          \def\r{\textcolor{seq-red}}
-          \r1 v + \r1 w + \r0 u
-          = \vec{3 9 15}
-          = \r2v \mathbin{\r-} \r1 w + \r1 u.
-        </me>
-      </p>
-    </specialcase>
+          ]]>
+        </latex-image-code>
+      </image>
+    </figure>
+  </introduction>
 
-    <example hide-type="true">
-      <title>Interactive: Three Vectors Parameterizing a Plane</title>
-      <figure>
-        <caption>
-          Visualization of the subspace <m>V</m> in this <xref ref="eg-redundant-parameterization"/>, along with a spanning set.  Note that the vector <m>(3,9,15)</m> can be obtained by setting <m>(x,y,z)=(1,1,0)</m> or <m>(x,y,z)=(2,-1,1)</m>.
-        </caption>
-        <mathbox source="demos/spans.html?v1=1,4,7&amp;v2=2,5,8&amp;v3=3,6,9&amp;lcstart=1,1,0&amp;range=20&amp;captions=combo" height="500px"/>
-      </figure>
+  <subsection>
+    <title>The Definition of Linear Independence</title>
+
+    <essential xml:id="linindep-defn-linindep">
+      <idx><h>Linear independence</h><h>definition of</h></idx>
+      <idx><h>Linear dependence</h><see>Linear independence</see></idx>
+      <statement>
+        <p>
+          A set of vectors <m>\{v_1,v_2,\ldots,v_k\}</m> is <term>linearly independent</term> if the vector equation
+          <me>x_1v_1 + x_2v_2 + \cdots + x_kv_k = 0</me>
+          has only the trivial solution <m>x_1=x_2=\cdots=x_k=0</m>.  The set <m>\{v_1,v_2,\ldots,v_k\}</m> is <term>linearly dependent</term> otherwise.
+        </p>
+      </statement>
+    </essential>
+
+    <p>
+      <idx><h>Linear Independence</h><h>linear dependence relation</h></idx>
+      <idx><h>Linear Independence</h><h>equation of linear dependence</h></idx>
+      <idx><h>Equation of linear dependence</h><see>Linear independence</see></idx>
+      <idx><h>Linear dependence relation</h><see>Linear independence</see></idx>
+      In other words, <m>\{v_1,v_2,\ldots,v_k\}</m> is linearly dependent if there exist numbers <m>x_1,x_2,\ldots,x_k</m>, not all equal to zero, such that
+      <me>x_1v_1 + x_2v_2 + \cdots + x_kv_k = 0.</me>
+      This is called a <term>linear dependence relation</term> or <term>equation of linear dependence</term>.
+    </p>
+
+    <bluebox>
+      <p>
+        Note that linear dependence and linear independence are notions that apply to a <em>collection of vectors</em>.  It does not make sense to say things like <q>this vector is linearly dependent on these other vectors,</q> or <q>this matrix is linearly independent.</q>
+      </p>
+    </bluebox>
+
+    <example>
+      <title>Checking linear dependence</title>
+      <statement>
+        <p>
+          Is the set
+          <me>\left\{ \vec{1 1 1},\, \vec{1 -1 2},\, \vec{3 1 4} \right\}</me>
+          linearly independent?
+        </p>
+      </statement>
+      <solution>
+        <p>
+          Equivalently, we are asking if the homogeneous vector equation
+          <me>x\vec{1 1 1} + y\vec{1 -1 2} + z\vec{3 1 4} = \vec{0 0 0}</me>
+          has a nontrivial solution.  We solve this by forming a matrix and row reducing (we do not augment because of this <xref ref="solnsets-no-augment"/>):
+          <me>\mat{1 1 3; 1 -1 1; 1 2 4}
+          \quad\xrightarrow{\text{row reduce}}\quad
+          \mat{1 0 2; 0 1 1; 0 0 0}</me>
+          This says <m>x = -2z</m> and <m>y = -z</m>.  So there exist nontrivial solutions: for instance, taking <m>z=1</m> gives this equation of linear dependence:
+          <me>-2\vec{1 1 1} - \vec{1 -1 2} + \vec{3 1 4} = \vec{0 0 0}.</me>
+        </p>
+        <figure>
+          <caption>Move the sliders to solve the homogeneous vector equation in this example.  Do you see why the vectors need to be coplanar in order for there to exist a nontrivial solution?</caption>
+          <mathbox source="demos/spans.html?v1=1,1,1&amp;v2=1,-1,2&amp;v3=3,1,4&amp;target=0,0,0" height="500px"/>
+        </figure>
+      </solution>
     </example>
 
-    <paragraphs>
-      <title>Linear Dependence</title>
-
-      <p>
-        We want to formalize the idea that if one vector in a spanning set is already in the span of the others, then there are redundant vectors in that spanning set.  In the previous example, each vector is in the span of the other two<mdash/>no pair of vectors is collinear, so any pair spans all of <m>V</m>.  This is not always the case, as the next example shows.
-      </p>
-
-      <example xml:id="eg-linindep-not-every-vector">
+    <example>
+      <title>Checking linear independence</title>
+      <statement>
         <p>
-          Consider the vectors
-          <me> v_1 = \vec{1 1},\quad v_2 = \vec{-2 -2},\quad v_3 = \vec{1 -1}. </me>
-          These three vectors span all of <m>\R^2</m>, as one can see in the following picture:
-          <latex-code>
-\begin{tikzpicture}[thin border nodes]
-  \fill[seq4!30, nearly transparent] (-2.8,-3) rectangle (2.8,2);
-
-  \draw[seq4, thick] (-2.8,-2.8) -- (2,2);
-  \draw[vector, seq1] (0,0) to["$v_1$"] (1,1);
-  \draw[vector, seq2] (0,0) to["$v_2$"'] (-2,-2);
-  \draw[vector, seq3] (0,0) to["$v_3$"] (1,-1);
-  \point at (0,0);
-\end{tikzpicture}
-          </latex-code>
-          The pairs <m>\{v_1,v_3\}</m> and <m>\{v_2,v_3\}</m> span the plane, so <m>v_2\in\Span\{v_1,v_3\}</m> and <m>v_1\in\Span\{v_2,v_3\}</m>.  However, since <m>v_1</m> and <m>v_2</m> are collinear, they only span a line:
-          <me> \Span\{v_1,\,v_2\} = \Span\left\{\vec{1 1}\right\}. </me>
-          In particular, <m>v_3</m> is not contained in <m>\Span\{v_1,v_2\}.</m>
+          Is the set
+          <me>\left\{ \vec{1 1 -2},\, \vec{1 -1 2},\, \vec{3 1 4} \right\}</me>
+          linearly independent?
         </p>
-      </example>
-
-      <p>
-        Thus we need a condition on a list of vectors that specifies that <em>some</em> vector is in the span of the others, without identifying which it is.
-      </p>
-
-      <essential xml:id="defn-linear-dependence">
-        <idx><h>Linear dependence</h><see>definition of</see></idx>
-        <statement>
-          <p>
-            A set of vectors <m>\{v_1,v_2,\ldots,v_n\}</m> is <term>linearly dependent</term> if the vector equation
-            <me>x_1v_1 + x_2v_2 + \cdots + x_nv_n = 0</me>
-            has a <em>nontrivial</em> solution <m>(x_1,x_2,\ldots,x_n)\neq(0,0,\ldots,0)</m>.  Such a solution is called a <term>linear relation</term> among <m>\{v_1,v_2,\ldots,v_n\}</m>.
-          </p>
-        </statement>
-      </essential>
-
-      <p>
-        A homogeneous system of equations has a nontrivial solution if and only if there is a free variable, so equivalently:
-      </p>
-
-      <bluebox xml:id="linear-dependent-means-free-variable">
+      </statement>
+      <solution>
         <p>
-          <me>
-            \begin{split}
-            \{v_1,v_2,\ldots,v_n\} &amp;\text{ is linearly dependent} \\
-            &amp;\quad\iff\quad
-            \mat[c]{| | {} |; v_1 v_2 \cdots, v_n; | | {} |} \text{ has a free variable}
-            \end{split}
-          </me>
+          Equivalently, we are asking if the homogeneous vector equation
+          <me>x\vec{1 1 -2} + y\vec{1 -1 2} + z\vec{3 1 4} = \vec{0 0 0}</me>
+          has a nontrivial solution.  We solve this by forming a matrix and row reducing (we do not augment because of this <xref ref="solnsets-no-augment"/>):
+          <me>\mat{1 1 3; 1 -1 1; -2 2 4}
+          \quad\xrightarrow{\text{row reduce}}\quad
+          \mat{1 0 0; 0 1 0; 0 0 1}</me>
+          This says <m>x = y = z = 0</m>, i.e., the only solution is the trivial solution.  We conclude that the set is linearly independent.
         </p>
-      </bluebox>
+        <figure>
+          <caption>Move the sliders to solve the homogeneous vector equation in this example.  Do you see why the vectors would need to be coplanar in order for there to exist a nontrivial solution?</caption>
+          <mathbox source="demos/spans.html?v1=1,1,-2&amp;v2=1,-1,2&amp;v3=3,1,4&amp;target=0,0,0&amp;range=4" height="500px"/>
+        </figure>
+      </solution>
+    </example>
 
-      <specialcase>
+    <example xml:id="param-vect-form-lin-ind">
+      <title>Vector parametric form</title>
+      <p>An important observation is that the vectors coming from the parametric vector form of the solution of a matrix equation <m>Ax=0</m> are linearly independent.  In this <xref ref="solnsets-eg-plane"/> we saw that the solution set of <m>Ax=0</m> for 
+        <me>A = \mat{1 -1 2; -2 2 -4}?</me>
+is
+        <me>x = \vec{x_1 x_2 x_3} = x_2\vec{1 1 0} + x_3\vec{-2 0 1}.</me>
+Let's explain why the vectors <m>(1,1,0)</m> and <m>(-2,0,1)</m> are linearly independent.  Suppose that
+<me>\vec{0 0 0} = x_2\vec{1 1 0} + x_3\vec{-2 0 1} = \vec{x_2-2x_3 x_2 x_3}.</me>
+          Comparing the second and third coordinates, we see that <m>x_2=x_3=0</m>.  This reasoning will work in any example, since the entries corresponding to the free variables are all equal to 1 or 0, and are only equal to 1 in one of the vectors.  This observation forms part of this <xref ref="dimension-basis-nulspace"/>.
+	</p>
+    </example>
+
+    <p>
+      The above examples lead to the following recipe.
+    </p>
+
+    <bluebox xml:id="linindep-matrix-cols">
+      <title>Recipe: Checking linear independence</title>
+      <idx><h>Linear Independence</h><h>verifying</h></idx>
+    <p>
+      A set of vectors <m>\{v_1,v_2,\ldots,v_k\}</m> is linearly independent if and only if the vector equation
+      <me>x_1v_1 + x_2v_2 + \cdots + x_kv_k = 0</me>
+      has only the trivial solution, if and only if the matrix equation
+      <m>Ax=0</m>
+      has only the trivial solution, where <m>A</m> is the matrix with columns <m>v_1,v_2,\ldots,v_k</m>:
+      <me>A = \mat{| |, , |; v_1 v_2 \cdots, v_k; | |, , |}.</me>
+      This is true if and only if <m>A</m> has a <xref ref="defn-pivot-pos" text="title">pivot position</xref> in every column.
+    </p>
+    <p>
+      Solving the matrix equation <m>Ax=0</m> will either verify that the columns <m>v_1,v_2,\ldots,v_k</m> are linearly independent, or will produce a linear dependence relation by substituting any nonzero values for the free variables.
+    </p>
+    </bluebox>
+
+    <p>
+      (Recall that <m>Ax=0</m> has a nontrivial solution if and only if <m>A</m> has a column without a pivot: see this <xref ref="solnsets-nontrivial"/>.)
+    </p>
+
+    <p>
+      Suppose that <m>A</m> has more columns than rows.  Then <m>A</m> cannot have a pivot in every column (it has at most one pivot per row), so its columns are automatically linearly dependent.
+    </p>
+
+    <bluebox xml:id="linindep-wide-matrix">
+      <idx><h>Linear Independence</h><h>wide matrices</h></idx>
+      <p>A wide matrix (a matrix with more columns than rows) has linearly dependent columns.</p>
+    </bluebox>
+
+      <p>For example, four vectors in <m>\R^3</m> are automatically linearly dependent.  Note that a tall matrix may or may not have linearly independent columns.</p>
+
+    <fact hide-type="true" xml:id="linindep-facts">
+      <title>Facts about linear independence</title>
+      <idx><h>Linear Independence</h><h>basic facts</h></idx>
+      <statement>
         <p>
-          Continuing with the <xref ref="eg-redundant-parameterization"/> above, we showed that <m>u</m> is in the span of <m>v</m> and <m>w</m> because <m>u = -v + 2w.</m>  Moving  <m>u</m> to the other side of the equation results in the linear relation
-          <me> 0 = -v + 2v - u. </me>
-          Since there exists a linear relation, the set <m>\{u,v,w\}</m> is linearly dependent.
+          <ol>
+            <li>Two vectors are linearly dependent if and only if they are collinear, i.e., one is a scalar multiple of the other.</li>
+            <li>Any set containing the zero vector is linearly dependent.</li>
+            <li>If a subset of <m>\{v_1,v_2,\ldots,v_k\}</m> is linearly dependent, then <m>\{v_1,v_2,\ldots,v_k\}</m> is linearly dependent as well.</li>
+          </ol>
         </p>
-      </specialcase>
-
-      <example>
-        <p>
-          Consider the vectors
-          <me> v_1 = \vec{1 1},\quad v_2 = \vec{-2 -2},\quad v_3 = \vec{1 -1}. </me>
-          from the <xref ref="eg-linindep-not-every-vector"/> above.  We have <m>v_2\in\Span\{v_1,v_3\}</m> because
-          <me> v_2 = -2v_1 + 0v_3. </me>
-          Moving the <m>v_2</m> to the other side of the equation gives the linear relation
-          <me> 0 = -2v_1 + v_2 + 0v_3. </me>
-          Since there exists a linear relation, the set <m>\{v_1,v_2,v_3\}</m> is linearly dependent.
-        </p>
-      </example>
-
-      <p>
-        In general, if <m>v_i</m> is in the span of <m>v_1,\ldots,v_{i-1},v_{i+1},\ldots,v_n</m>, then there is an equation of the form
-        <me> v_i = a_1v_1 + \cdots + a_{i-1}v_{i-1} + a_{i+1}v_{i+1} + \cdots + a_nv_n, </me>
-        which results in the linear relation
-        <me> 0 = a_1v_1 + \cdots + a_{i-1}v_{i-1} - v_i + a_{i+1}v_{i+1} + \cdots + a_nv_n. </me>
-        (The weights are not all zero because the weight of <m>v_i</m> is <m>-1</m>.)  Conversely, given a linear relation
-        <me> 0 = a_1v_1 + a_2v_2 + \cdots + a_nv_n, </me>
-        there is some <m>i</m> such that <m>a_i\neq 0</m>.  Moving <m>a_iv_i</m> to the other side of the equation and dividing by <m>-a_i</m> yields
-        <me> v_i = -\frac 1{a_i}\bigl(a_1v_1 + \cdots + a_{i-1}v_{i-1} + a_{i+1}v_{i+1} + \cdots + a_nv_n\bigr). </me>
-        It follows that <m>v_i\in\Span\{v_1,\ldots,v_{i-1},v_{i+1},\ldots,v_n\}</m>.
-      </p>
-
-      <bluebox xml:id="linear-dependent-some-in-span">
-        <p>
-          Vectors <m>\{v_1,v_2,\ldots,v_n\}</m> are linearly dependent if and only if <em>some vector</em> is in the span of the others.  More precisely, if
-          <me> 0 = a_1v_1 + a_2v_2 + \cdots + a_nv_n </me>
-          is a linear relation with <m>a_i\neq0</m>, then <m>v_i\in\Span\{v_1,\ldots,v_{i-1},v_{i+1},\ldots,v_n\}</m>.
-        </p>
-      </bluebox>
-
-      <specialcase xml:id="linindep-wide-matrix">
-        <title>When Linear Dependence is Automatic</title>
+      </statement>
+      <proof>
         <p>
           <ol>
             <li>
-              <alert>Any set containing the zero vector</alert> is linearly dependent.  Indeed, if <m>v_1=0</m> then <m>\{v_1,v_2,\ldots,v_n\}</m> satisfies the linear relation
-              <me> 0 = 1v_1 + 0v_2 + \cdots + 0v_n. </me>
+              If <m>v_1 = cv_2</m> then <m>v_1-cv_2=0</m>, so <m>\{v_1,v_2\}</m> is linearly dependent.  In the other direction, if <m>x_1v_1+x_2v_2=0</m> with <m>x_1\neq0</m> (say), then <m>v_1 = -\frac{x_2}{x_1}v_2</m>.
             </li>
             <li>
-              The columns of a <term>wide matrix</term> (more columns than rows) are linearly dependent.  Indeed, if <m>A</m> has more columns than rows then it must have a free variable.
+              It is easy to produce a linear dependence relation if one vector is the zero vector: for instance, if <m>v_1=0</m> then
+              <me>1\cdot v_1 + 0\cdot v_2 + \cdots + 0\cdot v_k = 0.</me>
+            </li>
+            <li>
+              After reordering, we may suppose that <m>\{v_1,v_2,\ldots,v_r\}</m> is linearly dependent, with <m>r &lt; p</m>.  This means that there is an equation of linear dependence
+              <me>x_1v_1 + x_2v_2 + \cdots + x_rv_r = 0</me>,
+              with at least one of <m>x_1,x_2,\ldots,x_r</m> nonzero.  This is also an equation of linear dependence among <m>\{v_1,v_2,\ldots,v_k\}</m>, since we can take the coefficients of <m>v_{r+1},\ldots,v_k</m> to all be zero.
             </li>
           </ol>
         </p>
-      </specialcase>
+      </proof>
+    </fact>
 
-      <p>
-        The second assertion says, for example, that any three vectors in <m>\R^2</m> are linearly dependent.  This makes geometric sense: choosing one nonzero vector spans a line, then choosing a second vector not on that line gives two vectors that span all of <m>\R^2</m>; there is no way to choose a third vector not in that span.  Note that a tall matrix (more rows than columns) may or may not have linearly dependent columns.
-      </p>
+    <p>
+      With regard to the first fact, note that the zero vector is a multiple of any vector, so it is collinear with any other vector.  Hence facts 1 and 2 are consistent with each other.
+    </p>
 
-      <example hide-type="true">
-        <title>Interactive: A Wide Matrix has Linearly Dependent Columns</title>
-        <figure>
-          <caption>
-            There is no way to find three linearly independent vectors in <m>\R^2</m>.
-          </caption>
-          <mathbox source="demos/spans.html?captions=indep&amp;v1=5,5&amp;v2=5,-5&amp;v3=-5,0&amp;labels=u,v,w&amp;range=15&amp;showPlane=true&amp;closed" height="500px"/>
-        </figure>
-      </example>
+  </subsection>
 
-    </paragraphs>
+  <subsection>
+    <title>Criteria for Linear Independence</title>
 
-    <paragraphs>
-      <title>Linear Independence</title>
+    <p>
+      In this subsection we give two criteria for a set of vectors to be linearly independent.  Keep in mind, however, that the actual <xref ref="linindep-defn-linindep"/> is above.
+    </p>
 
-      <p>
-        Linear <em>in</em>dependence is the logical negation of linear dependence.
-      </p>
-
-      <essential xml:id="defn-linear-independence">
-        <idx><h>Linear independence</h><see>definition of</see></idx>
-        <statement>
-          <p>
-            A set of vectors <m>\{v_1,v_2,\ldots,v_n\}</m> is <term>linearly independent</term> if the vector equation
-            <me>x_1v_1 + x_2v_2 + \cdots + x_nv_n = 0</me>
-            has <em>only the trivial solution</em> <m>(x_1,x_2,\ldots,x_n)=(0,0,\ldots,0)</m>.
-          </p>
-        </statement>
-      </essential>
-
-      <p>
-        Equivalently, vectors <m>\{v_1,v_2,\ldots,v_n\}</m> are linearly independent if and only if, whenever
-        <me>x_1v_1 + x_2v_2 + \cdots + x_nv_n = 0,</me>
-        it must be true that <m>x_1=x_2=\cdots=x_n=0.</m>
-      </p>
-
-      <p>
-        Since a matrix has no free variables if and only if there is a pivot in every column, the negation of the <xref ref="linear-dependent-means-free-variable"/> above becomes:
-      </p>
-
-      <bluebox xml:id="linindep-criterion-pivot-every-col">
+    <theorem xml:id="linindep-criterion-inspan">
+      <statement>
+        <p>A set of vectors <m>\{v_1,v_2,\ldots,v_k\}</m> is linearly dependent if and only if one of the vectors is in the span of the other ones.</p>
+        <p>Any such vector may be removed without affecting the span.</p>
+      </statement>
+      <proof>
         <p>
+          Suppose, for instance, that <m>v_3</m> is in <m>\Span\{v_1,v_2,v_4\}</m>, so we have an equation like
+          <me>v_3 = 2v_1 - \frac 12v_2 + 6v_4.</me>
+          We can subract <m>v_3</m> from both sides of the equation to get
+          <me>0 = 2v_1 - \frac 12v_2 - v_3 + 6v_4.</me>
+          This is a linear dependence relation.
+        </p>
+        <p>
+          In this case, any linear combination of <m>v_1,v_2,v_3,v_4</m> is already a linear combination of <m>v_1,v_2,v_4</m>:
+          <md>
+            <mrow>
+              x_1v_1 + x_2v_2 + x_3v_3 + x_4v_4 &amp;=
+              x_1v_1 + x_2v_2 + x_3\left(2v_1-\frac 12v_2 + 6v_4\right) + x_4v_4
+            </mrow>
+            <mrow>
+              &amp;= (x_1+2x_3)v_1 + \left(x_2-\frac 12x_3\right)v_2 + (x_4+6)v_4.
+            </mrow>
+          </md>
+          Therefore, <m>\Span\{v_1,v_2,v_3,v_4\}</m> is contained in <m>\Span\{v_1,v_2,v_4\}</m>.  Any linear combination of <m>v_1,v_2,v_4</m> is also a linear combination of <m>v_1,v_2,v_3,v_4</m> (with the <m>v_3</m>-coefficient equal to zero), so <m>\Span\{v_1,v_2,v_4\}</m> is also contained in <m>\Span\{v_1,v_2,v_3,v_4\}</m>, and thus they are equal.
+        </p>
+        <p>
+          In the other direction, if we have a linear dependence relation like
+          <me>0 = 2v_1 - \frac 12v_2 + v_3 - 6v_4,</me>
+          then we can move any nonzero term to the left side of the equation and divide by its coefficient:
+          <me>v_1 = \frac 12\left(\frac 12v_2 - v_3 + 6v_4\right).</me>
+          This shows that <m>v_1</m> is in <m>\Span\{v_2,v_3,v_4\}</m>.
+        </p>
+        <p>
+          We leave it to the reader to generalize this proof for any set of vectors.
+        </p>
+      </proof>
+    </theorem>
+
+    <bluebox type-name="Warning" hide-type="false" xml:id="linindep-not-any"><p>
+      In a linearly dependent set <m>\{v_1,v_2,\ldots,v_k\}</m>, it is not generally true that <em>any</em> vector <m>v_j</m> is in the span of the others, only that <em>at least one</em> of them is.
+    </p></bluebox>
+
+    <p>
+      For example, the set <m>\bigl\{{1\choose 0},\,{2\choose 0},\,{0\choose 1}\bigr\}</m> is linearly dependent, but <m>{0\choose 1}</m> is not in the span of the other two vectors.  Also see this <xref ref="linindep-3d-4vecs"/> below.
+    </p>
+
+    <p>
+      The previous <xref ref="linindep-criterion-inspan"/> makes precise in what sense a set of linearly dependent vectors is redundant.
+    </p>
+
+    <theorem xml:id="linindep-increasing-span">
+      <title>Increasing Span Criterion</title>
+      <idx><h>Linear Independence</h><h>increasing span criterion</h></idx>
+      <idx><h>Increasing span criterion</h><see>Linear independence</see></idx>
+      <statement>
+        <p>A set of vectors <m>\{v_1,v_2,\ldots,v_k\}</m> is linearly independent if and only if, for every <m>j</m>, the vector <m>v_j</m> is not in <m>\Span\{v_1,v_2,\ldots,v_{j-1}\}</m>.</p>
+      </statement>
+      <proof>
+        <p>
+          It is equivalent to show that <m>\{v_1,v_2,\ldots,v_k\}</m> is linearly dependent if and only if <m>v_j</m> is in <m>\Span\{v_1,v_2,\ldots,v_{j-1}\}</m> for some <m>j</m>.  The <q>if</q> implication is an immediate consequence of the previous <xref ref="linindep-criterion-inspan"/>.  Suppose then that <m>\{v_1,v_2,\ldots,v_k\}</m> is linearly dependent.  This means that some <m>v_j</m> is in the span of the others.  Choose the largest such <m>j</m>.  We claim that this <m>v_j</m> is in <m>\Span\{v_1,v_2,\ldots,v_{j-1}\}</m>.  If not, then
+          <me>v_j = x_1v_1 + x_2v_2 + \cdots + x_{j-1}v_{j-1} + x_{j+1}v_{j+1} + \cdots + x_kv_k</me>
+          with not all of <m>x_{j+1},\ldots,x_k</m> equal to zero.  Suppose for simplicity that <m>x_k\neq 0</m>.  Then we can rearrange:
           <me>
-            \begin{split}
-            \{v_1,v_2,\ldots,v_n\} &amp;\text{ is linearly independent} \\
-            &amp;\quad\iff\quad
-            \mat[c]{| | {} |; v_1 v_2 \cdots, v_n; | | {} |} \text{ has a pivot in every column}
-            \end{split}
+            v_k = -\frac 1{x_k}\bigl( x_1v_1 + x_2v_2 + \cdots + x_{j-1}v_{j-1}
+            - v_j + x_{j+1}v_{j+1} + \cdots + x_{p-1}v_{p-1}
+            \bigr).
           </me>
+          This says that <m>v_k</m> is in the span of <m>\{v_1,v_2,\ldots,v_{p-1}\}</m>, which contradicts our assumption that <m>v_j</m> is the last vector in the span of the others.
         </p>
-      </bluebox>
+      </proof>
+    </theorem>
 
-      <p>
-        Alternatively, the negation of the <xref ref="linear-dependent-some-in-span"/> above is:
-      </p>
+    <p>
+      We can rephrase this as follows:
+    </p>
 
-      <bluebox xml:id="linindep-criterion-inspan">
-        <p>
-          Vectors <m>\{v_1,v_2,\ldots,v_n\}</m> are linearly independent if and only if <em>no vector</em> is in the span of the others.
-        </p>
-      </bluebox>
+    <bluebox>
+      <p>If you make a set of vectors by adding one vector at a time, and if the span got bigger every time you added a vector, then your set is linearly independent.</p>
+    </bluebox>
 
-      <note hide-type="true">
-        <title>Linguistic Note</title>
-        <p>
-          The adjectives <q>linearly dependent</q> and <q>linearly independent</q> apply to a <em>set of vectors</em>.  So the statements
-          <ul>
-            <li>
-              <q><m>\{v_1,v_2,v_3\}</m> is linearly dependent</q>
-            </li>
-            <li>
-              <q><m>A</m> has linearly independent columns</q>
-            </li>
-          </ul>
-          make sense, whereas the statements
-          <ul>
-            <li>
-              <q><m>v_1</m> is linearly dependent on <m>v_2</m> and <m>v_3</m></q>
-            </li>
-            <li>
-              <q><m>A</m> is linearly independent</q>
-            </li>
-          </ul>
-          do not.
-        </p>
-      </note>
+  </subsection>
 
-      <p>
-        Intuitively, vectors <m>\{v_1,v_2,\ldots,v_n\}</m> are linearly independent if and only if <m>\Span\{v_1,v_2,\ldots,v_n\}</m> is as <q>big as it can be</q>: since no vector is in the span of the others, every time you add another vector, the span gets bigger.  The following lemma gives a more precise statement.
-      </p>
 
-      <lemma xml:id="linindep-increasing-span">
-        <title>Increasing Span Criterion</title>
-        <idx><h>Linear Independence</h><h>increasing span criterion</h></idx>
-        <statement>
-          <p>A set of vectors <m>\{v_1,v_2,\ldots,v_n\}</m> is linearly independent if and only if, for every <m>j</m>, the vector <m>v_j</m> is not in <m>\Span\{v_1,v_2,\ldots,v_{j-1}\}</m>.</p>
-        </statement>
-        <proof>
-          <p>
-            It is equivalent to show that <m>\{v_1,v_2,\ldots,v_n\}</m> is linearly dependent if and only if <m>v_j</m> is in <m>\Span\{v_1,v_2,\ldots,v_{j-1}\}</m> for some <m>j</m>.  If <m>v_j\in\Span\{v_1,v_2,\ldots,v_{j-1}\}</m> then there exist weights <m>x_1,x_2,\ldots,x_{j-1}</m> such that
-            <me> v_j = x_1v_1 + x_2v_2 + \cdots + x_{j-1}v_{j-1}, </me>
-            which produces the linear relation
-            <me> 0 = x_1v_1 + x_2v_2 + \cdots + x_{j-1}v_{j-1} - v_j + 0v_{j+1} + \cdots + 0v_n. </me>  Conversely, suppose that <m>\{v_1,v_2,\ldots,v_n\}</m> is linearly dependent.  This means that some <m>v_j</m> is in the span of the others.  Choose the largest such <m>j</m>.  We claim that this <m>v_j</m> is in <m>\Span\{v_1,v_2,\ldots,v_{j-1}\}</m>.  If not, then
-            <me>v_j = x_1v_1 + x_2v_2 + \cdots + x_{j-1}v_{j-1} + x_{j+1}v_{j+1} + \cdots + x_nv_n</me>
-            with not all of <m>x_{j+1},\ldots,x_n</m> equal to zero.  Suppose for simplicity that <m>x_n\neq 0</m>.  Then we can rearrange:
-            <me>
-              v_n = -\frac 1{x_n}\bigl( x_1v_1 + x_2v_2 + \cdots + x_{j-1}v_{j-1}
-              - v_j + x_{j+1}v_{j+1} + \cdots + x_{n-1}v_{n-1}
-              \bigr).
-            </me>
-            This says that <m>v_n</m> is in the span of <m>\{v_1,v_2,\ldots,v_{n-1}\}</m>, which contradicts our assumption that <m>v_j</m> is the last vector in the span of the others.
-          </p>
-        </proof>
-      </lemma>
+  <subsection>
+    <title>Pictures of Linear Independence</title>
+      <idx><h>Linear Independence</h><h>pictures of</h></idx>
 
-      <p>
-        A linearly independent set results in a parameterization of its span that is not redundant in the sense of the first <xref ref="eg-redundant-parameterization"/>.
-      </p>
-
-      <lemma xml:id="linindep-unique-weights">
-        <statement>
-          <p>
-            If <m>\{v_1,v_2,\ldots,v_n\}</m> is linearly independent and <m>b\in\Span\{v_1,v_2,\ldots,v_n\}</m>, then there are <em>unique</em> weights <m>x_1,x_2,\ldots,x_n</m> such that
-            <me> b = x_1v_1 + x_2v_2 + \cdots + x_nv_n. </me>
-          </p>
-        </statement>
-        <proof>
-          <p>
-            Suppose that there were two sets of weights <m>x_1,x_2,\ldots,x_n</m> and <m>y_1,y_2,\ldots,y_n</m> such that
-            <me>
-              \begin{split}
-              b &amp;= x_1v_1 + x_2v_2 + \cdots + x_nv_n \\
-              &amp;=  y_1v_1 + y_2v_2 + \cdots + y_nv_n.
-              \end{split}
-            </me>
-            Subtracting the second of the equation from the first gives
-            <me>
-              0 = b-b = (x_1-y_1)v_1 + (x_2-y_2)v_2 + \cdots + (x_n-y_n)v_n.
-            </me>
-            By definition, the homogeneous equation <m>0=a_1v_1+a_2v_2+\cdots+a_nv_n</m> has only the trivial solution <m>a_1=a_2=\cdots=a_n=0</m>.  It follows that <m>x_1-y_1=x_2-y_2=\cdots=x_n-y_n=0</m>, which means <m>x_1=y_1,\;x_2=y_2,\;\ldots,\;x_n=y_n</m>.
-          </p>
-        </proof>
-      </lemma>
-
-    </paragraphs>
-
-    <paragraphs>
-      <title>Checking Linear (In)dependence</title>
-
-      <p>
-        Checking whether a set <m>\{v_1,v_2,\ldots,v_n\}</m> is linearly dependent means solving the homogeneous vector equation
-        <me> x_1v_1 + x_2v_2 + \cdots + x_nv_n = 0. </me>
-        If there is only the trivial solution (no free variables), then <m>\{v_1,v_2,\ldots,v_n\}</m> is linearly independent.  Otherwise, any nontrivial solution of this vector equation is a linear relation among <m>\{v_1,v_2,\ldots,v_n\}</m>.
-      </p>
-
-      <example>
-        <statement>
-          <p>
-            Is the set
-            <me>\left\{ \vec{1 1 1},\; \vec{1 -1 2},\; \vec{3 1 4} \right\}</me>
-            linearly independent?  If not, produce a linear relation.
-          </p>
-        </statement>
-        <solution>
-          <p>
-            We need to solve the homogeneous vector equation
-            <me>x_1\vec{1 1 1} + x_2\vec{1 -1 2} + x_3\vec{3 1 4} = \vec{0 0 0}.</me>
-            We form a matrix and apply Gauss<ndash/>Jordan elimination (we do not augment because of this <xref ref="solnsets-no-augment"/>):
-            <me>
-              \mat{1 1 3; 1 -1 1; 1 2 4} \RREF
-              \mat{1 0 2; 0 1 1; 0 0 0}.
-            </me>
-            We see that <m>x_3</m> is a free variable, so the vectors are linearly dependent.  The parametric form of the solution set is
-            <me> \syseq{x_1 = -2x_3; x_2 = -x_3\rlap.} </me>
-            Choosing any nonzero value for <m>x_3</m> gives a linear relation.  For instance, taking <m>x_3=1</m> gives this linear relation:
-            <me>-2\vec{1 1 1} - \vec{1 -1 2} + \vec{3 1 4} = \vec{0 0 0}.</me>
-          </p>
-          <figure>
-            <caption>Move the sliders to solve the homogeneous vector equation in this example.  Do you see why the vectors need to be coplanar in order for there to exist a nontrivial solution?</caption>
-            <mathbox source="demos/spans.html?v1=1,1,1&amp;v2=1,-1,2&amp;v3=3,1,4&amp;target=0,0,0" height="500px"/>
-          </figure>
-        </solution>
-      </example>
-
-      <example>
-        <statement>
-          <p>
-            Is the set
-            <me>\left\{ \vec{1 1 -2},\, \vec{1 -1 2},\, \vec{3 1 4} \right\}</me>
-            linearly independent?  If not, produce a linear relation.
-          </p>
-        </statement>
-        <solution>
-          <p>
-            We need to solve the homogeneous vector equation
-            <me>x_1\vec{1 1 -2} + x_2\vec{1 -1 2} + x_3\vec{3 1 4} = \vec{0 0 0}.</me>
-            We form a matrix and apply Gaussian elimination (we do not augment because of this <xref ref="solnsets-no-augment"/>):
-            <me>
-              \mat{1 1 3; 1 -1 1; -2 2 4} \REF
-              \mat{1 1 3; 0 -2 2; 0 0 6}.
-            </me>
-            There are no free variables, so the only solution is the trivial solution.  We conclude that the set is linearly independent.
-          </p>
-          <figure>
-            <caption>Move the sliders to solve the homogeneous vector equation in this example.  Do you see why the vectors would need to be coplanar in order for there to exist a nontrivial solution?</caption>
-            <mathbox source="demos/spans.html?v1=1,1,-2&amp;v2=1,-1,2&amp;v3=3,1,4&amp;target=0,0,0&amp;range=4" height="500px"/>
-          </figure>
-        </solution>
-      </example>
-
-    </paragraphs>
-
-    <paragraphs xml:id="linindep-1-vec">
-      <title>Pictures: One Vector</title>
-
-      <p>
-        A set containg one vector <m>\{v\}</m> is linearly independent when <m>v\neq 0</m>, since <m>xv = 0</m> implies <m>x=0</m>.
-        <latex-code>
+    <p>A set containing one vector <m>\{v\}</m> is linearly independent when <m>v\neq 0</m>, since <m>xv = 0</m> implies <m>x=0</m>.
+    <latex-code>
           <![CDATA[
-\begin{tikzpicture}[thin border nodes, scale=1]
+\begin{tikzpicture}[thin border nodes, scale=1.5]
   \path[use as bounding box] (-3,-3) rectangle (3,3);
 
   \path[clip] (-3,-3) rectangle (3,3);
-  \draw[seq4!30] (-4,-2) -- node[below=3pt, pos=.35, seq4, sloped] {$\Span\{v\}$} (4,2);
+  \draw[seq4!30] (-4,-2) -- (4,2);
+  \path (-2,-1) node[below right, seq4] {$\Span\{v\}$};
   \draw[vector, seq1] (0,0) --
     node[midway,above left]{$v$} (2,1);
   \point at (0,0);
   \draw[thin] (-3,-3) rectangle (3,3);
 \end{tikzpicture}
           ]]>
-        </latex-code>
-      </p>
-
-      <example hide-type="true">
-        <title>Interactive: Linear Independence of One Vector in <m>\R^2</m></title>
-        <figure>
-          <caption>Move the vector head and the demo will tell you if <m>\{v\}</m> is linearly independent and show you its span.</caption>
-          <mathbox source="demos/spans.html?captions=indep&amp;v1=2,-1&amp;labels=v&amp;range=5&amp;closed" height="500px"/>
-        </figure>
-      </example>
-    </paragraphs>
-
-    <paragraphs xml:id="linindep-2-vecs">
-      <title>Pictures: Two Vectors</title>
-      <p>
-        A set of two vectors <m>\{v,w\}</m> is linearly independent if and only if the vectors are not collinear.  In this case the span got bigger when we added <m>w</m>, so we can apply the <xref ref="linindep-increasing-span">increasing span criterion</xref>.
-        <latex-code>
-\begin{tikzpicture}[thin border nodes, scale=1]
+    </latex-code>
+    A set of two noncollinear vectors <m>\{v,w\}</m> is linearly independent:
+    <ul>
+      <li>Neither is in the span of the other, so we can apply the first <xref ref="linindep-criterion-inspan">criterion</xref>.</li>
+      <li>The span got bigger when we added <m>w</m>, so we can apply the <xref ref="linindep-increasing-span">increasing span criterion</xref>.</li>
+    </ul>
+    <latex-code>
+          <![CDATA[
+\begin{tikzpicture}[thin border nodes, scale=1.5]
   \path[use as bounding box] (-3,-3) rectangle (3,3);
 
   \path[clip] (-3,-3) rectangle (3,3);
-  \draw[seq4!30] (-4,-2) --
-    node[below=1pt, sloped, pos=.3, seq4] {$\Span\{v\}$} (4,2);
-  \draw[seq4!30] (-3,3) --
-    node[above=1pt, sloped, pos=.2, seq4] {$\Span\{w\}$} (3,-3);
+  \draw[seq4!30] (-4,-2) -- (4,2);
+  \draw[seq4!30] (-3,3) -- (3,-3);
+  \path (-2,-1) node[below right, seq4] {$\Span\{v\}$};
+  \path (-2,2) node[above right, seq4] {$\Span\{w\}$};
   \draw[vector, seq1] (0,0) --
     node[midway,above left]{$v$} (2,1);
   \draw[vector, seq2] (0,0) --
@@ -498,9 +399,102 @@ the license is included in gfdl.xml.
   \point at (0,0);
   \draw[thin] (-3,-3) rectangle (3,3);
 \end{tikzpicture}
-\quad
-\begin{tikzpicture}[myxyz, thin border nodes, scale=1]
-  \path[clip, resetxy] (-4,-3) rectangle (4,3);
+          ]]>
+        </latex-code>
+    The set of three vectors <m>\{v,w,u\}</m> below is linearly dependent:
+    <ul>
+      <li><m>u</m> is in <m>\Span\{v,w\}</m>, so we can apply the first <xref ref="linindep-criterion-inspan">criterion</xref>.</li>
+      <li>The span did not increase when we added <m>u</m>, so we can apply the <xref ref="linindep-increasing-span">increasing span criterion</xref>.</li>
+    </ul>
+    In the picture below, note that <m>v</m> is in <m>\Span\{u,w\}</m>, and <m>w</m> is in <m>\Span\{u,v\}</m>, so we can remove any of the three vectors without shrinking the span.
+    <latex-code>
+          <![CDATA[
+\begin{tikzpicture}[scale=1.5, thin border nodes]
+  \path[use as bounding box] (-3,-3) rectangle (3,3);
+
+  \path[clip] (-3,-3) rectangle (3,3);
+  \fill[seq4!10] (-3,-3) rectangle (3,3);
+  \draw[seq4!30] (-4,-2) -- (4,2);
+  \draw[seq4!30] (-3,3) -- (3,-3);
+  \path (-2,-1) node[below right, seq4] {$\Span\{v\}$};
+  \path (-2,2) node[above right, seq4] {$\Span\{w\}$};
+  \node[seq4] at (1.2,1.8) {$\Span\{v,w\}$};
+  \draw[vector, seq1] (0,0) --
+    node[midway,above left]{$v$} (2,1);
+  \draw[vector, seq2] (0,0) --
+    node[midway,below left]{$w$} (-1,1);
+  \draw[vector, seq3] (0,0) --
+    node[midway,right]{$u$} (0,-1.5);
+  \point at (0,0);
+  \draw[thin] (-3,-3) rectangle (3,3);
+\end{tikzpicture}
+          ]]>
+    </latex-code>
+    Two collinear vectors are always linearly dependent:
+      <ul>
+        <li><m>w</m> is in <m>\Span\{v\}</m>, so we can apply the first <xref ref="linindep-criterion-inspan">criterion</xref>.</li>
+        <li>The span did not increase when we added <m>w</m>, so we can apply the <xref ref="linindep-increasing-span">increasing span criterion</xref>.</li>
+      </ul>
+      <latex-code>
+          <![CDATA[
+\begin{tikzpicture}[scale=1.5, thin border nodes]
+  \path[use as bounding box] (-3,-3) rectangle (3,3);
+
+  \path[clip] (-3,-3) rectangle (3,3);
+  \draw[seq4!30] (-4,-2) -- (4,2);
+  \path (-2,-1) node[below right, seq4] {$\Span\{v\}$};
+  \draw[vector, seq1] (0,0) --
+    node[midway,above left]{$v$} (2,1);
+  \draw[vector, seq2] (0,0) --
+    node[pos=.4,above left]{$w$} (-1,-.5);
+  \point at (0,0);
+  \draw[thin] (-3,-3) rectangle (3,3);
+\end{tikzpicture}
+          ]]>
+        </latex-code>
+    These three vectors <m>\{v,w,u\}</m> are linearly dependent: indeed, <m>\{v,w\}</m> is already linearly dependent, so we can use the third <xref ref="linindep-facts"/>.
+    <latex-code>
+          <![CDATA[
+\begin{tikzpicture}[scale=1.5, thin border nodes]
+  \path[use as bounding box] (-3,-3) rectangle (3,3);
+
+  \path[clip] (-3,-3) rectangle (3,3);
+  \draw[seq4!30] (-4,-2) -- (4,2);
+  \path (-2,-1) node[below right, seq4] {$\Span\{v\}$};
+  \draw[vector, seq1] (0,0) --
+    node[midway,above left]{$v$} (2,1);
+  \draw[vector, seq2] (0,0) --
+    node[pos=.4,above left]{$w$} (-1,-.5);
+  \draw[vector, seq3] (0,0) --
+    node[midway,right]{$u$} (0,-1.5);
+  \point at (0,0);
+  \draw[thin] (-3,-3) rectangle (3,3);
+\end{tikzpicture}
+          ]]>
+    </latex-code>
+  </p>
+
+    <example hide-type="true">
+      <title>Interactive: Linear independence of two vectors in <m>\R^2</m></title>
+      <figure>
+        <caption>Move the vector heads and the demo will tell you if they are linearly independent and show you their span.</caption>
+        <mathbox source="demos/spans.html?captions=indep&amp;v1=2,1&amp;v2=-1,-.5&amp;labels=v,w&amp;range=5&amp;showPlane=true&amp;closed" height="500px"/>
+      </figure>
+    </example>
+
+    <example hide-type="true">
+      <title>Interactive: Linear dependence of three vectors in <m>\R^2</m></title>
+      <figure>
+        <caption>Move the vector heads and the demo will tell you that they are linearly dependent and show you their span.</caption>
+        <mathbox source="demos/spans.html?captions=indep&amp;v1=2,1&amp;v2=-1,-.5&amp;v3=0,-1.5&amp;labels=v,w,u&amp;range=5&amp;showPlane=true&amp;closed" height="500px"/>
+      </figure>
+    </example>
+
+    <p>The two vectors <m>\{v,w\}</m> below are linearly independent because they are not collinear.
+    <latex-code>
+          <![CDATA[
+\begin{tikzpicture}[myxyz, thin border nodes, scale=1.25]
+  \path[clip, resetxy] (-4,-4) rectangle (4,4);
 
   \def\v{(-1,2,1)}
   \def\w{(0,1,-1)}
@@ -510,8 +504,7 @@ the license is included in gfdl.xml.
   \node[coordinate] (X) at \v {};
   \node[coordinate] (Y) at \w {};
 
-  \draw[seq4!30] ($-3*(-1,2,1)$) --
-    node[below=1pt, sloped, pos=.6, seq4] {$\Span\{v\}$} (0,0,0);
+  \draw[seq4!30] ($-3*(-1,2,1)$) -- (0,0,0);
   \draw[seq4!30] ($5*(0,1,-1)$) -- (0,0,0);
 
   \begin{scope}[transformxy]
@@ -520,8 +513,7 @@ the license is included in gfdl.xml.
   \end{scope}
 
   \draw[seq4!30] ($3*(-1,2,1)$) -- (0,0,0);
-  \draw[seq4!30] ($-5*(0,1,-1)$) --
-    node[above=1pt, sloped, pos=.65, seq4] {$\Span\{w\}$} (0,0,0);
+  \draw[seq4!30] ($-5*(0,1,-1)$) -- (0,0,0);
 
   \draw[vector, seq1] (0,0,0) --
     node [midway, below right] {$v$} \v;
@@ -531,53 +523,19 @@ the license is included in gfdl.xml.
     node [midway, below left] {$w$} \w;
   \draw[thin, densely dotted, black!50!white] \w -- \projxy\w;
 
+  \path[seq4] ($.9*(1.5,-3,-1.5)$) node[below right] {$\Span\{v\}$};
+  \path[seq4] (0,-2,2) node[below left] {$\Span\{w\}$};
+
   \point at (0,0);
-  \draw[thin,resetxy] (-4,-3) rectangle (4,3);
+  \draw[thin,resetxy] (-4,-4) rectangle (4,4);
 
 \end{tikzpicture}
+          ]]>
         </latex-code>
-        If <m>v</m> and <m>w</m> are collinear, then <m>\{v,w\}</m> is linearly dependent since one vector is in the span of the other.
-        <latex-code>
-\begin{tikzpicture}[scale=1, thin border nodes]
-  \path[use as bounding box] (-3,-3) rectangle (3,3);
-
-  \path[clip] (-3,-3) rectangle (3,3);
-  \draw[seq4!30] (-4,-2) --
-    node[below=1pt, sloped, pos=.25, seq4] {$\Span\{v\}$} (4,2);
-  \draw[vector, seq1] (0,0) --
-    node[midway,above left]{$v$} (2,1);
-  \draw[vector, seq2] (0,0) --
-    node[pos=.4,above left]{$w$} (-1,-.5);
-  \point at (0,0);
-  \draw[thin] (-3,-3) rectangle (3,3);
-\end{tikzpicture}
-        </latex-code>
-      </p>
-
-      <example hide-type="true">
-        <title>Interactive: Linear Independence of Two Vectors in <m>\R^2</m></title>
-        <figure>
-          <caption>Move the vector heads and the demo will tell you if they are linearly independent and show you their span.</caption>
-          <mathbox source="demos/spans.html?captions=indep&amp;v1=2,1&amp;v2=-1,-.5&amp;labels=v,w&amp;range=5&amp;showPlane=true&amp;closed" height="500px"/>
-        </figure>
-      </example>
-
-      <example hide-type="true">
-        <title>Interactive: Linear Independence of Two Vectors in <m>\R^3</m></title>
-        <figure>
-          <caption>Move the vector heads and the demo will tell you if they are linearly independent and show you their span.</caption>
-          <mathbox source="demos/spans.html?captions=indep&amp;v1=2,-1,1&amp;v2=1,0,-1&amp;labels=v,w&amp;range=5&amp;closed" height="500px"/>
-        </figure>
-      </example>
-
-    </paragraphs>
-
-    <paragraphs>
-      <title>Pictures: Three Vectors</title>
-      <p>
-        A set of three vectors <m>\{v,w,u\}</m> is linearly independent if and only if the vectors are not coplanar.  In this case the span gets bigger each time we add a vector, so we can use the <xref ref="linindep-increasing-span">increasing span criterion</xref>.
-        <latex-code>
-\begin{tikzpicture}[myxyz, scale=1, thin border nodes]
+    The three vectors <m>\{v,w,u\}</m> below are linearly independent: the span got bigger when we added <m>w</m>, then again when we added <m>u</m>, so we can apply the <xref ref="linindep-increasing-span">increasing span criterion</xref>.
+    <latex-code>
+          <![CDATA[
+\begin{tikzpicture}[myxyz, scale=1.25, thin border nodes]
   \path[clip, resetxy] (-4,-4) rectangle (4,4);
 
   \def\v{(-1,2,1)}
@@ -594,8 +552,7 @@ the license is included in gfdl.xml.
     \draw[step=.5cm, seq4!30, very thin] (-1.5,-1) grid (1.5,2);
   \end{scope}
 
-  \draw[seq4!30] ($-3*(-1,2,1)$) --
-    node[below=3pt, sloped, pos=.6, seq4] {$\Span\{v\}$} (0,0,0);
+  \draw[seq4!30] ($-3*(-1,2,1)$) -- (0,0,0);
   \draw[seq4!30] ($5*(0,1,-1)$) -- (0,0,0);
 
   \begin{scope}[transformxy]
@@ -604,8 +561,7 @@ the license is included in gfdl.xml.
   \end{scope}
 
   \draw[seq4!30] ($3*(-1,2,1)$) -- (0,0,0);
-  \draw[seq4!30] ($-5*(0,1,-1)$) --
-    node[below=3pt, sloped, pos=.5, seq4] {$\Span\{w\}$} (0,0,0);
+  \draw[seq4!30] ($-5*(0,1,-1)$) -- (0,0,0);
 
   \begin{scope}[x=(X), y=(Y), transformxy]
     \path[clip] (-5, -5) -- (5, 5) -- (5, -10) -- (-5, -10) -- cycle;
@@ -625,37 +581,25 @@ the license is included in gfdl.xml.
     node [midway, below left] {$u$} \uu;
   \draw[thin, densely dotted] \uu -- \projxy\uu;
 
+  \path[seq4] ($.9*(1.5,-3,-1.5)$) node[below right] {$\Span\{v\}$};
+  \path[seq4] (0,-2,2) node[below left] {$\Span\{w\}$};
   \node[seq4] at (.8cm, 2.8cm) {$\Span\{v,w\}$};
 
   \point at (0,0);
   \draw[thin,resetxy] (-4,-4) rectangle (4,4);
 
 \end{tikzpicture}
-        </latex-code>
-        In the pictures below, the set of three vectors <m>\{v,w,u\}</m> is linearly dependent because <m>u\in\Span\{v,w\}</m>.  Also <m>v\in\Span\{u,w\}</m> and <m>w\in\Span\{u,v\}</m>, so we can remove any of the three vectors without shrinking the span.
-        <latex-code>
-\begin{tikzpicture}[scale=1, thin border nodes]
-  \path[use as bounding box] (-3,-3) rectangle (3,3);
-
-  \path[clip] (-3,-3) rectangle (3,3);
-  \fill[seq4!10] (-3,-3) rectangle (3,3);
-  \draw[seq4!30] (-4,-2) --
-    node[above=2pt, pos=.3, sloped, seq4] {$\Span\{v\}$} (4,2);
-  \draw[seq4!30] (-3,3) --
-    node[above=2pt, pos=.2, sloped, seq4] {$\Span\{w\}$} (3,-3);
-  \node[seq4] at (1.2,1.8) {$\Span\{v,w\}$};
-  \draw[vector, seq1] (0,0) --
-    node[midway,above left]{$v$} (2,1);
-  \draw[vector, seq2] (0,0) --
-    node[midway,below left]{$w$} (-1,1);
-  \draw[vector, seq3] (0,0) --
-    node[midway,right=1pt] {$u$} (0,-1.5);
-  \point at (0,0);
-  \draw[thin] (-3,-3) rectangle (3,3);
-\end{tikzpicture}
-\quad
-\begin{tikzpicture}[myxyz, scale=1, thin border nodes]
-  \path[clip, resetxy] (-4,-3) rectangle (4,3);
+          ]]>
+    </latex-code>
+    The three coplanar vectors <m>\{v,w,u\}</m> below are linearly dependent:
+    <ul>
+      <li><m>u</m> is in <m>\Span\{v,w\}</m>, so we can apply the first <xref ref="linindep-criterion-inspan">criterion</xref>.</li>
+      <li>The span did not increase when we added <m>u</m>, so we can apply the <xref ref="linindep-increasing-span">increasing span criterion</xref>.</li>
+    </ul>
+    <latex-code>
+          <![CDATA[
+\begin{tikzpicture}[myxyz, scale=1.25, thin border nodes]
+  \path[clip, resetxy] (-4,-4) rectangle (4,4);
 
   \def\v{(-1,2,1)}
   \def\w{(0,1,-1)}
@@ -671,8 +615,7 @@ the license is included in gfdl.xml.
     \draw[step=.5cm, seq4!30, very thin] (-1.5,-1) grid (1.5,2);
   \end{scope}
 
-  \draw[seq4!30] ($-3*(-1,2,1)$) --
-    node[below=2pt, pos=.6, sloped, seq4] {$\Span\{v\}$} (0,0,0);
+  \draw[seq4!30] ($-3*(-1,2,1)$) -- (0,0,0);
   \draw[seq4!30] ($5*(0,1,-1)$) -- (0,0,0);
 
   \begin{scope}[transformxy]
@@ -681,8 +624,7 @@ the license is included in gfdl.xml.
   \end{scope}
 
   \draw[seq4!30] ($3*(-1,2,1)$) -- (0,0,0);
-  \draw[seq4!30] ($-5*(0,1,-1)$) --
-    node[above=2pt, pos=.6, sloped, seq4] {$\Span\{w\}$} (0,0,0);
+  \draw[seq4!30] ($-5*(0,1,-1)$) -- (0,0,0);
 
   \begin{scope}[x=(X), y=(Y), transformxy]
     \path[clip] (-5, -5) -- (5, 5) -- (5, -10) -- (-5, -10) -- cycle;
@@ -702,60 +644,27 @@ the license is included in gfdl.xml.
     node [midway, above left] {$u$} \u;
   \draw[thin, densely dotted] \u -- \projxy\u;
 
-  \node[seq4] at (.6cm, 2.6cm) {$\Span\{v,w\}$};
+  \path[seq4] ($.9*(1.5,-3,-1.5)$) node[below right] {$\Span\{v\}$};
+  \path[seq4] (0,-2,2) node[below left] {$\Span\{w\}$};
+  \node[seq4] at (.8cm, 2.8cm) {$\Span\{v,w\}$};
 
   \point at (0,0);
-  \draw[thin,resetxy] (-4,-3) rectangle (4,3);
+  \draw[thin,resetxy] (-4,-4) rectangle (4,4);
 
-\end{tikzpicture}
-        </latex-code>
-        The three vectors <m>\{v,w,u\}</m> in the picture below are also linearly dependent, but in this case, removing <m>u</m> <em>does</em> shrink the span.  See this <xref ref="eg-linindep-not-every-vector"/>.
-        <latex-code>
-          <![CDATA[
-\begin{tikzpicture}[scale=1, thin border nodes]
-  \path[use as bounding box] (-3,-3) rectangle (3,3);
-
-  \path[clip] (-3,-3) rectangle (3,3);
-  \draw[seq4!30] (-4,-2) --
-    node[above=2pt, pos=.25, sloped, seq4] {$\Span\{v\}$} (4,2);
-  \draw[vector, seq1] (0,0) --
-    node[midway,above left]{$v$} (2,1);
-  \draw[vector, seq2] (0,0) --
-    node[pos=.4,above left]{$w$} (-1,-.5);
-  \draw[vector, seq3] (0,0) --
-    node[midway,right=1pt] {$u$} (0,-1.5);
-  \point at (0,0);
-  \draw[thin] (-3,-3) rectangle (3,3);
 \end{tikzpicture}
           ]]>
-        </latex-code>
-      </p>
+    </latex-code>
+    Note that three vectors are linearly dependent if and only if they are <em>coplanar</em>.  Indeed, <m>\{v,w,u\}</m> is linearly dependent if and only if one vector is in the span of the other two, which is a plane (or a line) (or <m>\{0\}</m>).
+    </p>
 
-      <example hide-type="true">
-        <title>Interactive: Linear Dependence of Three Vectors in <m>\R^2</m></title>
-        <figure>
-          <caption>Move the vector heads and the demo will tell you that they are linearly dependent and show you their span.</caption>
-          <mathbox source="demos/spans.html?captions=indep&amp;v1=2,1&amp;v2=-1,-.5&amp;v3=0,-1.5&amp;labels=v,w,u&amp;range=5&amp;showPlane=true&amp;closed" height="500px"/>
-        </figure>
-      </example>
+    <p>The four vectors <m>\{v,w,u,x\}</m> below are linearly dependent: they are the columns of a <xref ref="linindep-wide-matrix">wide matrix</xref>.  Note however that <m>u</m> is not contained in <m>\Span\{v,w,x\}</m>.  See this <xref ref="linindep-not-any"/>.</p>
 
-      <example hide-type="true">
-        <title>Interactive: Linear Independence of Three Vectors in <m>\R^3</m></title>
-        <figure>
-          <caption>Move the vector heads and the demo will tell you if they are linearly independent and show you their span.</caption>
-          <mathbox source="demos/spans.html?captions=indep&amp;v1=2,-1,1&amp;v2=1,0,-1&amp;v3=.5,-.5,1&amp;labels=v,w,u&amp;range=5&amp;closed" height="500px"/>
-        </figure>
-      </example>
-
-    </paragraphs>
-
-    <paragraphs>
-      <title>Picture: Four Vectors</title>
-
-      <p>
-        The four vectors <m>\{v,w,u,x\}</m> below are linearly dependent: they are the columns of a <xref ref="linindep-wide-matrix" text="title">wide matrix</xref>.  Note however that <m>u</m> is not contained in <m>\Span\{v,w,x\}</m>.  See this <xref ref="eg-linindep-not-every-vector"/>.
-        <latex-code>
-\begin{tikzpicture}[myxyz, scale=1, thin border nodes]
+    <figure xml:id="linindep-3d-4vecs">
+      <caption>The vectors <m>\{v,w,u,x\}</m> are linearly dependent, but <m>u</m> is not contained in <m>\Span\{v,w,x\}</m>.</caption>
+      <image>
+        <latex-image-code>
+          <![CDATA[
+\begin{tikzpicture}[myxyz, scale=1.25, thin border nodes]
   \path[clip, resetxy] (-4,-4) rectangle (4,4);
 
   \def\v{(-1,2,1)}
@@ -772,8 +681,7 @@ the license is included in gfdl.xml.
     \draw[step=.5cm, seq4!30, very thin] (-1.5,-1) grid (1.5,2);
   \end{scope}
 
-  \draw[seq4!30] ($-3*(-1,2,1)$) --
-    node[below=2pt, pos=.6, sloped, seq4] {$\Span\{v\}$} (0,0,0);
+  \draw[seq4!30] ($-3*(-1,2,1)$) -- (0,0,0);
   \draw[seq4!30] ($5*(0,1,-1)$) -- (0,0,0);
 
   \begin{scope}[transformxy]
@@ -782,8 +690,7 @@ the license is included in gfdl.xml.
   \end{scope}
 
   \draw[seq4!30] ($3*(-1,2,1)$) -- (0,0,0);
-  \draw[seq4!30] ($-5*(0,1,-1)$) --
-    node[above=2pt, pos=.6, sloped, seq4] {$\Span\{w\}$} (0,0,0);
+  \draw[seq4!30] ($-5*(0,1,-1)$) -- (0,0,0);
 
   \begin{scope}[x=(X), y=(Y), transformxy]
     \path[clip] (-5, -5) -- (5, 5) -- (5, -10) -- (-5, -10) -- cycle;
@@ -807,608 +714,501 @@ the license is included in gfdl.xml.
     node [midway, above left] {$x$} \u;
   \draw[thin, densely dotted] \u -- \projxy\u;
 
+  \path[seq4] ($.9*(1.5,-3,-1.5)$) node[below right] {$\Span\{v\}$};
+  \path[seq4] (0,-2,2) node[below left] {$\Span\{w\}$};
   \node[seq4] at (.8cm, 2.8cm) {$\Span\{v,w\}$};
 
   \point at (0,0);
   \draw[thin,resetxy] (-4,-4) rectangle (4,4);
 
 \end{tikzpicture}
-        </latex-code>
-      </p>
+          ]]>
+        </latex-image-code>
+      </image>
+    </figure>
 
-    </paragraphs>
+    <example hide-type="true">
+      <title>Interactive: Linear independence of two vectors in <m>\R^3</m></title>
+      <figure>
+        <caption>Move the vector heads and the demo will tell you if they are linearly independent and show you their span.</caption>
+        <mathbox source="demos/spans.html?captions=indep&amp;v1=2,-1,1&amp;v2=1,0,-1&amp;labels=v,w&amp;range=5&amp;closed" height="500px"/>
+      </figure>
+    </example>
+
+    <example hide-type="true">
+      <title>Interactive: Linear independence of three vectors in <m>\R^3</m></title>
+      <figure>
+        <caption>Move the vector heads and the demo will tell you if they are linearly independent and show you their span.</caption>
+        <mathbox source="demos/spans.html?captions=indep&amp;v1=2,-1,1&amp;v2=1,0,-1&amp;v3=.5,-.5,1&amp;labels=v,w,u&amp;range=5&amp;closed" height="500px"/>
+      </figure>
+    </example>
 
   </subsection>
 
   <subsection>
-    <title>Basis and Dimension</title>
+    <title>Linear Dependence and Free Variables</title>
 
     <p>
-      Now that we know what it means for a spanning set to be <q>too large,</q> we give a name to a spanning set that is the right size.
+      In light of this <xref ref="linindep-matrix-cols"/> and this <xref ref="linindep-criterion-inspan">criterion</xref>, it is natural to ask which columns of a matrix are redundant, i.e., which we can remove without affecting the column span.
     </p>
 
-    <essential xml:id="dimension-defn-basis">
-      <idx><h>Basis</h><h>definition of</h></idx>
+    <theorem xml:id="linindep-pivot-cols">
       <statement>
         <p>
-          A <term>basis</term> of a subspace is a <xref ref="defn-linear-independence">linearly independent</xref> <xref ref="def-spanning-set" text="title">spanning set</xref>.
+          Let <m>v_1,v_2,\ldots,v_k</m> be vectors in <m>\R^n</m>, and consider the matrix
+          <me>A = \mat{| |, , |; v_1 v_2 \cdots, v_k; | |, , |}.</me>
+          Then we can delete the columns of <m>A</m> <em>without</em> pivots (the columns corresponding to the free variables), without changing <m>\Span\{v_1,v_2,\ldots,v_k\}</m>.
         </p>
-      </statement>
-    </essential>
 
-    <p>
-      In other words, a basis of a subspace <m>V</m> is set of vectors <m>\{v_1,v_2,\ldots,v_n\}</m> in <m>V</m> such that:
-      <ol>
-        <li><m>V = \Span\{v_1,v_2,\ldots,v_n\}</m>, and</li>
-        <li>the set <m>\{v_1,v_2,\ldots,v_n\}</m> is linearly independent.</li>
-      </ol>
-      The first condition means that <m>\{v_1,v_2,\ldots,v_n\}</m> parameterizes <m>V</m>: any vector in <m>b\in V</m> can be written as a linear combination
-      <me>
-        \def\r{\textcolor{seq-red}}
-        b = \r{x_1}v_1 + \r{x_2}v_2 + \cdots + \r{x_n}v_n
-      </me>
-      for some weights, or parameters, <m>\def\r{\textcolor{seq-red}}\r{x_1},\r{x_2},\ldots,\r{x_n}</m>.  The second condition says that such a parameterization is <xref ref="linindep-unique-weights">unique</xref>.
-    </p>
-
-    <p>
-      Since a basis is linearly independent, if you remove any vector, the span shrinks by this <xref ref="linindep-criterion-inspan"/>.  In other words, if <m>\{v_1,v_2,\ldots,v_n\}</m> is a basis of a subspace <m>V</m>, then no proper subset of <m>\{v_1,v_2,\ldots,v_n\}</m> will span <m>V</m>: it is a <em>minimal</em> spanning set.  Any subspace admits a basis by this <xref ref="subspaces-spans-are-subspaces"/>.
-    </p>
-
-    <example xml:id="dimension-eg-R2">
-      <title>A Basis of <m>\R^2</m></title>
-      <statement>
-        <p>Find a basis of <m>\R^2</m>.</p>
+        <p>The pivot columns are linearly independent, so we cannot delete any more columns without changing the span.</p>
       </statement>
 
-      <solution>
-        <p>
-          We need to find two vectors in <m>\R^2</m> that span <m>\R^2</m> and are linearly independent.  One such basis is <m>\bigl\{\smallvec{1}{ 0},\smallvec{0}{ 1}\bigr\}</m>.
-          <ol>
-            <li>
-              They span because any vector <m>\smallvec a b</m> can be written as a linear combination of <m>\smallvec{1}{ 0},\smallvec{0}{ 1}</m>:
-              <me>\vec{a b} = a\vec{1 0} + b\vec{0 1}.</me>
-            </li>
-            <li>
-              They are linearly independent: if
-              <me>x\vec{1 0} + y\vec{0 1} = \vec{x y} = \vec{0 0}</me>
-              then <m>x=y=0</m>.
-            </li>
-          </ol>
-          <latex-code>
-\begin{tikzpicture}
-  \draw[grid lines] (-2,-2) grid (2,2);
-  \draw[thick vector] (0,0) -- (1,0) node[right,whitebg] {$\smallvec10$};
-  \draw[thick vector] (0,0) -- (0,1) node[above,whitebg] {$\smallvec01$};
-  \point at (0,0);
-\end{tikzpicture}
-          </latex-code>
-        </p>
-      </solution>
-    </example>
-
-    <p>
-      <idx><h>Basis</h><h>of <m>\R^n</m></h></idx>
-      More generally, one verifies as in the above example that the unit coordinate vectors
-      <me>
-        e_1=\vec[c]{1 0 \vdots, 0 0},\quad
-        e_2=\vec[c]{0 1 \vdots, 0 0}, \quad\ldots,\quad
-        e_n=\vec[c]{0 0 \vdots, 0 1}
-      </me>
-      form a basis of <m>\R^n</m>.  This is sometimes known as the <term>standard basis</term>.
-    </p>
-
-    <p>
-      Two vectors <xref ref="span-2-vecs" text="title">span a plane</xref> if and only if they are not collinear.  Likewise, two vectors are <xref ref="linindep-2-vecs">linearly independent</xref> if and only if they are not collinear.
-    </p>
-
-    <bluebox>
-      <p>
-        Any two noncollinear vectors in a plane form a basis of that plane.
-      </p>
-    </bluebox>
-
-    <example>
-      <title>Finding a Basis of a Plane</title>
-      <statement>
-        <p>
-          Find a basis of the plane
-          <me> V = \left\{\vec{x_1 x_2 x_3}~:~ x_1 + x_2 = x_3\right\}</me>
-          without performing elimination.
-        </p>
-      </statement>
-      <solution>
-        <p>
-          First note that <m>V</m> is the null space of the matrix <m>\mat{1 1 -1}</m>; this matrix is in reduced row echelon form and has two free variables, so <m>V</m> is indeed a plane.  We write down two vectors satisfying <m>x_1 + x_2 = x_3</m>:
-          <me>
-            v_1 = \vec{1 0 1} \qquad v_2 = \vec{0 1 1}.
-          </me>
-          Since <m>v_1</m> and <m>v_2</m> are not collinear, they form a basis of <m>V</m>.
-        </p>
-      </solution>
-    </example>
-
-    <p>
-      Since there are infinitely many pairs of noncollinear vectors in <m>\R^2</m>, it follows that <m>\R^2</m> has <em>infinitely many bases.</em>  In fact, any nonzero subspace has infinitely many bases.
-    </p>
-
-    <bluebox xml:id="infinitely-many-bases">
-      <idx><h>Basis</h><h>infinitely many</h></idx>
-      <p>
-        A nonzero subspace has <em>infinitely many</em> different bases.
-      </p>
-    </bluebox>
-
-    <p>
-      This says that there are infinitely many ways to parameterize a nonzero subspace as a span.  However, the following theorem shows that the <em>number of parameters</em> is determined.
-    </p>
-
-    <theorem xml:id="bases-have-same-size">
-      <statement>
-        <p>
-          Any two bases of a subspace contain the same number of vectors.
-        </p>
-      </statement>
       <proof>
         <p>
-          Let <m>V</m> be a subspace, and let <m>\{v_1,v_2,\ldots,v_d\}</m> and <m>\{w_1,w_2,\ldots,w_k\}</m> be bases for <m>V</m>.  Suppose that these bases do not have the same number of vectors; after potentially renaming the vectors, we may assume <m>k \lt d</m>.  Since <m>\{w_1,w_2,\ldots,w_k\}</m> spans <m>V</m> and since <m>v_1,v_2,\ldots,v_d\in V</m>, for each <m>i=1,2,\ldots,d</m> we can find scalars <m>a_{i1},a_{i2},\ldots,a_{ik}</m> such that
+          If the matrix is in reduced row echelon form:
+          <me>A = \mat{1 0 2 0; 0 1 3 0; 0 0 0 1}</me>
+          then the column without a pivot is visibly in the span of the pivot columns:
+          <me>\vec{2 3 0} = 2\vec{1 0 0} + 3\vec{0 1 0} + 0\vec{0 0 1},</me>
+          and the pivot columns are linearly independent:
           <me>
-            \begin{split}
-              v_1 &amp;= a_{11}w_1 + a_{12}w_2 + \cdots + a_{1k}w_k \\
-              v_2 &amp;= a_{21}w_1 + a_{22}w_2 + \cdots + a_{2k}w_k \\
-              &amp;\phantom{=}\llap\vdots \\
-              v_d &amp;= a_{d1}w_1 + a_{d2}w_2 + \cdots + a_{dk}w_k.
-            \end{split}
+            \vec{0 0 0} = x_1\vec{1 0 0} + x_2\vec{0 1 0} + x_4\vec{0 0 1}
+            = \vec{x_1 x_2 x_4} \implies x_1 = x_2 = x_4 = 0.
           </me>
-          We can express the <m>i</m>th equality <m>v_i = a_{i1}w_1 + a_{i2}w_2 + \cdots + a_{ik}w_k</m> by the equation
+        </p>
+
+        <p>
+          If the matrix is not in reduced row echelon form, then we row reduce:
           <me>
-            v_i = \mat[c]{| | {} |; w_1 w_2 \cdots, w_k; | | {} |}
-            \vec[c]{a_{i1} a_{i2} \vdots, a_{ik}}.
+            A = \mat{1 7 23 3; 2 4 16 0; -1 -2 -8 4}
+            \quad\xrightarrow{\text{RREF}}\quad\mat{1 0 2 0; 0 1 3 0; 0 0 0 1}.
           </me>
-          By the way matrix multiplication <xref ref="matrix-product-col-form" text="title">is defined,</xref> we therefore have
+          The following two vector equations have the same solution set, as they come from row-equivalent matrices:
           <me>
-            \mat[c]{| | {} |; v_1 v_2 \cdots, v_d; | | {} |}
-            = \mat[c]{| | {} |; w_1 w_2 \cdots, w_k; | | {} |}
-            \mat[c]{
-              a_{11} a_{21} \cdots, a_{d1};
-              a_{12} a_{22} \cdots, a_{d2};
-              \vdots, \vdots, \ddots, \vdots;
-              a_{1k} a_{2k} \cdots, a_{dk};
-            }.
-          </me>
-          Since <m>k \lt d</m>, the matrix
-          <me>
-            A = \mat[c]{
-              a_{11} a_{21} \cdots, a_{d1};
-              a_{12} a_{22} \cdots, a_{d2};
-              \vdots, \vdots, \ddots, \vdots;
-              a_{1k} a_{2k} \cdots, a_{dk};
+            \spalignsysdelims..\syseq{
+            x_1\vec{1 2 -1} + x_2\vec{7 4 -2} + x_3\vec{23 16 -8} + x_4\vec{3 0 4} = 0;
+            x_1\vec{1 0  0} + x_2\vec{0 1  0} + x_3\vec{ 2  3  0} + x_4\vec{0 0 1}
+            = 0\rlap.
             }
           </me>
-          has more columns than rows, it has a free variable.  Choose a <xref ref="free-var-nontrivial-soln" text="title">nontrivial solution</xref> <m>x = (x_1,x_2,\ldots,x_d)</m> of <m>Ax=0</m>.  Then
-          <me>
-            \begin{split}
-              &amp;x_1v_1 + x_2v_2 + \cdots + x_dv_d \\
-              &amp;\qquad\qquad=
-              \mat[c]{| | {} |; v_1 v_2 \cdots, v_d; | | {} |}
-              \vec[c]{x_1 x_2 \vdots, x_d} \\
-              &amp;\qquad\qquad=
-              \mat[c]{| | {} |; w_1 w_2 \cdots, w_k; | | {} |}
-              \mat[c]{
-                a_{11} a_{21} \cdots, a_{d1};
-                a_{12} a_{22} \cdots, a_{d2};
-                \vdots, \vdots, \ddots, \vdots;
-                a_{1k} a_{2k} \cdots, a_{dk};
-              }\vec[c]{x_1 x_2 \vdots, x_d}
-              = 0.
-            \end{split}
+          We conclude that
+          <me>\vec{23 16 -8} = 2\vec{1 2 -1} + 3\vec{7 4 -2} + 0\vec{3 0 4}</me>
+          and that
+          <me>x_1\vec{1 2 -1} + x_2\vec{7 4 -2} + x_4\vec{3 0 4} = 0</me>
+          has only the trivial solution.
+        </p>
+      </proof>
+    </theorem>
+
+    <p>
+      Note that it is necessary to row reduce <m>A</m> to find which are its <xref ref="defn-pivot-pos" text="title">pivot columns</xref>.  However, the span of the columns of the row reduced matrix is generally <em>not</em> equal to the span of the columns of <m>A</m>: one must use the pivot columns of the <em>original</em> matrix.  See <xref ref="dimension-basis-colspace"/> for a restatement of the above theorem.
+    </p>
+
+    <example>
+      <p>
+        The matrix
+        <me>A = \mat[r]{1 2 0 -1; -2 -3 4 5; 2 4 0 -2}</me>
+        has reduced row echelon form
+        <me>\mat[r]{1 0 -8 -7; 0 1 4 3; 0 0 0 0}.</me>
+        Therefore, the first two columns of <m>A</m> are the pivot columns, so we can delete the others without changing the span:
+        <me>
+          \Span\left\{\vec{1 -2 2},\;\vec{2 -3 4}\right\}
+          = \Span\left\{\vec{1 -2 2},\;\vec{2 -3 4},\;\vec{0 4 0},\;\vec{-1 5 -2}\right\}.
+        </me>
+        Moreover, the first two columns are linearly independent.
+      </p>
+    </example>
+
+    <bluebox xml:id="pivot-cols-dim">
+      <title>Pivot Columns and Dimension</title>
+      <p>
+        Let <m>d</m> be the number of pivot columns in the matrix
+        <me>A = \mat{| |, , |; v_1 v_2 \cdots, v_k; | |, , |}.</me>
+        <ul>
+          <li>If <m>d=1</m> then <m>\Span\{v_1,v_2,\ldots,v_k\}</m> is a line.</li>
+          <li>If <m>d=2</m> then <m>\Span\{v_1,v_2,\ldots,v_k\}</m> is a plane.</li>
+          <li>If <m>d=3</m> then <m>\Span\{v_1,v_2,\ldots,v_k\}</m> is a 3-space.</li>
+          <li>Et cetera.</li>
+        </ul>
+	The number <m>d</m> is called the dimension of the span. We have already met this notion informally in this
+	<xref ref="soln-sets-dim-hom"/> and also in this <xref ref="soln-sets-dim-inhom"/>.  We will define this concept
+	rigorously in <xref ref="dimension"/>.</p>
+
+	<p>There are multiple different spans of vectors associated to any given
+	matrix, <m>A</m>. For instance there is the span of the columns, and there is also the solution set of <m>Ax =
+	0</m>. Each of these spans has a dimension, and these dimensions can be different. Therefore we do not
+	speak about the dimension of a matrix, since it is ambiguous which dimension this is referring to.
+      </p>
+    </bluebox>
+
+  </subsection>
+
+  <!--
+  <exercises>
+    <title>Reading Questions</title>
+
+    <exercise>
+      <statement>
+        <p>
+          Let <m>S</m> be the set of three vectors below.<me>
+          S = \setof{ \vec{1 2 -1},\, \vec{3 -4 2},\, \vec{4 -2 1} }
           </me>
-          This is a linear relation among <m>\{v_1,v_2,\ldots,v_d\}</m>.  But we are assuming that <m>\{v_1,v_2,\ldots,v_d\}</m> forms a basis, which must be linearly independent, so <m>k\lt d</m> is impossible.
-        </p>
-      </proof>
-    </theorem>
-
-    <essential xml:id="dimension-defn-dimension">
-      <idx><h>Dimension</h><h>definition of</h></idx>
-      <notation><usage>\dim V</usage><description>Dimension of a subspace</description></notation>
-      <statement>
-        <p>
-          Let <m>V</m> be a subspace of <m>\R^n</m>.  The number of vectors in any basis of <m>V</m> is called the <term>dimension</term> of <m>V</m>, and is written <m>\dim V</m>.
+          Is <m>S</m> linearly independent or linearly dependent?  Explain why.
         </p>
       </statement>
-    </essential>
+    </exercise>
 
-    <p>
-      Since <m>\{e_1,e_2,\ldots,e_n\}</m> is a basis of <m>\R^n</m>, it follows that
-      <me> \dim\R^n = n. </me>
-      This is what one should expect from any reasonable definition of dimension.
-    </p>
-
-    <specialcase>
-      <title>A Basis of <m>\{0\}</m></title>
-      <p>
-        The only basis of the subspace <m>\{0\}</m> is the <em>empty set</em> <m>\{\}</m>. (See this <xref ref="empty-set-versus-zero-set"/>.)
-        <ol>
-          <li>
-            It spans by <xref ref="span-empty-set" text="title">convention</xref>.
-          </li>
-          <li>
-            It is linearly dependent because no vector in <m>\{\}</m> is in the span of the others.
-          </li>
-        </ol>
-        Since <m>\{0\}</m> has a basis with zero vectors in it, we have <m>\dim\{0\}=0</m>.
-      </p>
-    </specialcase>
-
-    <specialcase>
-      <title>A Basis of a Line</title>
-      <p>
-        A line is spanned by any nonzero vector in it.  A set containing one nonzero vector is <xref ref="linindep-1-vec">linearly independent,</xref> so <em>any nonzero vector in a line is a basis of that line.</em>  It follows that a line has dimension 1.
-      </p>
-    </specialcase>
-
-    <p>
-      Since any two noncollinear vectors in a plane form a basis of that plane, we see that planes have dimension two.  To summarize:
-      <ul>
-        <li>A <em>point</em> has dimension 0.</li>
-        <li>A <em>line</em> has dimension 1.</li>
-        <li>A <em>plane</em> has dimension 2.</li>
-      </ul>
-      The subspace <m>\R^3</m> has dimension 3; we will sometimes refer to it as <term>space</term>.  We will not use any special vocabulary word for a subspace of a particular dimension greater than 3; for instance, a subspace of dimension 4 does not have a special name.
-    </p>
-
-    <p>
-      As in this <xref ref="subspace-vs-spanning-set"/>, be careful to distinguish between a subspace and a basis of that subspace.  A nonzero subspace has infinitely many bases, so a subspace is by no means <q>the same</q> as a basis of the subspace: a basis merely provides one non-redundant way to parameterize the subspace as a span.
-    </p>
-
-    <paragraphs>
-      <title>A Basis of the Column Space</title>
-
-      <p>
-        Now we turn to systematic methods to compute a basis of a subspace.  When performing calculations on subspaces, <xref ref="step-0" text="title">step 0</xref> is to express that subspace as a column space or a null space, so we present methods for computing bases of these.  We begin with the column space.
-      </p>
-
-      <theorem xml:id="dimension-basis-colspace">
-        <idx><h>Basis</h><h>of a column space</h></idx>
-        <idx><h>Column space</h><h>basis of</h><see>Basis</see></idx>
-        <statement>
-          <p>The pivot columns of a matrix form a basis of its column space.</p>
-        </statement>
-        <proof>
-          <p>
-            If the matrix is in reduced row echelon form:
-            <me>A = \mat{1 0 2 0; 0 1 3 0; 0 0 0 1}</me>
-            then the column without a pivot is visibly in the span of the pivot columns:
-            <me>\vec{2 3 0} = 2\vec{1 0 0} + 3\vec{0 1 0} + 0\vec{0 0 1},</me>
-            and the pivot columns are linearly independent:
-            <me>
-              \vec{0 0 0} = x_1\vec{1 0 0} + x_2\vec{0 1 0} + x_4\vec{0 0 1}
-              = \vec{x_1 x_2 x_4} \implies x_1 = x_2 = x_4 = 0.
-            </me>
-          </p>
-
-          <p>
-            If the matrix is not in reduced row echelon form, then we perform Gauss<ndash/>Jordan elimination:
-            <me>
-              A = \mat{1 7 23 3; 2 4 16 0; -1 -2 -8 4}
-              \RREF
-              \quad\mat{1 0 2 0; 0 1 3 0; 0 0 0 1}.
-            </me>
-            The following two vector equations have the same solution set, as they come from <xref ref="def-row-equivalence" text="title">row-equivalent</xref> matrices:
-            <me>
-              \spalignsysdelims..\syseq{
-              x_1\vec{1 2 -1} + x_2\vec{7 4 -2} + x_3\vec{23 16 -8} + x_4\vec{3 0 4} = 0;
-              x_1\vec{1 0  0} + x_2\vec{0 1  0} + x_3\vec{ 2  3  0} + x_4\vec{0 0 1}
-              = 0\rlap.
-              }
-            </me>
-            We conclude that
-            <me>\vec{23 16 -8} = 2\vec{1 2 -1} + 3\vec{7 4 -2} + 0\vec{3 0 4},</me>
-            which shows that the free columns are in the span of the pivot columns.  Hence the pivot columns span <m>\Col(A)</m>.  Likewise,
-            <me>x_1\vec{1 2 -1} + x_2\vec{7 4 -2} + x_4\vec{3 0 4} = 0</me>
-            has only the trivial solution, which means that the pivot columns are linearly independent.
-          </p>
-        </proof>
-      </theorem>
-
-      <example>
-        <statement>
-          <p>
-            Find a basis of the column space of the matrix
-            <me> A = \mat{1 2 0 -1; -2 -3 4 5; 2 4 0 -2}. </me>
-          </p>
-        </statement>
-        <answer>
-          <p>
-            We perform Gaussian elimination to find the pivot columns:
-            <me>
-              A = \mat{1 2 0 -1; -2 -3 4 5; 2 4 0 -2}
-              \REF
-              \mat{1 2 0 -1; 0 1 4 3; 0 0 0 0}.
-            </me>
-            The pivot columns are the first two columns, so a basis of <m>\Col(A)</m> is
-            <me>\left\{\vec{1 -2 2},\;\vec{2 -3 4}\right\}.</me>
-          </p>
-        </answer>
-      </example>
-
-      <p>
-        In the above example, the column space of the matrix
-        <me> A = \mat{1 2 0 -1; -2 -3 4 5; 2 4 0 -2} </me>
-        has a basis with two vectors in it, so <m>\Col(A)</m> is a plane.  Any two noncollinear vectors form a basis of a plane, and no two columns of <m>A</m> are collinear, so any pair of columns of <m>A</m> forms a basis of <m>\Col(A)</m>.
-      </p>
-
-      <bluebox>
+    <exercise>
+      <statement>
         <p>
-          The column space of a nonzero matrix has <em>infinitely many bases.</em>
-          The <xref ref="dimension-basis-colspace"/> above is a systematic way to produce <em>one</em> of them.
+          Let <m>S</m> be the set of three vectors below.<me>
+          S = \setof{ \vec{1 -1 0},\, \vec{3 2 2},\, \vec{4 3 -4} }
+          </me>
+          Is <m>S</m> linearly independent or linearly dependent?  Explain why.
         </p>
-      </bluebox>
+      </statement>
+    </exercise>
 
-      <p>
-        The above <xref ref="dimension-basis-colspace"/> is referring to the pivot columns in the <em>original</em> matrix, not its reduced row echelon form.  Indeed, a matrix and its reduced row echelon form generally have different column spaces.  For example, a row echelon form of the matrix <m>A</m> above is
+    <exercise>
+      <statement>
+        <p>
+          Is the matrix below singular or nonsingular?  Explain your answer using only the final conclusion you reached in the previous question, along with one new theorem.<me>
+          \mat{1 3 4; -1 2 3; 0 2 -4}
+          </me>
+        </p>
+      </statement>
+    </exercise>
+  </exercises>
+
+  <exercises>
+    <title>Exercises</title>
+
+    <exercisegroup>
+      <introduction>
+        <p>Determine if the sets of vectors in the following exercises are linearly independent or linearly dependent.  When the set is linearly dependent, exhibit a nontrivial relation of linear dependence.</p>
+      </introduction>
+
+      <exercise xml:id="exercise-li-10">
+        <statement>
+          <p><m>
+            \setof{ \vec{1 -2 1},\, \vec{2 -1 3},\, \vec{1 5 0} }
+          </m></p>
+        </statement>
+        <solution xml:id="solution-li-10">
+          <p>With three vectors from <m>\R^3</m>, we can form a square matrix by making these three vectors the columns of a matrix.  We do so, and row-reduce to obtain<me>
+          \mat{\leading1 0 0; 0 \leading1 0; 0 0 \leading1},
+          </me>the <m>3\times 3</m> identity matrix.  So by <xref provisional="theorem-?"/> the original matrix is nonsingular and its columns are therefore a linearly independent set.</p>
+        </solution>
+      </exercise>
+
+      <exercise xml:id="exercise-li-11">
+        <statement>
+          <p><m>
+            \setof{ \vec{-1 2 4 2},\, \vec{3 3 -1 3},\, \vec{7 3 -6 4} }
+          </m></p>
+        </statement>
+        <solution xml:id="solution-li-11">
+          <p><xref provisional="theorem-?"/> says we can answer this question by putting these vectors into a matrix as columns and row-reducing.  Doing this we obtain<me>
+          \mat{\leading1 0 0; 0 \leading1 0; 0 0 \leading1; 0 0 0}.
+          </me>  Since every column has a pivot, the theorem says the vectors are linearly independent.</p>
+        </solution>
+      </exercise>
+
+      <exercise xml:id="exercise-li-12">
+        <statement>
+          <p><m>
+            \setof{ \vec{-2 -1 -1},\, \vec{1 0 -1},\, \vec{3 3 6},\,
+            \vec{-5 -4 -6},\, \vec{4 4 7}}
+          </m></p>
+        </statement>
+        <solution xml:id="solution-li-12">
+          <p>This is a set of five vectors in <m>\R^3</m>.  <xref provisional="theorem-?"/> says the set is linearly dependent.  Boom.</p>
+        </solution>
+      </exercise>
+
+      <exercise xml:id="exercise-li-13">
+        <statement>
+          <p><m>
+            \setof{
+              \vec{1 -2 2 5 3},\,
+              \vec{3 3 1 2 -4},\,
+              \vec{2 1 2 -1 1},\,
+              \vec{1 0 1 2 2}}
+          </m></p>
+        </statement>
+        <solution xml:id="solution-li-13">
+          <p><xref provisional="theorem-?"/> says we can answer this question by putting these vectors into a matrix as columns and row-reducing.  Doing this we obtain<me>
+          \mat{\leading1 0 0 0;
+              0 \leading1 0 0;
+              0 0 \leading1 0;
+              0 0 0 \leading1;
+              0 0 0 0}.
+          </me>Since every column has a pivot, the theorem says the vectors are linearly independent.</p>
+        </solution>
+      </exercise>
+
+      <exercise xml:id="exercise-li-14">
+        <statement>
+          <p><m>
+            \setof{
+              \vec{1 2 -1 0 1},\,
+              \vec{3 2 -1 2 2},\,
+              \vec{4 4 -2 2 3},\,
+              \vec{-1 2 -1 -2 0}
+            }
+          </m></p>
+        </statement>
+        <solution xml:id="solution-li-14">
+          <p><xref provisional="theorem-?"/> says we can answer this question by putting these vectors into a matrix as columns and row-reducing.  Doing this we obtain<me>
+          \mat{\leading1 0 1 2;
+              0 \leading1 1 -1;
+              0 0 0 0;
+              0 0 0 0;
+              0 0 0 0}.
+          </me>Since the last two columns do not have a pivot, the theorem says the vectors are linearly dependent.</p>
+        </solution>
+      </exercise>
+
+      <exercise xml:id="exercise-li-15">
+        <statement>
+          <p><m>
+            \setof{\vec{2 1 3 -1 2},\, \vec{4 -2 1 3 2},\, \vec{10 -7 0 10 4}}
+          </m></p>
+        </statement>
+        <solution xml:id="solution-li-15">
+          <p><xref provisional="theorem-?"/> says we can answer this question by putting these vectors into a matrix as columns and row-reducing.  Doing this we obtain<me>
+          \mat{\leading1 0 -1;
+              0 \leading1 3;
+              0 0 0;
+              0 0 0;
+              0 0 0}.
+          </me>Since the last two columns do not have a pivot, the theorem says the vectors are linearly dependent.</p>
+        </solution>
+      </exercise>
+
+    </exercisegroup>
+
+    <exercise xml:id="exercise-li-20">
+      <statement>
+        <p>
+          For the matrix <m>B</m> below, find a set <m>S</m> of linearly independent vectors that spans the null space of <m>B</m>.<me>
+          B = \mat{-3 1 -2 7; -1 2 1 4; 1 1 2 -1}
+          </me>
+        </p>
+      </statement>
+      <solution xml:id="solution-li-20">
+        <p>The requested set is described by <xref provisional="theorem-?"/>.  It is easiest to find by using the procedure of example <xref provisional="example-?"/>.  Begin by row-reducing the matrix, viewing it as the coefficient matrix of a homogeneous system of equations.  We obtain
         <me>
-          \mat{1 2 0 -1; 0 1 4 3; 0 0 0 0}.
+          \mat{\leading1 0 1 -2; 0 \leading1 1 1; 0 0 0 0}.
         </me>
-        The first two columns of the row echelon form do not span <m>\Col(A)</m>.  In fact,
+        The free variables are <m>x_3</m> and <m>x_4</m>, due to the locations of the non-pivot columns.  It follows from <xref provisional="theorem-?" /> that the parametric vector form of the solution set of the matrix equation <m>Bx=0</m> is
+        <me>\vec{x_1 x_2 x_3 x_4} = x_3\vec{-1 -1 1 0} + x_4\vec{2 -1 0 1}.</me>
+        The null space is exactly the solution set of <m>Bx=0</m>;
+        the constant vectors in the above expression span the null space, and they are linearly independent.  Thus we can take our answer to be
         <me>
-          \Span\left\{\vec{1 0 0},\;\vec{0 1 0}\right\}
-          = \left\{\vec{a b 0}~:~a, b \in \R\right\}
-          = \text{($xy$-plane)},
+          S = \setof{\vec{-1 -1 1 0},\, \vec{2 -1 0 1}}.
         </me>
-        but <m>\Col(A)</m> contains vectors whose last coordinate is nonzero, such as <m>(1,-2,2)</m>.
-      </p>
-
-      <bluebox>
-        <p>
-          The pivot columns <em>of the original matrix</em> form a basis of its column space.
-          <latex-code>
-            <![CDATA[
-\begin{tikzpicture}
-  \tikzset{
-    my matrix/.style={
-      matrix, math matrix,
-      column sep={2.2em,between origins},
-      every node/.append style={anchor=base east}},
-  }
-  \node (symb) {$A=\;\;\null$};
-  \path (symb.east) node[my matrix, right] (A) {
-    1  \&  2 \& 0 \& -1 \\
-    -2 \& -3 \& 4 \&  5 \\
-    2  \&  4 \& 0 \& -2 \\
-  } (A.east) ++(2cm,0) node {$\xrightarrow{\text{REF}}$}
-    ++(2cm, 0) node[my matrix, right] (B) {
-    1 \& 2 \&  0 \& -1 \\
-    \phantom{i}0 \& 1 \&  4 \&  3 \\
-    0 \& 0 \&  0 \&  0 \\
-  };
-  \node[fit=(A-1-1) (A-3-1), draw=seq-orange, rounded corners] (box1) {};
-  \node[fit=(A-1-2) (A-3-2), draw=seq-orange, rounded corners] (box2) {};
-  \path ($(box1.south)!.5!(box2.south)$) ++(0,-1cm)
-      node[blue!50, font=\small,anchor=base] (orig) {pivot columns $=$ basis};
-  \draw[->,blue!50, shorten >=1pt] (orig.north) to[out=90,in=-90] (box1.south);
-  \draw[->,blue!50, shorten >=1pt] (orig.north) to[out=90,in=-90] (box2.south);
-  \node[fit=(B-1-1), draw=seq-red, rounded corners] (box1) {};
-  \node[fit=(B-2-2), draw=seq-red, rounded corners] (box2) {};
-  \path let \p1=($(B-3-1.south)!.5!(B-3-2.south)$) in (\p1 |- orig.base)
-      node[blue!50, font=\small,anchor=base] (rref) {pivots};
-  \draw[->,blue!50, shorten >=1pt] (rref.north) to[out=90,in=-90] (B-3-1.south);
-  \draw[->,blue!50, shorten >=1pt] (rref.north) to[out=90,in=-90] (B-3-2.south);
-  \draw[->, thick] (rref.west) -- (orig.east);
-\end{tikzpicture}
-
-            ]]>
-          </latex-code>
-          Row operations change the column space of a matrix!
         </p>
-      </bluebox>
+      </solution>
+    </exercise>
 
-      <p>
-        The number of pivots of a matrix is by <xref ref="defn-pivot" text="title">definition</xref> its <em>rank</em>, so we get the following fact as a consequence of the above <xref ref="dimension-basis-colspace"/>.
-      </p>
-
-      <corollary xml:id="dim-of-col-space">
-        <idx><h>Dimension</h><h>of a column space</h></idx>
-        <idx><h>Column space</h><h>dimension of</h><see>Dimension</see></idx>
-        <statement>
-          <p>
-            For any matrix <m>A</m>,
-            <me> \dim\Col(A) = \rank(A). </me>
-          </p>
-        </statement>
-      </corollary>
-
-      <p>
-        In fact, the rank of a matrix is often <em>defined</em> to be the dimension of its column space.
-      </p>
-
-      <p>
-        Since column spaces and spans are interchangeable, the <xref ref="dimension-basis-colspace"/> above gives a method for computing a basis of a span as well.
-      </p>
-
-      <example>
-        <title>A Basis of a Span</title>
-        <statement>
-          <p>
-            Find a basis of
-            <me> V = \Span\left\{\vec{2 -4 6},\;\vec{2 -5 1},\;\vec{-1 5 12}\right\}. </me>
-            What is the dimension of <m>V</m>?
-          </p>
-        </statement>
-        <answer>
-          <p>
-            We can write <m>V</m> as a column space:
-            <me> V = \Col\mat{2 2 -1; -4 -5 5; 6 1 12}. </me>
-            Now we run Gaussian elimination:
-            <me>
-              \mat{2 2 -1; -4 -5 5; 6 1 12} \REF
-              \mat{2 2 -1; 0 -1 3; 0 0 0}.
-            </me>
-            The first two columns are the pivot columns, so
-            <me> \left\{\vec{2 -4 6}\;\vec{2 -5 1}\right\} </me>
-            is a basis of <m>V</m>.  It follows that <m>V</m> has dimension 2, i.e., that <m>V</m> is a <em>plane</em>.
-          </p>
-          <figure>
-            <caption>A picture of the plane <m>V</m> and basis <m>\{v_1,v_2\}</m>.</caption>
-          <mathbox source="demos/spans.html?v1=2,-4,6&amp;v2=2,-5,1&amp;range=10&amp;captions=indep" height="500px"/>
-        </figure>
-        </answer>
-      </example>
-
-    </paragraphs>
-
-    <paragraphs>
-      <title>A Basis of the Null Space</title>
-
-      <p>
-        In order to compute a basis of the null space of a matrix, one has to find the parametric vector form of the solutions of the homogeneous equation <m>Ax=0</m>.
-      </p>
-
-      <theorem xml:id="dimension-basis-nulspace">
-        <idx><h>Basis</h><h>of a null space</h></idx>
-        <idx><h>Null space</h><h>basis of</h><see>Basis</see></idx>
-        <statement>
-          <p>The vectors attached to the free variables in the parametric vector form of the solution set of <m>Ax=0</m> form a basis of <m>\Nul(A)</m>.</p>
-        </statement>
-        <proof>
-          <p>
-            The point of parametric vector form was to find a <xref ref="subspaces-span-nullspace" text="title">spanning set for a null space,</xref> so the vectors produced in this way do span <m>\Nul(A)</m>.  To see why they are linearly independent, recall that the parametric vector form
-            <me>
-              \vec{x_1 x_2 x_3 x_4} = x_2\vec{-2 1 0 0} + x_4\vec{1 0 -1 1}.
-            </me>
-            comes from the system of equations
-            <me>
-              \def\r{\color{seq-red}}
-              \syseq{
-                x_1 = -2x_2 + x_4;
-                \r x_2 \mathbin{\r=} \r x_2;
-                x_3 = \. - x_4;
-                \r x_4 \mathbin{\r=} \. \+ \r x_4
-              }
-            </me>
-            with trivial equations for the free variables.  Therefore, if
-            <me>
-              \vec{x_1 x_2 x_3 x_4} = x_2\vec{-2 1 0 0} + x_4\vec{1 0 -1 1} = \vec{0 0 0 0},
-            </me>
-            then all of the free variables have to be zero.  This means that the vectors are linearly independent.
-          </p>
-        </proof>
-      </theorem>
-
-      <example>
-        <statement>
-          <p>
-            Find a basis of the null space of
-            <me> A = \mat{1 2 2 1; 2 4 1 -1}. </me>
-            What is the dimension of <m>\Nul(A)</m>?
-          </p>
-        </statement>
-        <answer>
-          <p>
-            We have to compute the parametric vector form of the solutions of <m>Ax=0</m>, which means performing Gauss<ndash/>Jordan elimination.
-            <me>
-              \begin{split}
-                \mat{1 2 2 1; 2 4 1 -1}
-                \RREF&amp;
-                \mat{1 2 0 -1; 0 0 1 1} \\
-                \quad\xrightarrow{\text{PVF}}\quad&amp;
-                \vec{x_1 x_2 x_3 x_4} = x_2\vec{-2 1 0 0} + x_4\vec{1 0 -1 1}.
-              \end{split}
-            </me>
-            It follows that
-            <me>
-              \left\{\vec{-2 1 0 0},\;\vec{1 0 -1 1}\right\}
-            </me>
-            is a basis of <m>\Nul(A)</m>.  The dimension of <m>\Nul(A)</m> is 2, so <m>\Nul(A)</m> is a <em>plane</em>.
-          </p>
-        </answer>
-      </example>
-
-      <p>
-        There is one vector attached to each <xref ref="free-variable-defn" text="title">free variable</xref> in the parametric vector form for the solutions of <m>Ax=0</m>.  Each column of a matrix either has a pivot or is free, so the <xref ref="dimension-basis-nulspace"/> above has the following consequence.
-      </p>
-
-      <corollary xml:id="dim-of-null-space">
-        <idx><h>Dimension</h><h>of a null space</h></idx>
-        <idx><h>Null space</h><h>dimension of</h><see>Dimension</see></idx>
-        <statement>
-          <p>
-            If <m>A</m> is a matrix with <m>n</m> columns, then
-            <me> \dim\Nul(A) = n - \rank(A) = \text{the number of free variables}. </me>
-          </p>
-        </statement>
-      </corollary>
-
-      <p>
-        This shows that our definition of dimension is consistent with the <xref ref="def-dim-of-soln-set">provisional definition</xref> of the dimension of a solution set.
-      </p>
-
-    </paragraphs>
-
-  </subsection>
-
-  <subsection>
-    <title>The Basis Theorem</title>
-
-    <p>
-      In the previous subsection, we noted that two vectors <xref ref="span-2-vecs" text="title">span a plane</xref> if and only if they are not collinear, and moreover that two vectors are <xref ref="linindep-2-vecs">linearly independent</xref> if and only if they are not collinear.  This means that, in order to check that <em>two</em> vectors form a basis of a plane, it suffices to verify <em>either</em> that they are linearly independent, <em>or</em> that they span the plane.  This is a special case of the following theorem.
-    </p>
-
-    <theorem type-name="Basis Theorem" xml:id="basis-theorem">
-      <idx><h>Basis</h><h>basis theorem</h></idx>
+    <exercise xml:id="exercise-li-21">
       <statement>
         <p>
-          Let <m>V</m> be a subspace of dimension <m>\textcolor{seq-red}d</m>.  Then:
-          <ul>
-            <li>Any <m>\textcolor{seq-red}d</m> linearly independent vectors in <m>V</m> form a basis of <m>V</m>.</li>
-            <li>Any <m>\textcolor{seq-red}d</m> vectors that span <m>V</m> form a basis of <m>V</m>.</li>
-          </ul>
+          For the matrix <m>A</m> below, find a set <m>S</m> of linearly independent vectors that spans the null space of <m>A</m>.
+          <me>
+            B = \mat{-1 -2 2 1 5; 1 2 1 1 5; 3 6 1 2 7; 2 4 0 1 2}
+          </me>
         </p>
       </statement>
-      <proof>
+      <solution xml:id="solution-li-21">
         <p>
-          Suppose that <m>\{v_1,v_2,\ldots,v_d\}</m> is a set of linearly independent vectors in <m>V</m>.  In order to show that this is a basis of <m>V</m>, we must prove that <m>V = \Span\{v_1,v_2,\ldots,v_d\}.</m>  If not, then there exists some vector <m>v_{d+1}</m> in <m>V</m> that is not contained in <m>\Span\{v_1,v_2,\ldots,v_d\}.</m>  By the <xref ref="linindep-increasing-span">increasing span criterion</xref>, the set <m>\{v_1,v_2,\ldots,v_d,v_{d+1}\}</m> is also linearly independent.  Continuing in this way, we keep choosing vectors until we eventually do have a linearly independent spanning set: say <m>V = \Span\{v_1,v_2,\ldots,v_d,\ldots,v_{d+k}\}</m>.  Then <m>\{v_1,v_2,\ldots,v_{d+k}\}</m> is a basis of <m>V</m>, which implies that <m>\dim(V) = d+k > d</m>.  But we were assuming that <m>V</m> has dimension <m>d</m>, so <m>\{v_1,v_2,\ldots,v_d\}</m> must have already been a basis.
+          We want to find a linearly independent set <m>S</m> that spans the solution set of the homogeneous system <m>Ax=0</m>.    We begin by row-reducing the matrix, to obtain
+          <me>
+            \mat{\leading1 2 0 0 3; 0 0 \leading1 0 6; 0 0 0 \leading1 -4; 0 0 0 0 0}.
+          </me>
+          The free variables correspond to the second and fifth columns.  Using <xref provisional="theorem-?" />, the parametric vector form of the solution set of <m>Ax=0</m> is
+          <me>
+            \vec{x_1 x_2 x_3 x_4 x_5} = x_2\vec{-2 1 0 0 0} + x_5\vec{-3 0 -6 4 1}.
+          </me>
+          The constant vectors in the above expression span the null space, and they are linearly independent.  Thus we can take our answer to be
+        <me>
+          S = \setof{\vec{-2 1 0 0 0},\, \vec{-3 0 -6 4 1}}.
+        </me>
         </p>
+      </solution>
+    </exercise>
 
-        <p>
-          Now suppose that <m>\{v_1,v_2,\ldots,v_d\}</m> spans <m>V</m>.  If this set is  linearly dependent, then by this <xref ref="linear-dependent-some-in-span"/>, we can remove some number of vectors from it without shrinking its span.  After reordering, we can assume that we removed the last <m>k</m> vectors without shrinking the span, and that we cannot remove any more. Now <m>V = \Span\{v_1,v_2,\ldots,v_{d-k}\}</m>, and <m>\{v_1,v_2,\ldots,v_{d-k}\}</m> is a basis of <m>V</m> because it is linearly independent.  This implies that <m>\dim V=d-k &lt; d</m>.  But we were assuming that <m>\dim V = d</m>, so <m>\{v_1,v_2,\ldots,v_d\}</m> must have already been a basis.
-        </p>
-      </proof>
-    </theorem>
-
-    <p>
-      In other words, if you <em>already</em> know that <m>\dim V = d</m>, and if you have a set of <m>d</m> vectors <m>\{v_1,v_2,\ldots,v_d\}</m> in <m>V</m>, then you only have to check <em>one</em> of:
-      <ol>
-        <li><m>\{v_1,v_2,\ldots,v_d\}</m> is linearly independent, <em>or</em></li>
-        <li><m>\{v_1,v_2,\ldots,v_d\}</m> spans <m>V</m>,</li>
-      </ol>
-      in order for <m>\{v_1,v_2,\ldots,v_d\}</m> to be a basis of <m>V</m>.  If you did not already know that <m>\dim V = d</m>, then you would have to check <em>both</em> properties.
-    </p>
-    <p>
-      To put it yet another way, suppose we have a set of vectors <m>\{v_1,v_2,\ldots,v_d\}</m> in a subspace <m>V</m>.  Then if any two of the following statements is true, the third must also be true:
-       <ol>
-        <li><m>\{v_1,v_2,\ldots,v_d\}</m> is linearly independent,</li>
-        <li><m>\{v_1,v_2,\ldots,v_d\}</m> spans <m>V</m>, and</li>
-	<li><m>\dim V = d.</m></li>
-      </ol>
-    </p>
-
-    <p>
-      As a consequence, we can prove the intuitive fact that an <m>n</m>-dimensional subspace of <m>\R^n</m> must <q>fill up</q> all of <m>\R^n</m>, which itself has dimension <m>n</m>.  For instance, the only plane in <m>\R^2</m> is all of <m>\R^2</m>, and the only space in <m>\R^3</m> is all of <m>\R^3</m>.
-    </p>
-
-    <corollary xml:id="all-of-Rn">
+    <exercise xml:id="exercise-li-22">
       <statement>
         <p>
-          The only <m>n</m>-dimensional subspace of <m>\R^n</m> is all of <m>\R^n</m>.
+          Find a set <m>T</m> of column vectors such that (1) the span of <m>T</m> is the null space of <m>B</m>, and (2) <m>T</m> is a linearly independent set.
+          <me>
+            B = \mat{2 1 1 1; -4 -3 1 -7; 1 1 -1 3}
+          </me>
         </p>
       </statement>
-      <proof visible="true">
-        <p>
-          Let <m>V</m> be an <m>n</m>-dimensional subspace of <m>\R^n</m> and let <m>\{v_1,v_2,\ldots,v_n\}</m> be a basis for <m>V</m>.  Then <m>\{v_1,v_2,\ldots,v_n\}</m> is linearly independent, so by the <xref ref="basis-theorem"/>, since <m>\dim(\R^n)=n</m>, we know that <m>\{v_1,v_2,\ldots,v_n\}</m> must span all of <m>\R^n</m>.  Hence <m>V = \Span\{v_1,v_2,\ldots,v_n\} = \R^n</m>.
+      <solution xml:id="solution-li-22">
+        <p>The conclusion of <xref provisional="theorem-?"/> gives us everything this question asks for.  We need the reduced row-echelon form of the matrix in order to determine the number of vectors in <m>T</m>, and their entries.
+        <me>
+          \mat{2 1 1 1; -4 -3 1 -7; 1 1 -1 3} \rref
+          \mat{\leading1 0 2 -2; 0 \leading1 -3 5; 0 0 0 0}
+        </me>
+        The third and fourth columns are free, so we can apply <xref provisional="theorem-?"/> and take the set <m>T</m> to have the two vectors
+        <me>
+          T = \setof{\vec{-2 3 1 0},\,\vec{2 -5 0 1}}.
+        </me>
         </p>
-      </proof>
-    </corollary>
+      </solution>
+    </exercise>
 
-  </subsection>
+    <exercise xml:id="exercise-li-23">
+      <statement>
+        <p>
+          Find a set <m>S</m> that is linearly independent and spans the null space of the matrix <m>A</m> below.
+          <me>
+            A = \mat{2 3 3 1 4; 1 1 -1 -1 -3; 3 2 -8 -1 1}
+          </me>
+        </p>
+      </statement>
+      <solution xml:id="solution-li-23">
+        <p>
+          A direct application of <xref provisional="theorem-?"/> will provide the desired set.  We require the reduced row-echelon form of <m>A</m>:
+          <me>
+            \mat{2 3 3 1 4; 1 1 -1 -1 -3; 3 2 -8 -1 1} \rref
+            \mat{\leading1 0 -6 0 3; 0 \leading1 5 0 -2; 0 0 0 \leading1 4}
+          </me>
+          The third and fifth columns are free, so we can apply <xref provisional="theorem-?"/> and take the set <m>T</m> to have the two vectors
+          <me>
+            T = \setof{\vec{6 -5 1 0 0},\,\vec{-3 2 0 -4 1}}.
+          </me>
+        </p>
+      </solution>
+    </exercise>
+
+    <exercise xml:id="exercise-li-24">
+      <statement>
+        <p>
+          For the matrix <m>A</m> below, find a set of vectors <m>S</m> such that (1) <m>S</m> is linearly independent, and (2) the span of <m>S</m> equals the null space of <m>A</m>.
+          <me>
+            A = \mat{1 1 6 -8; 1 -2 0 1; -2 1 -6 7}
+          </me>
+        </p>
+      </statement>
+      <solution xml:id="solution-li-24">
+        <p>
+          <xref provisional="theorem-?" /> says that if we find the vector form of the solutions to the homogeneous system <m>Ax=0</m>, then the spanning vectors will have the desired properties.  We row-reduce <m>A</m>, viewing it as the augmented matrix of a homogeneous system with an invisible columns of zeros as the last column:
+          <me>
+            \mat{1 1 6 -8; 1 -2 0 1; -2 1 -6 7} \rref
+            \mat{\leading1 0 4 -5; 0 1 2 -3; 0 0 0 0}
+          </me>
+          Moving to the parametric vector form of the solutions (<xref provisional="theorem-?"/>), with free variables <m>x_3</m> and <m>x_4</m>, the solutions to the consistent system <m>Ax=0</m> (it is consistent: see <xref provisional="theorem-?"/>) can be expressed as
+          <me>
+            \vec{x_1 x_2 x_3 x_4} = x_3\vec{-4 -2 1 0} + x_4\vec{5 3 0 1}.
+          </me>
+          Thus we can take <m>S</m> to be
+          <me>
+            S = \setof{\vec{-4 -2 1 0},\, \vec{5 3 0 1}}.
+          </me>
+        </p>
+      </solution>
+    </exercise>
+
+    <exercise xml:id="exercise-li-30">
+      <statement>
+        <p>
+          Suppose that <m>S = \{v_1,v_2,v_3\}</m> is a set of three vectors in <m>\R^{873}</m>.  Prove that the set
+          <me>
+            T = \bigl\{2v_1+3v_2+v_3,\, v_1-v_2-2v_3,\, 2v_1+v_2-v_3\bigr\}
+          </me>
+          is linearly dependent.
+        </p>
+      </statement>
+      <solution xml:id="solution-li-30">
+        <p>
+          According to Definition <xref provisional="defn-?" />, we need to find scalars <m>a_1,a_2,a_3</m>, not all equal to zero, such that
+          <me>
+            a_1\bigl(2{v}_1+3{v}_2+{v}_3\bigr) +
+            a_2\bigl({v}_1-{v}_2-2{v}_3\bigr) +
+            a_3\bigl(2{v}_1+{v}_2-{v}_3\bigr) = 0.
+          </me>
+          We can rearrange this vector equation to
+          <me>
+            \bigl(2a_1+a_2+2a_3\bigr){v}_1+
+                    \bigl(3a_1-a_2+a_3\bigr){v}_2+
+                    \bigl(a_1-2a_2-a_3\bigr){v}_3
+                    = 0
+          </me>
+          We can certainly make this vector equation true if we can determine values for the <m>a</m><rsq/>s such that
+          <me>
+            \syseq{2a_1 + a_2 + a_3 = 0;
+                   3a_1 - a_2 + a_3 = 0;
+                   a_1 - 2a_2 - a_3 = 0\rlap.}
+          </me>
+          This is a homogeneous system of equations, and it has infinitely many solutions.  By the now familiar techniques, you can find one such solution to be <m>a_1=3</m>, <m>a_2=4</m>, <m>a_3=-5</m>, which you can (and should!) check in the original relation of linear dependence on <m>T</m> above.
+        </p>
+
+        <p>Note that simply writing down the three scalars, and demonstrating that they provide a nontrivial relation of linear dependence on <m>T</m>, could be considered an ironclad solution.  But it would not have been very informative for you if we had only done just that here.  Compare this solution very carefully with the solution to <xref ref="exercise-li-31" text="type-global"/>.</p>
+      </solution>
+    </exercise>
+
+    <exercise xml:id="exercise-li-31">
+      <statement>
+        <p>
+          Suppose that <m>S = \{v_1,v_2,v_3\}</m> is a linearly independent set of three vectors in <m>\R^{873}</m>.  Prove that the set
+          <me>
+            T = \bigl\{2v_1+3v_2+v_3,\, v_1-v_2+2v_3,\, 2v_1+v_2-v_3\bigr\}
+          </me>
+          is linearly independent.
+        </p>
+      </statement>
+      <solution xml:id="solution-li-31">
+        <p>
+          According to Definition <xref provisional="defn-?" />, we need show that if <m>a_1,a_2,a_3</m> are any scalars satisfying
+          <me>
+            a_1\bigl(2{v}_1+3{v}_2+{v}_3\bigr) +
+            a_2\bigl({v}_1-{v}_2+2{v}_3\bigr) +
+            a_3\bigl(2{v}_1+{v}_2-{v}_3\bigr) = 0,
+          </me>
+          then necessarily <m>a_1=a_2=a_3=0</m>.
+          We can rearrange this vector equation to
+          <me>
+            \bigl(2a_1+a_2+2a_3\bigr){v}_1+
+                    \bigl(3a_1-a_2+a_3\bigr){v}_2+
+                    \bigl(a_1+2a_2-a_3\bigr){v}_3
+                    = 0.
+          </me>
+          Because the set <m>S=\setof{v,v_2,v_3}</m> was assumed to be linearly independent, by <xref provisional="definition-?"/> we <em>must</em> conclude that
+          <me>
+            \syseq{2a_1 + a_2 + a_3 = 0;
+                   3a_1 - a_2 + a_3 = 0;
+                   a_1 + 2a_2 - a_3 = 0\rlap.}
+          </me>
+          By the familiar methods, you can check that this homogeneous system of linear equations admits only the trivial solution <m>a_1=a_2=a_3=0</m>, as desired.
+        </p>
+
+        <p>Compare this solution very carefully with <xref ref="exercise-li-30" text="type-global"/>, noting especially how this problem required (and used) the hypothesis that the original set be linearly independent, and how this solution feels more like a proof, while the previous problem could be solved with a fairly simple demonstration of any nontrivial relation of linear dependence.</p>
+      </solution>
+    </exercise>
+
+    <exercise xml:id="exercise-li-32">
+      <statement>
+        <p>
+          Let <m>W</m> be the span of the set of five vectors in <m>\R^3</m> given below.  Find a set <m>T</m> of three vectors in <m>W</m> such that <m>W=\Span T</m>.
+          <me>
+            W = \Span\setof{\vec{2 1 1},\,\vec{-1 -1 1},\,\vec{1 2 3},\,
+            \vec{3 1 3},\,\vec{0 1 -3}}.
+          </me>
+        </p>
+      </statement>
+      <solution xml:id="solution-li-32">
+        <p>
+          not copied/written yet.
+        </p>
+      </solution>
+    </exercise>
+
+
+  </exercises>
+  -->
 
 </section>
