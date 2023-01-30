@@ -34,7 +34,7 @@ Free Documentation License"
       <title>Vectors: Algebra and Geometry</title>
 
       <introduction>
-	<note type-name="Primary Goals"> 
+	<note type-name="Primary Goals">
           <p> The language of <term>vectors</term> is convenient for doing linear algebra. In this chapter, you should learn:
             <ol>
               <li>What vectors are, and how to do algebra and geometry with vectors;</li>
@@ -129,7 +129,7 @@ Free Documentation License"
             <li>the solution set of a matrix equation <m>Ax=b</m>, and</li>
             <li>the set of all <m>b</m> that makes a particular system consistent.</li>
           </ol>
-          The first object, the solution set, will be introduced in <xref ref="solution-sets"/>. The second object will be called the column space of <m>A</m>. 
+          The first object, the solution set, will be introduced in <xref ref="solution-sets"/>. The second object will be called the column space of <m>A</m>.
         </p>
 
 	<p>
@@ -283,6 +283,205 @@ Free Documentation License"
       <xi:include href="./matrix-mult.xml" />
       <xi:include href="./matrix-inv.xml" />
       <xi:include href="./invertible-matrix-thm.xml" />
+    </chapter>
+
+    <chapter xml:id="chap-determinant">
+      <title>Determinants</title>
+      <introduction>
+        <p>
+          We begin by recalling the overall structure of this book:
+          <ol>
+            <li>Solve the matrix equation <m>Ax=b</m>.</li>
+            <li>Solve the matrix equation <m>Ax=\lambda x</m>, where <m>\lambda</m> is a number.</li>
+            <li>Approximately solve the matrix equation <m>Ax=b</m>.</li>
+          </ol>
+          At this point we have said all that we will say about the first part.  This chapter belongs to the second.
+        </p>
+
+        <note type-name="Primary Goal">
+          <p>
+            Learn about determinants: their computation and their properties.
+          </p>
+        </note>
+
+        <p>
+          The <em>determinant</em> of a square matrix <m>A</m> is a number <m>\det(A)</m>.  This incredible quantity is one of the most important invariants of a matrix; as such, it forms the basis of most advanced computations involving matrices.
+        </p>
+
+        <p>
+          In <xref ref="determinants-definitions-properties"/>, we will define the determinant in terms of its behavior with respect to row operations.  The determinant satisfies many wonderful properties: for instance, <m>\det(A) \neq 0</m> if and only if <m>A</m> is invertible.  We will discuss some of these properties in <xref ref="determinants-definitions-properties"/> as well.
+          In <xref ref="determinants-cofactors"/>, we will give a recursive formula for the determinant of a matrix.  This formula is very useful, for instance, when taking the determinant of a matrix with unknown entries; this will be important in <xref ref="chap-eigenvalues"/>.
+          Finally, in <xref ref="determinants-volumes"/>, we will relate determinants to volumes.  This gives a geometric interpretation for determinants, and explains why the determinant is defined the way it is.  This interpretation of determinants is a crucial ingredient in the change-of-variables formula in multivariable calculus.
+        </p>
+
+      </introduction>
+      <xi:include href="./determinant-definitions-properties.xml" />
+      <xi:include href="./determinant-cofactors.xml" />
+      <xi:include href="./determinant-volume.xml" />
+
+    </chapter>
+
+    <chapter xml:id="chap-eigenvalues">
+      <title>Eigenvalues and Eigenvectors</title>
+
+      <introduction>
+        <note type-name="Primary Goal">
+          <p>
+            Solve the matrix equation <m>Ax=\lambda x.</m>
+          </p>
+        </note>
+
+        <p>
+          This chapter constitutes the core of any first course on linear algebra: eigenvalues and eigenvectors play a crucial role in most real-world applications of the subject.
+        </p>
+
+        <specialcase>
+          <p>
+            In a population of rabbits,
+            <ol>
+              <li>half of the newborn rabbits survive their first year;</li>
+              <li>of those, half survive their second year;</li>
+              <li>the maximum life span is three years;</li>
+              <li>rabbits produce 0, 6, 8 baby rabbits in their first, second, and third years, respectively.</li>
+            </ol>
+            What is the <em>asymptotic</em> behavior of this system?  What will the rabbit population look like in 100 years?
+          </p>
+          <figure>
+            <caption>Left: the population of rabbits in a given year.  Right: the proportions of rabbits in that year.  Choose any values you like for the starting population, and click <q>Advance 1 year</q> several times.  What do you notice about the long-term behavior of the ratios?  This phenomenon turns out to be due to eigenvectors.</caption>
+            <mathbox source="demos/rabbits.html" height="300px"/>
+          </figure>
+        </specialcase>
+
+        <p>
+          In <xref ref="similarity"/> we introduce the notion of <em>similar</em> matrices, and demonstrate that similar
+          matrices do indeed behave similarly. In <xref ref="diagonalization"/> we study matrices that are similar to
+          diagonal matrices and in <xref ref="complex-eigenvalues"/> we study matrices that are similar to
+          rotation-scaling matrices, thus gaining a solid geometric understanding of large classes of matrices. In
+	  <xref ref="dds"/> we present a common kind of application of eigenvalues and
+          eigenvectors to real-world problems. We refine this application to specific problems involving probabilities
+	  in <xref ref="stochastic2"/>, including searching the Internet using Google<rsq/>s PageRank algorithm
+        </p>
+      </introduction>
+
+      <xi:include href="./eigenvectors.xml" />
+      <xi:include href="./charpoly.xml" />
+      <xi:include href="./similarity.xml" />
+      <xi:include href="./diagonalization.xml" />
+      <xi:include href="./cplx-eigenvals.xml" />
+      <xi:include href="./dds.xml" />
+      <xi:include href="./stochastic2.xml"/>
+
+    </chapter>
+
+    <chapter xml:id="chap-orthogonality">
+      <title>Orthogonality</title>
+
+      <introduction>
+        <p>
+          Let us recall one last time the structure of this book:
+          <ol>
+            <li>Solve the matrix equation <m>Ax=b</m>.</li>
+            <li>Solve the matrix equation <m>Ax=\lambda x</m>, where <m>\lambda</m> is a number.</li>
+            <li>Approximately solve the matrix equation <m>Ax=b</m>.</li>
+          </ol>
+          We have now come to the third part.
+        </p>
+
+        <note type-name="Primary Goal">
+          <p>
+            Approximately solve the matrix equation <m>Ax=b.</m>
+          </p>
+        </note>
+
+        <p>
+          Finding approximate solutions of equations generally requires computing the closest vector on a subspace to a given vector.  This becomes an <em>orthogonality</em> problem: one needs to know which vectors are perpendicular to the subspace.
+          <latex-code>
+\begin{tikzpicture}[myxyz, thin border nodes]
+  \coordinate (u) at (0,1,0);
+  \coordinate (v) at (1.1,0,-.2);
+  \coordinate (uxv) at (.2,0,1.1);
+  \coordinate (x) at ($-1.1*(u)+(v)+1.5*(uxv)$);
+  \begin{scope}[x=(u),y=(v),transformxy]
+    \fill[seq-violet!30] (-2,-2) rectangle (2,2);
+    \draw[seq-violet, help lines] (-2,-2) grid (2,2);
+  \end{scope}
+  \point[seq-blue, "closest point" {below,text=seq-blue}] (y) at ($-1.1*(u)+1*(v)$);
+  \coordinate (yu) at ($(y)+(u)$);
+  \coordinate (yv) at ($(y)+(v)$);
+  \pic[draw, right angle len=3mm] {right angle=(x)--(y)--(yu)};
+  \pic[draw, right angle len=3mm] {right angle=(x)--(y)--(yv)};
+  \point[seq-red, "$x$" {above,text=seq-red}] (xx) at (x);
+  \draw[vector, thin] (y) -- (xx);
+  \point at (0,0,0);
+\end{tikzpicture}
+          </latex-code>
+        </p>
+
+        <p>
+          First we will define orthogonality and learn to find orthogonal complements of subspaces in <xref ref="dot-product"/> and <xref ref="orthogonal-complements"/>.  The core of this chapter is <xref ref="projections"/>, in which we discuss <em>the orthogonal projection</em> of a vector onto a subspace; this is a method of calculating the closest vector on a subspace to a given vector.
+          These calculations become easier in the presence of an orthogonal set, as we will see in <xref ref="orthogonal-sets"/>.
+          In <xref ref="least-squares"/> we will present the least-squares method of approximately solving systems of equations, and we will give applications to data modeling.
+        </p>
+
+        <specialcase>
+          <p>
+            In data modeling, one often asks: <q>what line is my data supposed to lie on?</q>  This can be solved using a simple application of the least-squares method.
+            <latex-code>
+\begin{tikzpicture}[scale=.2]
+  \draw (0,25) rectangle (40,60);
+  \draw[help lines, step=5] (0,25) grid (40,60);
+  \clip (0,25) rectangle (40,60);
+  \point at (9,26);
+  \point at (13,32);
+  \point at (21,42);
+  \point at (30,53);
+  \point at (31,56);
+  \point at (31,55);
+  \point at (34,59);
+  \point at (25,50);
+  \point at (28,56);
+  \point at (20,44);
+  \point at (5,30);
+  \draw[thick, red] (0,19.39) -- (40,66.31);
+\end{tikzpicture}
+            </latex-code>
+          </p>
+        </specialcase>
+
+        <specialcase>
+          <p>
+            Gauss invented the method of least squares to find a best-fit ellipse:
+he correctly predicted the (elliptical) orbit of the asteroid Ceres as it passed behind
+the sun in 1801.
+<latex-code>
+\begin{tikzpicture}[thin border nodes, whitebg nodes]
+  \draw[grid lines] (-4,-3) grid (4,3);
+  \draw[->] (-4,0) -- (4,0);
+  \draw[->] (0,-3) -- (0,3);
+
+  \point at (0,2);
+  \point at (2,1);
+  \point at (1,-1);
+  \point at (-1,-2);
+  \point at (-3,1);
+  \point at (-1,1);
+
+  \draw[thick, seq-red] (-0.760768, -0.0153293)
+      ellipse[x radius=2.61837, y radius=1.84472, rotate=26.0068];
+%  \node[text=seq-red, font=\normalsize] at (0, -3.3)
+%    {$266 x^2 + 405 y^2 - 178 xy + 402 x - 123 y - 1374 = 0$};
+\end{tikzpicture}
+</latex-code>
+          </p>
+        </specialcase>
+      </introduction>
+
+      <xi:include href="./innerprod.xml" />
+      <xi:include href="./orthocomp.xml" />
+      <xi:include href="./projections.xml" />
+      <xi:include href="./orthosets.xml" />
+      <xi:include href="./leastsquares.xml" />
+
     </chapter>
 
     <xi:include href="./backmatter.xml" />
