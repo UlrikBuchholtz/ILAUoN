@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <!--********************************************************************
-Copyright 2022 Dan Margalit and Joseph Rabinoff
+Copyright 2019 Dan Margalit and Joseph Rabinoff
 
 Permission is granted to copy, distribute and/or modify this document
 under the terms of the GNU Free Documentation License, Version 1.3 or
@@ -15,457 +15,228 @@ the license is included in gfdl.xml.
   <objectives>
     <ol>
       <li>Learn to express the solution set of a system of linear equations in parametric form.</li>
-      <li>Understand the distinction between an implicit form of a solution set and a parametric form.</li>
+      <li>Understand the three possibilities for the number of solutions of a system of linear equations.</li>
       <li><em>Recipe:</em> parametric form.</li>
-      <li><em>Vocabulary words:</em> <term>implicit equations,</term> <term>parametric equations,</term> <term>free variable,</term> <term>parametric form,</term> <term>dimension</term> of a solution set.</li>
+      <li><em>Vocabulary word:</em> <term>free variable</term>.</li>
     </ol>
   </objectives>
 
-  <introduction>
-    <p>
-      In this section, we turn to the systematic study of the solution set of a system of equations that has <em>infinitely many</em> solutions.  In this case, <q>solving</q> the system means giving a precise way to produce, or <term>parameterize,</term> all of the solutions.
-    </p>
-  </introduction>
-
   <subsection>
-    <title>Implicit and Parametric Equations</title>
+    <title>Free Variables</title>
 
-    <p>
-      A recurring theme throughout this text will be the translation between <term>implicit</term> and <term>parameteric</term> descriptions of the same set.  This is a convenient time to fix our ideas in that regard.
-    </p>
+    <p>There is one possibility for the row reduced form of a matrix that we did not see in <xref ref="row-reduction"/>.</p>
 
-    <specialcase xml:id="parametric-form-eg1">
-      <p>
-        Consider the system of equations
-        <me>
-          \syseq{2x + y + 12z = 1; x + 2y + 9z = -1\rlap.}
-        </me>
-        We put it into an augmented matrix and find its reduced row echelon form:
-        <me>
-          \amat{2 1 12 1; 1 2 9 -1} \RREF \amat{1 0 5 1; 0 1 2 -1}.
-        </me>
-        This corresponds to the system of equations
-        <me>
-          \syseq{x \+ \. + 5z = 1; \. \+ y + 2z = -1\rlap.}
-        </me>
-        In what sense is this system <q>solved?</q>  We were unable to isolate the variable <m>z</m> as in this <xref ref="elimination-infty-solns"/>, but if we choose <em>any value</em> for <m>z</m> then we can solve for <m>x</m> and <m>y</m>:
-        <me>
-          \syseq{x = 1 - 5z; y = -1 - 2z\rlap.}
-        </me>
-        In this way we have produced all solutions of our original system in terms of one <em>parameter</em> <m>z</m>.  Substituting all real numbers for <m>z</m> sweeps out the entire solution set, which is a line.
+    <specialcase xml:id="row-reduction-eg-free">
+      <title>A System with a Free Variable</title>
+      <p>Consider the linear system
+      <me>
+        \syseq{2x + y + 12z = 1; x + 2y + 9z = -1\rlap.}
+      </me>
+      We solve it using row reduction:
+      <md>
+        <mrow>
+          \amat{2 1 12 1; 1 2 9 -1}
+          \quad\xrightarrow{R_1 \longleftrightarrow R_2}\quad
+          &amp;\amat{\color{red}1 2 9 -1; 2 1 12 1}
+          &amp;&amp;\color{blue}\text{(Optional)}
+        </mrow>
+        <mrow>
+          {}\quad\xrightarrow{R_2=R_2-2R_1}\quad
+          &amp;\amat{1 2 9 -1; \color{red}0 -3 -6 3}
+          &amp;&amp;\color{blue}\text{(Step 1c)}
+        </mrow>
+        <mrow>
+          {}\quad\xrightarrow{R_2=R_2\div -3}\quad
+          &amp;\amat{1 2 9 -1; 0 \color{red}1 2 -1}
+          &amp;&amp;\color{blue}\text{(Step 2b)}
+        </mrow>
+        <mrow>
+          {}\quad\xrightarrow{R_1=R_1-2R_2}\quad
+          &amp;\amat{1 \color{red}0 5 1; 0 1 2 -1}
+          &amp;&amp;\color{blue}\text{(Step 2c)}
+        </mrow>
+      </md>
+      This row reduced matrix corresponds to the linear system
+      <me>
+        \syseq{x + 5z = 1; y + 2z = -1\rlap.}
+      </me>
+      In what sense is the system solved?  We rewrite as
+      <me>
+        \syseq{x = 1 - 5z; y = -1 - 2z\rlap.}
+      </me>
+      For any value of <m>z</m>, there is exactly one value of <m>x</m> and <m>y</m> that make the equations true.  But we are free to choose <em>any</em> value of <m>z</m>.
       </p>
 
+      <p>We have found all solutions: it is the set of all values <m>x,y,z</m>, where
+      <me>
+        \syseq{x = 1 - 5z; y = -1 - 2z; z = \. \+ z} \qquad \text{$z$ any real number.}
+      </me>
+	This is called the <em>parametric form</em> for the solution to the linear system.  The variable <m>z</m> is called a <em>free variable</em>.
+      </p>
+
+
+
+
+
       <figure>
-        <caption>A picture of the solution set (the yellow line) of the linear system in this <xref ref="parametric-form-eg1"/>.  There is a unique solution for every value of <m>z</m>; move the slider to change <m>z</m>.</caption>
+        <caption>A picture of the solution set (the yellow line) of the linear system in this <xref ref="row-reduction-eg-free"/>.  There is a unique solution for every value of <m>z</m>; move the slider to change <m>z</m>.</caption>
         <mathbox source="demos/parametric1.html" height="400px"/>
       </figure>
     </specialcase>
 
-    <note hide-type="true" xml:id="implicit-vs-parametric">
-      <title>Implicit Versus Parameteric Equations</title>
-      <idx><h>Implicit equation</h></idx>
-      <idx><h>Parameteric equation</h></idx>
-      <p>
-        The solution set of the system of linear equations
-        <me>
-          \syseq{2x + y + 12z = 1; x + 2y + 9z = -1}
-        </me>
-        is a line in <m>\R^3</m>, as we saw in this <xref ref="parametric-form-eg1"/>.  These equations are called <term>implicit equations</term> for the line: the line is defined <em>implicitly</em> as the simultaneous solutions to those two equations.  These equations define the line by giving you a way to <em>check</em> if a point lies on it, but without giving you any method to actually <em>produce</em> points on it.
-      </p>
-      <p>
-        The parametric form
-        <me>
-          \syseq{x = 1 - 5z; y = -1 - 2z\rlap.}
-        </me>
-        can be written as follows:
-        <me>
-          \def\r{\textcolor{seq-red}}
-          (x,\,y,\,z) = (1-5\r z,\,-1-2\r z,\,\r z) \qquad \text{$\r z$ any real number.}
-        </me>
-        This called a <term>parameteric equation</term> for the same line.  It is an expression that <em>produces</em> all points of the line in terms of the parameter <m>z</m>.
-      </p>
-      <p>
-        Both forms describe the same line, but in very different ways.
-      </p>
-    </note>
+    <bluebox xml:id="finding-actual-soln">
+      <p>Given the parametric form for the solution to a linear system, we can obtain specific solutions by replacing the free variables with any specific real numbers.  For instance, setting <m>z=0</m> in the last example gives the solution <m>(x,y,z)=(1,-1,0)</m>, and setting <m>z=1</m> gives the solution <m>(x,y,z)=(-4,-3,1)</m>.</p>
+    </bluebox>
 
-    <p>
-      Both implicit and parameteric equations are useful.
-      <ul>
-        <li>
-          It is much easier to <em>check</em> whether a point is in a set or not using an implicit description: a point is in the set if and only if the coordinates satisfy the defining equations.  For instance, the point <m>(-4,-3,1)</m> is on the line described by the equations
-          <me>
-            \syseq{2x + y + 12z = 1; x + 2y + 9z = -1}
-          </me>
-          because
-          <me>
-            \syseq{
-              2(-4) + (-3) + 12(1) = 1;
-              (-4) + 2(-3) + 9(1) = -1\rlap.
-            }
-          </me>
-          On the other hand, the point <m>(1,1,1)</m> is not contained on this line because
-          <me>
-            \syseq{
-              2(1) + (1) + 12(1) = 15 \neq, 1;
-              (1) + 2(1) + 9(1) = 11 \neq, -1\rlap.
-            }
-          </me>
-        </li>
-        <li>
-          It is much easier to <em>produce</em> points in a set using a parametric form.  For instance, substituting <m>z=0,1,2</m> into the parameteric form of the same line
-          <me> (x,y,z) = (1-5z,\,-1-2z,\,z) </me>
-          produces the solutions
-          <me> (x,y,z) = (1,\,-1,\,0),\; (-4,\,-3,\,1),\; (-9, -5, 2). </me>
-        </li>
-      </ul>
-    </p>
 
-    <note hide-type="true">
-      <title>Implicit Versus Parameteric Equations: Non-Linear Example</title>
-      <p>
-        It is illuminating to see an example of implicit and parameteric descriptions of a non-linear geometric object, namely, the unit circle.  An <term>implicit equation</term> for the unit circle is <m>x^2+y^2=1</m>: it is the set of all points in <m>\R^2</m> whose coordinates squared sum to 1.
-      </p>
-      <p>
-        One can <term>parameterize</term> all points on the unit circle using trigonometry: if <m>\theta</m> is any real number, then <m>(\cos\theta,\sin\theta)</m> is the point on the unit circle that lies <m>\theta</m> radians counterclockwise from the positive <m>x</m>-axis.  Here <m>\theta</m> is the parameter.  (Unlike the linear situations we will encounter, different values of <m>\theta</m> can produce the same point: indeed, <m>\theta</m> is only defined up to translation by <m>2\pi</m>.)
-        <latex-code>
-\begin{tikzpicture}
-  \node[seq-green] (A) {$x^2 + y^2 = 1$};
-  \node[below=2mm of A.south, align=center] (B)
-  {$\vec{x y} = \vec{\cos\textcolor{seq-red}\theta, \sin\textcolor{seq-red}\theta}$\\[1mm]
-    $\textcolor{seq-red}\theta = $ parameter};
-  \coordinate (C) at ($(A.north)!.5!(B.south) + (6cm,0)$);
-  \draw (C) ++(-2.5cm,0) -- ++(5cm,0);
-  \draw (C) ++(0,-2.3cm) -- ++(0,4.6cm);
-  \draw[thick, seq-green] (C) circle[radius=2cm];
-  \point at (C);
-  \point (P) at ($(C) + 2*({cos(32)},{sin(32)})$);
-  \coordinate (Q) at ($(C) + 2*({cos(32)},0)$);
-  \draw (C) -- (P);
-  \draw (P) -- (Q);
-  \node[anchor=north, inner sep=1pt, font=\small]
-     at ($(C)!.6!(Q)$)
-     {$\cos\textcolor{seq-red}\theta$};
-  \node[anchor=west, inner sep=1pt, fill=white, font=\small]
-     at ($(P)!.5!(Q)$)
-     {$\sin\textcolor{seq-red}\theta$};
-  \pic[draw, angle radius=7mm, angle eccentricity=.8, "$\textcolor{seq-red}\theta$" font=\small] {angle = Q--C--P};
-
-\end{tikzpicture}
-        </latex-code>
-      </p>
-    </note>
-
-  </subsection>
-
-  <subsection>
-    <title>Parametric Form</title>
-
-    <p>
-      Now we give a systematic method for parameterizing all solutions of a system of linear equations.  To begin, we describe what the parameters will be by formalizing the concept of a <q>variable that cannot be isolated in back-substitution.</q>  Recall that a <xref ref="defn-pivot" text="title">pivot position</xref> of a matrix is the position of the first nonzero entry of a row of a <em>row echelon form</em> of that matrix, and that a <xref ref="defn-pivot-column" text="title">pivot column</xref> is a column containing a pivot position.
-    </p>
-
-    <definition xml:id="free-variable-defn">
+    <definition>
       <idx><h>Free variable</h></idx>
       <statement>
-        <p>
-          A <term>free variable</term> of a system of equations <m>Ax=b</m> is a variable corresponding to a column of the coefficient matrix <m>A</m> that is <em>not</em> a pivot column.
-        </p>
+        <p>Consider a <em>consistent</em> system of equations in the variables <m>x_1,x_2,\ldots,x_n</m>.  Let <m>A</m> be a row echelon form of the augmented matrix for this system.</p>
+        <p>We say that <m>x_i</m> is a <term>free variable</term> if its corresponding column in <m>A</m> is <em>not</em> a <xref text="title" ref="defn-pivot-pos">pivot column</xref>.</p>
       </statement>
     </definition>
 
-    <p>
-      Note that the notion of a free variable depends only on the coefficient matrix and not on the constant vector <m>b</m>.  For instance, consider the matrix from the previous <xref ref="parametric-form-eg1"/> and its row echelon form:
-      <latex-code>
-        <![CDATA[
-\begin{tikzpicture}
-  \tikzset{
-    hilite entry/.style={inner sep=2pt, draw=blue!50,
-                         thick, rounded corners}
-  }
-
-  \node[math matrix] (A) {
-    2 \& 1 \& 12 \\ 1 \& 2 \& 9 \\
-  };
-  \node[math matrix, right=2cm of A.east] (B) {
-    |[seq-red]|2 \& 1 \& |[seq-green]|12 \\
-    0 \& |[seq-red]|3/2 \& |[seq-green]|3 \\
-  };
-  \draw[->, shorten=5mm] (A.east) to["REF"] (B.west);
-
-  \node[fit=(B-1-3) (B-2-3), hilite entry] (box) {};
-  \coordinate (P) at ($(B-2-1.south east)!.5!(B-2-2.south west) + (0,-1cm)$);
-  \draw[hilite entry, ->] (P) -- ++(0,5mm) -| (B-2-1.south |- B-2-2.south);
-  \draw[hilite entry, ->] (P) -- ++(0,5mm) -| (B-2-2.south);
-  \node[anchor=north, color=seq-red, inner sep=1pt, align=center] at (P) {pivot\\columns};
-  \draw[hilite entry, ->] ($(P) + (1.7cm,0)$) node[seq-green, inner sep=1pt, anchor=north] {free}
- |- ($(box.south) + (0,-5mm)$) -- (box.south);
-
-\end{tikzpicture}
-        ]]>
-      </latex-code>
-      The pivot positions are <m>(1,1)</m> and <m>(2,2)</m>, so the only free variable is <m>z</m>, which corresponds to the third column of the coefficient matrix.
-    </p>
-
-    <p>
-      Here is another example:
-      <latex-code>
-        <![CDATA[
-\begin{tikzpicture}
-  \tikzset{
-    hilite entry/.style={inner sep=2pt, draw=blue!50,
-                         thick, rounded corners}
-  }
-
-  \node[math matrix] (A) {
-    1 \& 2 \& 2 \& 1 \\
-    2 \& 4 \& 1 \& -1 \\
-  };
-  \node[math matrix, right=2cm of A.east] (B) {
-    |[seq-red]|1 \& |[seq-green]|2 \& 2 \& |[seq-green]|1 \\
-    0 \& |[seq-green]|0 \& |[seq-red]|-3 \& |[seq-green]|-3 \\
-  };
-  \draw[->, shorten=5mm] (A.east) to["REF"] (B.west);
-
-  \node[fit=(B-1-2) (B-2-2), hilite entry] (box1) {};
-  \node[fit=(B-1-4) (B-2-4), hilite entry] (box2) {};
-  \coordinate (P) at ($(B-2-1.south east)!.5!(B-2-3.south west) + (0,-1cm)$);
-  \draw[hilite entry, ->] (P) -- ++(0,5mm) -| (B-2-1.south |- B-2-3.south);
-  \draw[hilite entry, ->] (P) -- ++(0,5mm) -| (B-2-3.south);
-  \node[anchor=north, color=seq-red, inner sep=1pt, align=center] at (P) {pivot\\columns};
-  \coordinate (Q) at ($(B-1-2.north east)!.5!(B-1-4.north west) + (0,1cm)$);
-  \draw[hilite entry, ->] (Q) node[seq-green, inner sep=1pt, anchor=south] {free}
- |- ($(box1.north) + (0,5mm)$) -- (box1.north);
-  \draw[hilite entry, ->] (Q) |- ($(box2.north) + (0,5mm)$) -- (box2.north);
-
-\end{tikzpicture}
-        ]]>
-      </latex-code>
-      The variables corresponding to the second and fourth columns are free.
-    </p>
-
-    <algorithm xml:id="parametric-form-algo">
-      <title>Parametric Form</title>
-      <idx><h>Parametric form</h></idx>
-      <idx><h>System of linear equations</h><h>parametric form of</h><see>Parametric form</see></idx>
-      <p>
-        The <term>parametric form</term> of the solution set of a consistent system of linear equations is obtained as follows.
-        <ol>
-          <li>
-            Write the system as an augmented matrix.
-            <me>
-              \syseq{x_1 + 2x_2 + 2x_3 + x_4 = 2; 2x_1 + 4x_2 + x_3 - x_4 = -2}
-              \quad\xrightarrow[\text{matrix}]{\text{augmented}}\quad
-              \amat{1 2 2 1 2; 2 4 1 -1 -2}
-            </me>
-          </li>
-          <li>
-            Perform Gauss<ndash/>Jordan elimination to put the matrix in reduced row echelon form.
-            <me>
-              \amat{1 2 2 1 2; 2 4 1 -1 -2}
-              \RREF
-              \amat{1 2 0 -1 -2; 0 0 1 1 2}
-            </me>
-          </li>
-          <li>
-            Write the corresponding system of linear equations, and
-            <alert>move all free variables to the right side of the equals signs.</alert>
-            <me>
-              \def\r{\color{seq-red}}
-              \syseq{x_1 + 2\r x_2 \+ \. - \r x_4 = -2; \. \+ \. \+ x_3 + \r x_4 = 2}
-              \quad\xrightarrow[\text{form}]{\text{parametric}}\quad
-              \syseq{x_1 = -2 - 2\r x_2 + \r x_4; x_3 = 2 \+ \. - \r x_4}
-            </me>
-          </li>
-        </ol>
-        All solutions of the system are obtained by substituting <alert>any values</alert> for the free variables.
-      </p>
-    </algorithm>
-
-    <p>
-      The output of this algorithm parameterizes all solutions of a system of equations using the <em>free variables</em> as the parameters.  The second step is the only one that takes any work (the other steps being simple bookkeeping), so one can regard Gaussian elimination as a method of passing from an <em>implicit</em> system of linear equations to a <em>parametric</em> system of equations.  In diagram form:
-      <latex-code>
-\begin{tikzpicture}
-  \node[align=center, draw=blue!50, thick, rounded corners, inner sep=2mm]
-    (A) {implicit\\equations};
-  \node[align=center, draw=blue!50, thick, rounded corners, inner sep=2mm,
-        right=3cm of A.east]
-   (B) {parametric\\equations};
-   \draw[->, very thick, shorten=2mm] (A.north east)
-     to[bend left, "Gaussian" font=\small, "Elimination"' {font=\small, yshift=-1mm}] (B.north west);
-   \draw[->, very thick, shorten=2mm, black!30!white] (B.south west)
-     to[bend left, "Orthogonal"' font=\small, "Complements" font=\small] (A.south east);
-\end{tikzpicture}
-      </latex-code>
-      We will learn how to pass from parameteric form back to implicit form in <xref provisional="parametric-to-implicit"/>.
-    </p>
-
-    <p>
-      For a variant of the above algorithm that expresses the solution set in terms of vectors, see this <xref ref="parametric-vector-form-algo"/>.
-    </p>
-
-    <example xml:id="parametric-form-eg-line">
-      <title>A Parameterized Line</title>
-      <statement>
-        <p>
-          Find the parametric form of the solutions of this system of equations
-          <me>
-            \syseq{2x + y + 12z = 1; x + 2y + 9z = -1}
-          </me>
-          from this <xref ref="parametric-form-eg1"/>, and write down one actual solution.
-        </p>
-      </statement>
-      <answer>
-        <p>
-          We reinterpret the calculation we did before in the context of the <xref ref="parametric-form-algo"/>.  We put the system into an augmented matrix and find its reduced row echelon form:
-          <me>
-            \amat{2 1 12 1; 1 2 9 -1} \RREF \amat{1 0 5 1; 0 1 2 -1}.
-          </me>
-          There is no pivot in the third column, so <m>z</m> is free.  (The augmented column also lacks a pivot, but this just means that the system is consistent<mdash/>the augmented column does not correspond to a variable.)  We write out the corresponding system of equations and move the terms involving <m>z</m> to the other side:
-          <me>
-            \syseq{x \+ \. + 5z = 1; \. \+ y + 2z = -1}
-            \quad\xrightarrow[\text{form}]{\text{parametric}}\quad
-            \syseq{x = 1 - 5z; y = -1 - 2z\rlap.}
-          </me>
-          An example of a solution is <m>(-4, -3, 1)</m>, when <m>z=1</m>.
-        </p>
-      </answer>
-    </example>
-
-    <p>
-      In the previous example, we were asked to produce an actual solution of the system of equations.  Since this is sometimes a point of confusion, we emphasize that:
+    <p>In the above <xref ref="row-reduction-eg-free"/>, the variable <m>\color{red}z</m> was free because the reduced row echelon form matrix was
+    <me>\def\r{\color{red}}
+      \amat{1 0 \r5 1; 0 1 \r2 -1}.
+    </me>
+    In the matrix
+    <me>\amat{
+    1  \color{seq-red}\star,  0  \color{seq-blue}\star,  \star ;
+    0  \color{seq-red}0   1  \color{seq-blue}\star,  \star
+    },
+    </me>
+    the free variables are <m>\color{seq-red}x_2</m> and <m>\color{seq-blue}x_4</m>.  (The augmented column is not free because it does not correspond to a variable.)
     </p>
 
     <bluebox>
-      <idx><h>System of linear equations</h><h>nontrivial solution</h><h>finding</h></idx>
+      <title>Recipe: Parametric form</title>
+      <idx><h>Parametric form</h></idx>
+      <idx><h>System of linear equations</h><h>parametric form of</h><see>Parametric form</see></idx>
+
       <p>
-        In order to produce an actual solution of a system of equations, substitute any numbers for the free variables in the parametric form.
+        The <term>parametric form</term> of the solution set of a consistent system of linear equations is obtained as follows.
+        <ol>
+          <li>Write the system as an augmented matrix.</li>
+          <li>Row reduce to reduced row echelon form.</li>
+          <li>Write the corresponding (solved) system of linear equations.</li>
+          <li><em>Move all free variables to the right hand side of the equations.</em></li>
+        </ol>
       </p>
     </bluebox>
 
-    <example xml:id="parametric-form-eg-plane">
-      <title>A Parameterized Plane</title>
-      <statement>
-        <p>
-          Find the parametric form of the solutions of the linear equation
-          <me>x + y + z = 1.</me>
-        </p>
-      </statement>
-      <answer>
-        <p>
-          This system can be written as the augmented matrix
-          <me>\amat{1 1 1 1},</me>
-          which is already in reduced row echelon form.  The free variables are <m>y</m> and <m>z</m>.  Moving them to the right side of the equals sign gives the parametric form for the general solution:
-          <me>
-            x = 1 - y - z
-          </me>
-          for any values of <m>y</m> and <m>z</m>.  This is a parametric equation for a plane in <m>\R^3</m>.
-        </p>
-        <figure>
-          <caption>A plane described by two parameters <m>y</m> and <m>z</m>.  Any point on the plane is obtained by substituting suitable values for <m>y</m> and <m>z</m>.</caption>
-          <mathbox source="demos/plane.html" height="400px"/>
-        </figure>
-      </answer>
-    </example>
+    <p>Moving the free variables to the right hand side of the equations amounts to solving for the non-free variables (the ones that come pivot columns) in terms of the free variables.  One can think of the free variables as being <em>independent</em> variables, and the non-free variables being <em>dependent</em>.
+    </p>
+
+
+
+    <note hide-type="true">
+      <title>Implicit Versus Parameterized Equations</title>
+      <idx><h>Implicit equation</h></idx>
+      <idx><h>Parameterized equation</h></idx>
+      <p>The solution set of the system of linear equations
+      <me>
+        \syseq{2x + y + 12z = 1; x + 2y + 9z = -1}
+      </me>
+      is a line in <m>\R^3</m>, as we saw in this <xref ref="row-reduction-eg-free"/>.  These equations are called the <term>implicit equations</term> for the line: the line is defined <em>implicitly</em> as the simultaneous solutions to those two equations.
+      </p>
+      <p>The parametric form
+      <me>
+        \syseq{x = 1 - 5z; y = -1 - 2z\rlap.}
+      </me>
+      can be written as follows:
+      <me>
+        (x,\,y,\,z) = (1-5z,\,-1-2z,\,z) \qquad \text{$z$ any real number.}
+      </me>
+      This called a <term>parameterized equation</term> for the same line.  It is an expression that produces all points of the line in terms of one parameter, <m>z</m>.
+      </p>
+      <p>One should think of a system of equations as being an implicit equation for its solution set, and of the parametric form as being the parameterized equation for the same set.  The parameteric form is much more explicit: it gives a concrete recipe for producing <em>all</em> solutions.
+      </p>
+    </note>
+
+    <bluebox>
+      <p>
+        You can choose <em>any value</em> for the free variables in a (consistent) linear system.
+      </p>
+      <p>
+        Free variables come from the <em>columns without pivots</em> in a matrix in row echelon form.
+      </p>
+    </bluebox>
 
     <example>
-      <title>A Variable That Does Not Appear in the Equations</title>
       <p>
         Suppose that the reduced row echelon form of the matrix for a linear system in four variables <m>x_1,x_2,x_3,x_4</m> is
         <me>\amat{
-        1 \color{seq-green}0 0 \color{seq-green}3 2 ;
-        0 \color{seq-green}0 1 \color{seq-green}4 -1
+        1 \color{seq-red}0 0 \color{seq-blue}3 2 ;
+        0 \color{seq-red}0 1 \color{seq-blue}4 -1
         }.</me>
-        The free variables are <m>\color{seq-green}x_2</m> and <m>\textcolor{seq-green}{x_4}</m>: they are the ones whose columns are <em>not</em> pivot columns.
+        The free variables are <m>\color{seq-red}x_2</m> and <m>\color{seq-blue}x_4</m>: they are the ones whose columns are <em>not</em> pivot columns.
       </p>
 
       <p>This translates into the system of equations
       <me>
         \syseq{x_1 \+ \. \+ \. + 3x_4 = 2;
         \.  \+ \. \+ x_3 + 4x_4 = -1}
-        \quad\xrightarrow[\text{form}]{\text{parametric}}\quad
+        \quad\xrightarrow{\text{parametric form}}\quad
         \syseq{x_1 = 2 - 3x_4; x_3 = -1 - 4x_4\rlap.}
       </me>
-      What happened to <m>x_2</m>?  It is a free variable, but no other variable depends on it: we can choose any value for <m>x_2</m> without affecting the values of any of the other variables.  The general solution to the system is
-      <me>
-        \begin{split}
-        x_1 &amp;= 2-3x_4 \\ x_2 &amp;= x_2 \\ x_3 &amp;= -1-4x_4 \\ x_4 &amp;= x_4
-        \end{split}
-      </me>
+      What happened to <m>x_2</m>?  It is a free variable, but no other variable depends on it.  The general solution to the system is
+      <me>(x_1,\,x_2,\,x_3,\,x_4) = (2-3x_4,\,x_2,\,-1-4x_4,\,x_4),</me>
       for any values of <m>x_2</m> and <m>x_4</m>.  For instance, <m>(2,0,-1,0)</m> is a solution (with <m>x_2=x_4=0</m>), and <m>(5,1,3,-1)</m> is a solution (with <m>x_2=1, x_4=-1</m>).
       </p>
     </example>
 
-    <example xml:id="parametric-form-eg-point">
-      <title>No Free Variables</title>
-      <statement>
-        <p>
-          Find the parametric form of the solutions of the system of equations
-          <me>
-            \syseq{x + y = 2; x - y = 0\rlap.}
-          </me>
-        </p>
-      </statement>
-      <answer>
-        <p>
-          We form the corresponding augmented matrix and perform Gauss<ndash/>Jordan elimination:
-          <me>
-            \amat{1 1 2; 1 -1 0}
-            \RREF
-            \amat{1 0 1; 0 1 1}.
-          </me>
-          Translating back into a system of equations gives
-          <me>
-            \syseq{x = 1; y = 1\rlap.}
-          </me>
-          This system has no free variables, so this is already the <q>parametric</q> form of the (unique) solution.
-        </p>
-      </answer>
+    <example>
+      <title>A Parameterized Plane</title>
+      <p>The system of one linear equation
+      <me>x + y + z = 1</me>
+      comes from the matrix
+      <me>\amat{1 1 1 1},</me>
+      which is already in reduced row echelon form.  The free variables are <m>y</m> and <m>z</m>.  The parametric form for the general solution is
+      <me>(x,\,y,\,z) = (1 - y - z,\,y,\,z)</me>
+      for any values of <m>y</m> and <m>z</m>.  This is the parametric equation for a plane in <m>\R^3</m>.
+      </p>
+      <figure>
+        <caption>A plane described by two parameters <m>y</m> and <m>z</m>.  Any point on the plane is obtained by substituting suitable values for <m>y</m> and <m>z</m>.</caption>
+        <mathbox source="demos/plane.html" height="400px"/>
+      </figure>
     </example>
 
-    <p>
-      We saw in the above example that the <q>parametric</q> form of the solutions of a system with a unique solution simply specifies the values of all of the variables.  In this case there are no parameters, so we will not use the term <q>parametric form</q>.
+  </subsection>
+
+  <subsection>
+    <title>Number of Solutions</title>
+    <idx><h>System of linear equations</h><h>number of solutions of</h></idx>
+    <idx><h>Solution set</h><h>size of</h></idx>
+
+    <p>There are <em>three possibilities</em> for the reduced row echelon form of the augmented matrix of a linear system.
+    <ol>
+      <li><alert>The last column is a pivot column.</alert>
+      In this case, the system is <em>inconsistent</em>.  There are zero solutions, i.e., the solution set is empty.  For example, the matrix
+      <me>
+        \def\r{\color{red}}
+        \amat{1 0 \r0; 0 1 \r0; 0 0 \r1}
+      </me>
+      comes from a linear system with no solutions.
+      </li>
+      <li><alert>Every column except the last column is a pivot column.</alert>
+      In this case, the system has a <em>unique</em> solution.  For example, the matrix
+      <me>
+        \amat{1 0 0 a; 0 1 0 b; 0 0 1 c}
+      </me>
+      tells us that the unique solution is <m>(x,y,z)=(a,b,c)</m>.
+      </li>
+      <li><alert>The last column is not a pivot column, and some other column is not a pivot column either.</alert>
+      In this case, the system has <em>infinitely many</em> solutions, corresponding to the infinitely many possible values of the free variable(s).  For example, in the system corresponding to the matrix
+      <me>
+        \amat{1 \color{seq-red}-2 0  \color{seq-blue}3 1;
+        0 \color{seq-red}0, 1  \color{seq-blue}4 -1},
+      </me>
+      any values for <m>\color{seq-red}x_2</m> and <m>\color{seq-blue}x_4</m> yield a solution to the system of equations.
+      </li>
+    </ol>
     </p>
-
-    <observation>
-      <idx><h>Line</h><h>dimension-1 solution set</h></idx>
-      <idx><h>Plane</h><h>dimension-2 solution set</h></idx>
-      <idx><h>Space</h><h>dimension-3 solution set</h></idx>
-      <p>
-        We saw in the above examples that the number of free variables in a system of equations is closely tied to the <em>geometry</em> of the solution set.
-        <ul>
-          <li>
-            When there are <alert>two</alert> free variables, the solution set is a <alert>plane</alert>, as in this <xref ref="parametric-form-eg-plane"/>.
-          </li>
-          <li>
-            When there is <alert>one</alert> free variable, the solution set is a <alert>line</alert>, as in this <xref ref="parametric-form-eg-line"/>.
-          </li>
-          <li>
-            When there are <alert>zero</alert> free variables, the solution set is a <alert>point</alert>, as in this <xref ref="parametric-form-eg-point"/>.
-          </li>
-        </ul>
-      </p>
-    </observation>
-
-    <p>
-      The above observation motivates the following definition.
-    </p>
-
-    <definition hide-type="true" xml:id="def-dim-of-soln-set">
-      <title>Provisional Definition</title>
-      <idx><h>Dimension</h><h>of a solution set</h></idx>
-      <idx><h>Solution set</h><h>dimension of</h></idx>
-      <statement>
-        <p>
-          The <term>dimension</term> of the solution set of a <em>consistent</em> system of equations <m>Ax=b</m> is the number of <em>free variables</em> in that system.
-        </p>
-      </statement>
-    </definition>
-
-    <p>
-      We will formulate a more robust notion of dimension in <xref ref="linear-independence"/>, but this definition is already useful for discussing the geometry of solution sets.
-    </p>
-
   </subsection>
 
 </section>
