@@ -407,6 +407,11 @@ the license is included in gfdl.xml.
     </me>
     </p>
 
+    <remark>
+			<title>Why the word <q>echelon</q>?</title>
+      <p>The word <em>echelon</em> comes from the Latin word for ladder, and in French means <q>rung of a ladder</q>. In English, it refers more abstractly to a rank in an organization (as in <q>the upper echelons of society</q>), while an <q>echelon formation</q> means a step-like arrangement, for instance an echelon formation of ducks, road cyclists, or airplanes.</p>
+    </remark>
+
     <definition>
       <idx><h>Pivot</h></idx>
       <statement>
