@@ -233,7 +233,7 @@ the license is included in gfdl.xml.
 
       <example>
       <statement>
-	<p> Is <m>\vec{3 1 0}</m> in <m>\Span\left\{ \vec{1 0 0}, \vec{0 1 1} \right\}</m>?
+	<p> Is <m>\vec{3 1 0}</m> in <m>\Span\left\{ \vec{1 0 0}, \vec{1 1 1} \right\}</m>?
 	</p>
       </statement>
       <solution>
