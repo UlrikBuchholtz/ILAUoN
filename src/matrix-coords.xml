@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--********************************************************************
+Copyright 2023 Ulrik Buchholtz
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation.  A copy of
+the license is included in gfdl.xml.
+*********************************************************************-->
+
+<section xml:id="matrix-coords">
+  <title>Invertible matrices and Coordinate Systems</title>
+
+  <objectives>
+    <ol>
+      <li>Learn to use invertible matrices to convert between coordinate systems.</li>
+      <li>Learn to represent linear transformations with respect to given bases.</li>
+      <li><em>Recipes:</em> compute the <m>(\cB,\cC)</m>-matrix of a linear transformation.</li>
+      <li><em>Vocabulary:</em> <term><m>(\cB,\cC)</m>-matrix</term>.</li>
+    </ol>
+  </objectives>
+
+  <p>
+    In this section, we study matrix representations for linear transformations with respect to bases for the domain and the codomain. We'll also get another perspective on bases in terms of the linear transformations they represent, and we'll see how to convert between different coordinate systems using matrices and their inverses.
+  </p>
+
+  <fact hide-type="true" xml:id="linear-trans-pick-columns">
+    <title>Bases and one-to-one linear transformations</title>
+    <p>
+      If <m>A</m> is an <m>m\times n</m> matrix with columns <m>v_1,v_2,\ldots,v_n</m>,
+      then <m>\cB = (v_1,\ldots,v_n)</m> is a basis for the column span <m>V = \Col(A)</m>
+      if and only if the linear transformation <m>T : \R^n \to \R^m</m>,
+      <m>T(x)=Ax</m> is one-to-one.
+    </p>
+  </fact>
+
+  <p>
+    Indeed, the columns of <m>A</m> span <m>V</m> by definition, and they're
+    linearly independent if and only if <m>T</m> is one-to-one.
+  </p>
+
+  <p>
+    In particular, a list <m>\cB = (v_1,\ldots,v_n)</m> of vectors in <m>\R^n</m>
+    forms a basis for all of <m>\R^n</m> if and only if the square <m>n\times n</m>
+    matrix <m>A</m> with columns <m>v_1,\ldots,v_n</m> is invertible.
+    These columns are clearly the coordinate vectors of the <m>v_i</m>
+    with respect to the standard basis <m>\cE = (e_1,\ldots,e_n)</m> for <m>\R^n</m>.
+    Conversely, the columns of the inverse matrix <m>A^{-1}</m>
+    are the <m>\cB</m>-coordinates of the standard basis vectors:
+    <me>
+      A^{-1} = \mat[c]{| | ,, |; {}_\cB[e_1] {}_\cB[e_2] \cdots, {}_\cB[e_n]; | | ,, |}.
+    </me>
+    This is because <m>AA^{-1} = I_n</m>, so <m>A({}_\cB[e_i]) = e_i</m>,
+    which is the definition of <m>{}_\cB[e_i]</m> being the <m>\cB</m>-coordinates
+    of <m>e_i</m>.
+  </p>
+
+  <definition xml:id="defn-BCmatrix">
+    <idx><h><m>(\cB,\cC)</m>-coordinates</h><h>definition of</h></idx>
+    <statement>
+      <p>
+        Suppose we're given bases <m>\cB = (v_1,\ldots,v_n)</m> for <m>\R^n</m>
+        and <m>\cC = (w_1,\ldots,w_m)</m> for <m>\R^m</m>.
+        Let <m>T : \R^n \to \R^m</m> be a linear transformation.
+        The <term><m>(\cB,\cC)</m>-matrix of <m>T</m></term> is the <m>m\times n</m>
+        matrix
+        <me>
+          {}_\cC[T]_\cB =
+          \mat[c]{| | ,, |;
+          {}_\cC[T(v_1)] {}_\cC[T(v_2)] \cdots, {}_\cC[T(v_n)];
+          | | ,, | }.
+        </me>
+      </p>
+    </statement>
+  </definition>
+
+  <p>
+    This generalizes the definition of the standard matrix of <m>T</m>:
+    If we let <m>\cB=\cE_n</m> and <m>\cC=\cE_m</m> be the standard bases
+    for <m>\R^n</m> and <m>\R^m</m>, then <m>{}_{\cE_m}[T]_{\cE_n} = [T]</m>,
+    the standard matrix of <m>T</m>.
+  </p>
+
+  <p>
+    By the discussion above, if <m>\cE</m> is the standard basis for <m>\R^n</m>
+    and <m>\cB = (v_1,\ldots,v_n)</m> is another basis for <m>\R^n</m>,
+    so the square <m>n\times n</m> matrix <m>A</m> with columns
+    <m>v_1,\ldots,v_n</m> is invertible,
+    then <m>A = {}_\cE[\Id_{\R^n}]_\cB</m>
+    and <m>A^{-1} = {}_\cB[\Id_{\R^n}]_\cE</m>.
+  </p>
+
+  <fact hide-type="true">
+    <title>Facts about <m>(\cB,\cC)</m>-matrices</title>
+    <statement>
+      <p>
+        Let <m>T : \R^n\to\R^m</m> and <m>U : \R^p\to\R^n</m> be linear transformations,
+        and let <m>\cB,\cC,\cD</m> be bases for <m>\R^p,\R^n,\R^m</m>, respectively.
+        Then:
+        <ol>
+          <li>
+            <m>{}_\cD[T(v)] = ({}_\cD[T]_\cC)({}_\cC[v])</m> for any <m>v\in\R^n</m>.
+          </li>
+          <li>
+            <m>{}_\cD[T \circ U]_\cB = ({}_\cD[T]_\cC)({}_\cC[U]_\cB)</m>
+          </li>
+          <li>
+            If <m>T</m> is invertible (so <m>n=m</m>),
+            then <m>{}_\cC[T^{-1}]_\cD = ({}_\cD[T]_\cC)^{-1}</m>.
+          </li>
+        </ol>
+      </p>
+    </statement>
+    <proof>
+      <p>
+        Let <m>B,C,D</m> be the square matrices whose columns
+        are given by the bases <m>\cB,\cC,\cD</m>, respectively.
+        To say that a vector <m>x \in \R^n</m> has <m>\cC</m>-coordinates
+        <m>{}_\cC[x]</m> means precisely that <m>C({}_\cC[x])=x</m>,
+        in other words,
+        <me>{}_\cC[x]=C^{-1}x.</me>
+        In particular, <m>D({}_\cD[T]_\cC) = [T]C</m>,
+        so
+        <me>{}_\cD[T]_\cC = D^{-1}[T]C,</me>
+        etc. Now we calculate:
+        <ol>
+          <li>
+            <m>{}_\cD[T(v)] = D^{-1}(T(v)) = D^{-1}[T]v
+            = D^{-1}[T]CC^{-1}v = ({}_\cD[T]_\cC)({}_\cC[v])</m>
+          </li>
+          <li>
+            <m>{}_\cD[T \circ U]_\cB = D^{-1}[T][U]B
+            = D^{-1}[T]CC^{-1}[U] = ({}_\cD[T]_\cC)({}_\cC[U]_\cB)</m>
+          </li>
+          <li>
+            This follows directly from 2.
+          </li>
+        </ol>
+      </p>
+    </proof>
+  </fact>
+
+</section>

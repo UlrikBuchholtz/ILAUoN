@@ -33,7 +33,7 @@ the license is included in gfdl.xml.
     <essential xml:id="dimension-defn-basis">
       <idx><h>Basis</h><h>definition of</h></idx>
       <statement>
-        <p>Let <m>V</m> be a subspace of <m>\R^n</m>.  A <term>basis</term> of <m>V</m> is a set of vectors <m>\{v_1,v_2,\ldots,v_m\}</m> in <m>V</m> such that:
+        <p>Let <m>V</m> be a subspace of <m>\R^n</m>.  A <term>basis</term> of <m>V</m> is a list of vectors <m>(v_1,v_2,\ldots,v_m)</m> in <m>V</m> such that:
         <ol>
           <li><m>V = \Span\{v_1,v_2,\ldots,v_m\}</m>, and</li>
           <li>the set <m>\{v_1,v_2,\ldots,v_m\}</m> is linearly independent.</li>
@@ -43,8 +43,20 @@ the license is included in gfdl.xml.
     </essential>
 
     <p>
-      Recall that a set of vectors is <em>linearly independent</em> if and only if, when you remove any vector from the set, the span shrinks (<xref ref="linindep-criterion-inspan" text="type-global"/>).  In other words, if <m>\{v_1,v_2,\ldots,v_m\}</m> is a basis of a subspace <m>V</m>, then no proper subset of <m>\{v_1,v_2,\ldots,v_m\}</m> will span <m>V</m>: it is a <em>minimal</em> spanning set.  Any subspace admits a basis by this <xref ref="subspaces-spans-are-subspaces"/>.
+      Recall that a set of vectors is <em>linearly independent</em> if and only if, when you remove any vector from the set, the span shrinks (<xref ref="linindep-criterion-inspan" text="type-global"/>).  In other words, if <m>(v_1,v_2,\ldots,v_m)</m> is a basis of a subspace <m>V</m>, then no proper subset of <m>\{v_1,v_2,\ldots,v_m\}</m> will span <m>V</m>: it is a <em>minimal</em> spanning set.  Any subspace admits a basis by this <xref ref="subspaces-spans-are-subspaces"/>.
     </p>
+
+    <remark>
+      <p>
+        Whether or not a list <m>(v_1,v_2,\ldots,v_m)</m> is a basis only
+        depends on the set <m>\{v_1,v_2,\ldots,v_m\}</m>, and often this set
+        is referred to as the basis, and the list is called an <em>ordered basis</em>.
+        For abstract purposes, the order of the vectors in a basis doesn't make any
+        difference, but for computing with bases, for example writing down coordinate
+        vectors and matrices with respect to a basis, as we'll do shortly,
+        the order does matter.
+      </p>
+    </remark>
 
     <bluebox>
       <idx><h>Basis</h><h>infinitely many</h></idx>
@@ -71,7 +83,7 @@ the license is included in gfdl.xml.
 
       <solution>
         <p>
-          We need to find two vectors in <m>\R^2</m> that span <m>\R^2</m> and are linearly independent.  One such basis is <m>\bigl\{{1\choose 0},{0\choose 1}\bigr\}</m>:
+          We need to find two vectors in <m>\R^2</m> that span <m>\R^2</m> and are linearly independent.  One such basis is <m>\bigl({1\choose 0},{0\choose 1}\bigr)</m>:
           <ol>
             <li>They span because any vector <m>a\choose b</m> can be written as a linear combination of <m>{1\choose 0},{0\choose 1}</m>:
             <me>\vec{a b} = a\vec{1 0} + b\vec{0 1}.</me>
@@ -109,7 +121,7 @@ the license is included in gfdl.xml.
             </li>
           </ol>
           Since <m>A</m> is a <m>2\times 2</m> matrix, it has a pivot in every row exactly when it has a pivot in every column.  Hence any two noncollinear vectors form a basis of <m>\R^2</m>.  For example,
-          <me>\left\{\vec{1 0},\;\vec{1 1}\right\}</me>
+          <me>\left(\vec{1 0},\;\vec{1 1}\right)</me>
           is a basis.
           <latex-code>
 \begin{tikzpicture}
@@ -155,7 +167,7 @@ the license is included in gfdl.xml.
       <statement>
         <p>Let
         <me>V = \left\{ \vec{x y z} \text{ in } \R^3\bigm| x + 3y + z = 0 \right\} \qquad
-        \cB = \left\{ \vec{-3 1 0},\;\vec{0 1 -3} \right\}.</me>
+        \cB = \left( \vec{-3 1 0},\;\vec{0 1 -3} \right).</me>
         Verify that <m>V</m> is a subspace, and show directly that <m>\cB</m> is a basis for <m>V</m>.
         </p>
       </statement>
@@ -189,7 +201,7 @@ the license is included in gfdl.xml.
           Since <m>V</m> has a basis with two vectors, it has dimension two: it is a <em>plane</em>.
         </p>
         <figure xml:id="dimension-figure-basis">
-          <caption>A picture of the plane <m>V</m> and its basis <m>\cB = \{v_1,v_2\}</m>.  Note that <m>\cB</m> spans <m>V</m> and is linearly independent.</caption>
+          <caption>A picture of the plane <m>V</m> and its basis <m>\cB = (v_1,v_2)</m>.  Note that <m>\cB</m> spans <m>V</m> and is linearly independent.</caption>
           <mathbox source="demos/spans.html?v1=-3,1,0&amp;v2=0,1,-3&amp;range=5&amp;captions=indep" height="500px"/>
         </figure>
         <p>
@@ -268,10 +280,10 @@ the license is included in gfdl.xml.
             ]]>
         </latex-code>
         the pivot columns are the first two columns, so a basis for <m>\Col(A)</m> is
-        <me>\left\{\vec{1 -2 2},\;\vec{2 -3 4}\right\}.</me>
+        <me>\left(\vec{1 -2 2},\;\vec{2 -3 4}\right).</me>
         The first two columns of the reduced row echelon form certainly span a different subspace, as
         <me>\Span\left\{\vec{1 0 0},\;\vec{0 1 0}\right\}
-        = \left\{\vec{a b 0}\Bigm|a, b \text{ in } \R\right\}
+        = \left\{\vec{a b 0}\biggm|a, b \text{ in } \R\right\}
         = \text{($xy$-plane)},
         </me>
         but <m>\Col(A)</m> contains vectors whose last coordinate is nonzero.
@@ -311,10 +323,10 @@ the license is included in gfdl.xml.
           The reduced row echelon form of this matrix is
           <me>\mat[r]{1 0 -8 -7; 0 1 4 3; 0 0 0 0}.</me>
           The first two columns are pivot columns, so a basis for <m>V</m> is
-          <me>\left\{\vec{1 -2 2},\;\vec{2 -3 4}\right\}.</me>
+          <me>\left(\vec{1 -2 2},\;\vec{2 -3 4}\right).</me>
         </p>
         <figure xml:id="dimension-figure-basis-2">
-          <caption>A picture of the plane <m>V</m> and its basis <m>\cB = \{v_1,v_2\}</m>.</caption>
+          <caption>A picture of the plane <m>V</m> and its basis <m>\cB = (v_1,v_2)</m>.</caption>
           <mathbox source="demos/spans.html?v1=1,-2,2&amp;v2=2,-3,4&amp;range=6&amp;captions=indep" height="500px"/>
         </figure>
       </solution>
@@ -381,7 +393,7 @@ the license is included in gfdl.xml.
           <p>
             Let <m>V</m> be the subspace defined by
             <me>
-              V = \left\{\vec{x y z}\bigm| x + 2y = z\right\}.
+              V = \left\{\vec{x y z}\biggm| x + 2y = z\right\}.
             </me>
             Find a basis for <m>V</m>.  What is <m>\dim(V)</m>?
           </p>
@@ -391,7 +403,7 @@ the license is included in gfdl.xml.
             First we notice that <m>V</m> is exactly the solution set of the homogeneous linear equation <m>x + 2y - z = 0</m>.  Hence <m>V = \Nul\mat{1 2 -1}.</m>  This matrix is in reduced row echelon form; the parametric form of the general solution is <m>x = -2y + z</m>, so the parametric vector form is
             <me>\vec{x y z} = y\vec{-2 1 0} + z\vec{1 0 1}.</me>
             It follows that a basis is
-            <me>\left\{\vec{-2 1 0},\;\vec{1 0 1}\right\}.</me>
+            <me>\left(\vec{-2 1 0},\;\vec{1 0 1}\right).</me>
             Since <m>V</m> has a basis with two vectors, its dimension is <m>2</m>: it is a plane.
           </p>
         </solution>
@@ -405,7 +417,7 @@ the license is included in gfdl.xml.
     <title>The Basis Theorem</title>
 
     <p>
-      Recall that <m>\{v_1,v_2,\ldots,v_n\}</m> forms a basis for <m>\R^n</m> if and only if the matrix <m>A</m> with columns <m>v_1,v_2,\ldots,v_n</m> has a pivot in every row and column (see this <xref ref="dimension-eg-Rn-any"/>).  Since <m>A</m> is an <m>n\times n</m> matrix, these two conditions are equivalent: the vectors span if and only if they are linearly independent.
+      Recall that <m>(v_1,v_2,\ldots,v_n)</m> forms a basis for <m>\R^n</m> if and only if the matrix <m>A</m> with columns <m>v_1,v_2,\ldots,v_n</m> has a pivot in every row and column (see this <xref ref="dimension-eg-Rn-any"/>).  Since <m>A</m> is an <m>n\times n</m> matrix, these two conditions are equivalent: the vectors span if and only if they are linearly independent.
       The basis theorem is an abstract version of the preceding statement, that applies to any subspace.
     </p>
 
@@ -422,17 +434,17 @@ the license is included in gfdl.xml.
       </statement>
       <proof>
         <p>
-          Suppose that <m>\cB = \{v_1,v_2,\ldots,v_m\}</m> is a set of linearly independent vectors in <m>V</m>.  In order to show that <m>\cB</m> is a basis for <m>V</m>, we must prove that <m>V = \Span\{v_1,v_2,\ldots,v_m\}.</m>  If not, then there exists some vector <m>v_{m+1}</m> in <m>V</m> that is not contained in <m>\Span\{v_1,v_2,\ldots,v_m\}.</m>  By the <xref ref="linindep-increasing-span">increasing span criterion</xref>, the set <m>\{v_1,v_2,\ldots,v_m,v_{m+1}\}</m> is also linearly independent.  Continuing in this way, we keep choosing vectors until we eventually do have a linearly independent spanning set: say <m>V = \Span\{v_1,v_2,\ldots,v_m,\ldots,v_{m+k}\}</m>.  Then <m>\{v_1,v_2,\ldots,v_{m+k}\}</m> is a basis for <m>V</m>, which implies that <m>\dim(V) = m+k > m</m>.  But we were assuming that <m>V</m> has dimension <m>m</m>, so <m>\cB</m> must have already been a basis.
+          Suppose that <m>\cB = (v_1,v_2,\ldots,v_m)</m> is a list of linearly independent vectors in <m>V</m>.  In order to show that <m>\cB</m> is a basis for <m>V</m>, we must prove that <m>V = \Span\{v_1,v_2,\ldots,v_m\}.</m>  If not, then there exists some vector <m>v_{m+1}</m> in <m>V</m> that is not contained in <m>\Span\{v_1,v_2,\ldots,v_m\}.</m>  By the <xref ref="linindep-increasing-span">increasing span criterion</xref>, the set <m>\{v_1,v_2,\ldots,v_m,v_{m+1}\}</m> is also linearly independent.  Continuing in this way, we keep choosing vectors until we eventually do have a linearly independent spanning set: say <m>V = \Span\{v_1,v_2,\ldots,v_m,\ldots,v_{m+k}\}</m>.  Then <m>(v_1,v_2,\ldots,v_{m+k})</m> is a basis for <m>V</m>, which implies that <m>\dim(V) = m+k > m</m>.  But we were assuming that <m>V</m> has dimension <m>m</m>, so <m>\cB</m> must have already been a basis.
         </p>
 
         <p>
-          Now suppose that <m>\cB = \{v_1,v_2,\ldots,v_m\}</m> spans <m>V</m>.  If <m>\cB</m> is not linearly independent, then by this <xref ref="linindep-criterion-inspan"/>, we can remove some number of vectors from <m>\cB</m> without shrinking its span.  After reordering, we can assume that we removed the last <m>k</m> vectors without shrinking the span, and that we cannot remove any more. Now <m>V = \Span\{v_1,v_2,\ldots,v_{m-k}\}</m>, and <m>\{v_1,v_2,\ldots,v_{m-k}\}</m> is a basis for <m>V</m> because it is linearly independent.  This implies that <m>\dim V=m-k &lt; m</m>.  But we were assuming that <m>\dim V = m</m>, so <m>\cB</m> must have already been a basis.
+          Now suppose that <m>\cB = (v_1,v_2,\ldots,v_m)</m> spans <m>V</m>.  If <m>\cB</m> is not linearly independent, then by this <xref ref="linindep-criterion-inspan"/>, we can remove some number of vectors from <m>\cB</m> without shrinking its span.  After reordering, we can assume that we removed the last <m>k</m> vectors without shrinking the span, and that we cannot remove any more. Now <m>V = \Span\{v_1,v_2,\ldots,v_{m-k}\}</m>, and <m>(v_1,v_2,\ldots,v_{m-k})</m> is a basis for <m>V</m> because it is linearly independent.  This implies that <m>\dim V=m-k &lt; m</m>.  But we were assuming that <m>\dim V = m</m>, so <m>\cB</m> must have already been a basis.
         </p>
       </proof>
     </theorem>
 
     <p>
-      In other words, if you <em>already</em> know that <m>\dim V = m</m>, and if you have a set of <m>m</m> vectors <m>\cB = \{v_1,v_2,\ldots,v_m\}</m> in <m>V</m>, then you only have to check <em>one</em> of:
+      In other words, if you <em>already</em> know that <m>\dim V = m</m>, and if you have a list of <m>m</m> vectors <m>\cB = (v_1,v_2,\ldots,v_m)</m> in <m>V</m>, then you only have to check <em>one</em> of:
       <ol>
         <li><m>\cB</m> is linearly independent, <em>or</em></li>
         <li><m>\cB</m> spans <m>V</m>,</li>
@@ -441,7 +453,7 @@ the license is included in gfdl.xml.
     </p>
 
 	<p>
-	To put it yet another way, suppose we have a set of vectors <m>\cB  = \{v_1,v_2,\ldots,v_m\}</m> in a subspace <m>V</m>.  Then if any two of the following statements is true, the third must also be true:
+	To put it yet another way, suppose we have a list of vectors <m>\cB  = (v_1,v_2,\ldots,v_m)</m> in a subspace <m>V</m>.  Then if any two of the following statements is true, the third must also be true:
        <ol>
         <li><m>\cB</m> is linearly independent,</li>
         <li><m>\cB</m> spans <m>V</m>, and</li>
@@ -459,7 +471,7 @@ the license is included in gfdl.xml.
         <p>
           Find a basis of the subspace
           <me>V = \Span\left\{\vec{1 -2 2},\;\vec{2 -3 4},\;\vec{0 4 0},\;\vec{-1 5 -2}\right\}</me>
-          which is different from the bases in this <xref ref="dimension-eg-basis-span"/> and this <xref ref="dimension-eg-basis-span2"/>.
+          that is different from the bases in this <xref ref="dimension-eg-basis-span"/> and this <xref ref="dimension-eg-basis-span2"/>.
         </p>
       </statement>
       <solution>
@@ -469,10 +481,10 @@ the license is included in gfdl.xml.
             w_1 = \vec{1 -2 2} + \vec{2 -3 4} = \vec{3 -5 6} \qquad
             w_2 = -\vec{2 -3 4} + \frac 12\vec{0 4 0} = \vec{-2 5 -4}.
           </me>
-          Since <m>w_1,w_2</m> are not collinear, <m>\cB = \{w_1,w_2\}</m> is a basis for <m>V</m>.
+          Since <m>w_1,w_2</m> are not collinear, <m>\cB = (w_1,w_2)</m> is a basis for <m>V</m>.
         </p>
         <figure xml:id="dimension-figure-basis-4">
-          <caption>A picture of the plane <m>V</m> and its basis <m>\cB = \{w_1,w_2\}</m>.</caption>
+          <caption>A picture of the plane <m>V</m> and its basis <m>\cB = (w_1,w_2)</m>.</caption>
           <mathbox source="demos/spans.html?v1=3,-5,6&amp;v2=-2,5,-4&amp;range=6&amp;captions=indep&amp;labels=w1,w2" height="500px"/>
         </figure>
       </solution>
@@ -483,7 +495,7 @@ the license is included in gfdl.xml.
       <statement>
         <p>
           Find a basis for the plane
-          <me>V = \left\{\vec{x_1 x_2 x_3}\bigm| x_1 + x_2 = x_3\right\}</me>
+          <me>V = \left\{\vec{x_1 x_2 x_3}\biggm| x_1 + x_2 = x_3\right\}</me>
           by inspection.  (This plane is expressed in <xref ref="set-builder-notation" text="title">set builder notation</xref>.)
         </p>
       </statement>
@@ -493,7 +505,7 @@ the license is included in gfdl.xml.
           <me>
             v_1 = \vec{1 0 1} \qquad v_2 = \vec{0 1 1}.
           </me>
-          Since <m>v_1</m> and <m>v_2</m> are not collinear, they are linearly independent; since <m>\dim(V) = 2</m>, the basis theorem implies that <m>\{v_1,v_2\}</m> is a basis for <m>V</m>.
+          Since <m>v_1</m> and <m>v_2</m> are not collinear, they are linearly independent; since <m>\dim(V) = 2</m>, the basis theorem implies that <m>(v_1,v_2)</m> is a basis for <m>V</m>.
         </p>
       </solution>
     </example>

@@ -439,9 +439,9 @@ the license is included in gfdl.xml.
       <idx><h>Standard coordinate vectors</h><h>and matrix columns</h></idx>
       <idx><h>Matrix-vector product</h><h>with standard coordinate vectors</h></idx>
       <p>
-        If <m>A</m> is an <m>m\times n</m> matrix with columns <m>v_1,v_2,\ldots,v_m</m>, then <m>\color{red}Ae_i = v_i</m> for each <m>i=1,2,\ldots,n</m>:
+        If <m>A</m> is an <m>m\times n</m> matrix with columns <m>v_1,v_2,\ldots,v_n</m>, then <m>\color{red}Ae_i = v_i</m> for each <m>i=1,2,\ldots,n</m>:
         <me>
-          \mat{| | ,, |; v_1 v_2 \cdots, v_n; | | ,, |}e_i = v_i.
+          \mat[c]{| | ,, |; v_1 v_2 \cdots, v_n; | | ,, |}e_i = v_i.
         </me>
         In other words, multiplying a matrix by <m>e_i</m> simply selects its <m>i</m>th column.
       </p>
@@ -491,8 +491,8 @@ the license is included in gfdl.xml.
       <statement>
         <p>
           Let <m>T\colon\R^n\to\R^m</m> be a linear transformation.  Let <m>A</m> be the <m>m\times n</m> matrix
-          <me>A = \mat{| | ,, |; T(e_1) T(e_2) \cdots, T(e_n); | | ,, | }.</me>
-          Then <m>T</m> is the matrix transformation associated with <m>A</m>: that is, <m>T(x) = Ax</m>.
+          <me>A = \mat[c]{| | ,, |; T(e_1) T(e_2) \cdots, T(e_n); | | ,, | }.</me>
+          Then <m>T</m> is the matrix transformation associated with <m>A</m>: that is, <m>T(x) = Ax</m>. We write <m>A = [T]</m>.
         </p>
       </statement>
       <proof>
@@ -503,7 +503,7 @@ the license is included in gfdl.xml.
   T\vec{x y z} \amp;= T\left( x\vec{1 0 0} + y\vec{0 1 0} + z\vec{0 0 1} \right) \\
   \amp= T\bigl( xe_1 + ye_2 + ze_3 \bigr) \\
   \amp= xT(e_1) + yT(e_2) + zT(e_3) \\
-  \amp= \mat{| | |; T(e_1) T(e_2) T(e_3); | | |}\vec{x y z}\\
+  \amp= \mat[c]{| | |; T(e_1) T(e_2) T(e_3); | | |}\vec{x y z}\\
   \amp= A\vec{x y z}.
 \end{split}
           </me>
@@ -532,7 +532,7 @@ the license is included in gfdl.xml.
   Linear transformation}%
 \;$\xrightarrow{\phantom{MMM}}$\;
 \hbox to .5\linewidth{$m\times n$ matrix
-\small$A = \mat{| | ,, |; T(e_1) T(e_2) \cdots, T(e_n); | | ,, | }$\hss}\\[3mm]
+\small$A = \mat[c]{| | ,, |; T(e_1) T(e_2) \cdots, T(e_n); | | ,, | }$\hss}\\[3mm]
 \leavevmode
 \hbox to .3\linewidth{\hfil
   $\begin{aligned}&amp;T\colon\R^n\to\R^m\\&amp;T(x) = Ax\end{aligned}$\hfil}%

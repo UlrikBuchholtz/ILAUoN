@@ -284,6 +284,7 @@ Free Documentation License"
       <xi:include href="./matrix-mult.xml" />
       <xi:include href="./matrix-inv.xml" />
       <xi:include href="./invertible-matrix-thm.xml" />
+      <xi:include href="./matrix-coords.xml" />
     </chapter>
 
     <chapter xml:id="chap-determinant">

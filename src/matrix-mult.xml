@@ -224,19 +224,20 @@ the license is included in gfdl.xml.
         Let <m>S,T,U</m> be transformations and let <m>c</m> be a scalar.  Suppose that <m>T\colon\R^n\to\R^m</m>, and that in each of the following identities, the domains and the codomains are compatible when necessary for the composition to be defined.  The following properties are easily verified:
         <md>
           <mrow>
-            S\circ(T+U) \amp= S\circ T+S\circ U \amp
-            (S + T)\circ U \amp= S\circ U + T\circ U \amp
+            T\circ\operatorname{Id}_{\R^n} \amp= T \amp
+            \operatorname{Id}_{\R^m}\circ T \amp= T
           </mrow>
           <mrow>
             c(T\circ U) \amp= (cT)\circ U \amp
             c(T\circ U) \amp= T\circ(cU) \rlap{\;\;\text{ if $T$ is linear}}
           </mrow>
           <mrow>
-            T\circ\operatorname{Id}_{\R^n} \amp= T \amp
-            \operatorname{Id}_{\R^m}\circ T \amp= T
+            S\circ(T+U) \amp= S\circ T+S\circ U \amp
+            (S + T)\circ U \amp= S\circ U + T\circ U \amp
           </mrow>
           <mrow>
-            \amp \amp S\circ(T\circ U) \amp= (S\circ T)\circ U \amp
+            \rlap{\text{if $S$ is linear}}\amp \amp
+            S\circ(T\circ U) \amp= (S\circ T)\circ U \amp
           </mrow>
         </md>
       </p>
