@@ -134,11 +134,16 @@ the license is included in gfdl.xml.
             = D^{-1}[T]CC^{-1}[U] = ({}_\cD[T]_\cC)({}_\cC[U]_\cB)</m>
           </li>
           <li>
-            This follows directly from 2.
+            This follows directly from 2:
+            <m>({}_\cC[T^{-1}]_\cD)({}_\cD[T]_\cC)^{-1} = {}_\cC[T^{-1} \circ T]_\cC
+            = {}_\cC[\Id_{\R^n}]_\cC = I_n</m>.
           </li>
         </ol>
       </p>
     </proof>
   </fact>
 
+  <!--
+      <p>TODO: general vector spaces? examples! passive versus active transformations.</p>
+  -->
 </section>
