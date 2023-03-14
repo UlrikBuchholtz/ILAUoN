@@ -752,7 +752,7 @@ Let's explain why the vectors <m>(1,1,0)</m> and <m>(-2,0,1)</m> are linearly in
       In light of this <xref ref="linindep-matrix-cols"/> and this <xref ref="linindep-criterion-inspan">criterion</xref>, it is natural to ask which columns of a matrix are redundant, i.e., which we can remove without affecting the column span.
     </p>
 
-    <theorem xml:id="linindep-pivot-cols">
+    <theorem type-name="Pivotal theorem" xml:id="linindep-pivot-cols">
       <statement>
         <p>
           Let <m>v_1,v_2,\ldots,v_k</m> be vectors in <m>\R^n</m>, and consider the matrix

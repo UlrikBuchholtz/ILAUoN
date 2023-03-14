@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--********************************************************************
+Copyright 2023 Ulrik Buchholtz
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation.  A copy of
+the license is included in gfdl.xml.
+*********************************************************************-->
+
+<section xml:id="subspace-sum-int">
+  <title>Sums and Intersections of Subspaces</title>
+
+  <objectives>
+    <ol>
+      <li>Understand sums and intersections of subspaces.</li>
+      <li><em>Theorem:</em> Grassmann's formula.</li>
+      <li><em>Vocabulary:</em> <term>sum</term>, <term>intersection</term> of subspaces.</li>
+    </ol>
+  </objectives>
+
+  <p>
+    In this section we discuss sums and intersections of subspaces,
+    <m>U + V</m> and <m>U \cap V</m>,
+    and how to find bases for them given bases for <m>U</m> and <m>V</m>.
+  </p>
+
+  <definition xml:id="subspace-sum">
+    <idx><h>sum of subspaces</h><h>definition of</h></idx>
+    <statement>
+      <p>
+        Suppose we're given subspaces <m>U</m> and <m>V</m> of <m>\R^n</m>.
+        Then their <term>sum</term>
+        is the subspace consisting of sums <m>u+v</m> where <m>u\in U</m>
+        and <m>v \in V</m>:
+        <me>
+          U + V = \setst*{u+v}{u\in U, v\in V} \subseteq \R^n
+        </me>
+      </p>
+    </statement>
+  </definition>
+
+  <p>It is easy to see that <m>U+V</m> is indeed a subspace of <m>\R^n</m>
+  (exercise). If <m>U = \Col(A)</m> and <m>V = \Col(B)</m>, i.e.,
+  if <m>U</m> and <m>V</m> are given as spans of the columns of matrices <m>A</m>
+  and <m>B</m>, respectively, then <m>U+V = \Col\mat{A B}</m> where
+  the matrix <m>\mat{A B}</m> is obtained by putting <m>A</m> and <m>B</m> side by side.
+  In other words, to get a spanning set for <m>U+V</m> we take the <em>union</em>
+  of spanning sets for <m>U</m> and <m>V</m>
+  </p>
+
+  <!-- EXAMPLE -->
+
+  <definition xml:id="subspace-int">
+    <idx><h>intersection of subspaces</h><h>definition of</h></idx>
+    <statement>
+      <p>
+        Suppose we're given subspaces <m>U</m> and <m>V</m> of <m>\R^n</m>.
+        Then their <term>intersection</term>
+        is the subspace consisting of vectors that belong to both
+        <m>U</m> and <m>V</m>:
+        <me>
+          U \cap V = \setst*{x \in \R^n}{x\in U \land x\in V} \subseteq \R^n
+        </me>
+      </p>
+    </statement>
+  </definition>
+
+  <p>Again, it's easy to see that <m>U \cap V</m> is a subspace of <m>\R^n</m>.
+  This time, we have the dual behavior as for sums:
+  If <m>U = \Nul(A)</m> and <m>V = \Nul(B)</m>, i.e.,
+  if <m>U</m> and <m>V</m> are given as null spaces of matrices <m>A</m>
+  and <m>B</m>, respectively, then <m>U \cap V = \Nul\vec{A B}</m>,
+  where the matrix <m>\vec{A B}</m> is obtained by putting <m>A</m> and <m>B</m>
+  on top of each other.
+  In other words, if <m>U</m> and <m>V</m> are solution sets to homogeneous
+  systems of linear equations, then <m>U \cap V</m> is the solution set to the
+  combined system of all the homogeneous linear equations involved.
+  </p>
+
+  <!-- EXAMPLE -->
+
+  <theorem type-name="Grassmann's formula" xml:id="grassmann-formula">
+    <idx><h>Grassmann's formula</h></idx>
+    <statement>
+      <p>
+        Suppose <m>U</m> and <m>V</m> are subspaces of <m>\R^n</m>. Then
+        <me>\dim(U) + \dim(V) = \dim(U+V) + \dim(U\cap V).</me>
+      </p>
+    </statement>
+  </theorem>
+
+  <proof>
+    <p>
+      Suppose <m>\dim(U) = k</m> and <m>\dim(V) = \ell</m> and pick bases
+      for <m>U</m> and <m>V</m>. Collect these together as matrices
+      <m>A</m> and <m>B</m> with ranks <m>k</m> and <m>\ell</m> so
+      <m>U = \Col(A)</m> and <m>V = \Col(B)</m>.
+      Then <m>\dim(U+V) = \dim(\Col(\mat{A B})) = \rank\mat{A B}</m>. By
+      the <xref ref="linindep-pivot-cols"/>,
+      the pivot columns of <m>\mat{A B}</m> form a basis for <m>U+V</m>.
+      Since <m>A</m> has full rank, there is a pivot in first <m>k</m> columns,
+      that is, the columns coming from <m>A</m>.
+      (Indeed, we must have <m>\dim(U) \le \dim(U+V)</m>.)
+      The non-pivot columns give us a basis for the null space of <m>\mat{A B}</m>.
+      The is because this null space consists of <m>(k+\ell)</m>-dimensional
+      vectors <m>\vec{x y}</m> such that <m>Ax + By = 0</m>, or equivalently,
+      <m>By = -Ax</m>. So any such pair of coefficient vectors <m>x</m> and <m>y</m>
+      gives an element of the intersection <m>U \cap V = \Col(A) \cap \Col(B)</m>.
+      Conversely, if <m>w \in U \cap V</m>, then we have uniquely determined
+      coefficient vectors <m>x</m> and <m>y</m> such that <m>w = By = -Ax</m>.
+    </p>
+  </proof>
+
+  <example>
+	  <p>Here is a concrete example of Grassmann's formula in action.</p>
+    <p>
+      Consider the matrices
+      <me>A = \mat{1 0; 0 1; 0 0} \quad \text{and} \quad B = \mat{1 0; 0 1; 1 1}.</me>
+      These both have rank <m>2</m> and thus their column spaces are plane in <m>\R^3</m>.
+      The combined matrix,
+      <me>\mat{A B} = \mat{1 0 1 0; 0 1 0 1; 0 0 1 1},</me>
+      is already in (non-reduced) row echelon form,
+      with rank <m>3</m>, and its columns span all of <m>\R^3</m>.
+      (In this case, the basis given by the pivotal theorem,
+      given by the first three columns, is even the standard basis.)
+      To get a basis for the intersection <m>\Col(A) \cap \Col(B)</m>,
+      we first take a basis vector for <m>\Nul\mat{A B}</m>, using the fourth
+      column as the only non-pivot column.
+      Setting <m>w=1</m> and solving for <m>x,y,z</m>,
+      we get the vector
+      <me>\vec{1 -1 -1 1}.</me>
+      Using only the last two entries (corresponding to the width of <m>B</m>),
+      we get the vector <m>\vec{-1 1}</m>.
+      The basis vector for the intersection is then
+      <me>B\vec{-1 1} = -A\vec{1 -1} = A\vec{-1 1} = \vec{-1 1 0}.</me>
+      <latex-code>
+        <![CDATA[
+  \begin{tikzpicture}[myxyz, scale=.8]
+  \path[clip, resetxy] (-6,-4) rectangle (6,4);
+
+  \draw (0,0,-3) -- (0,0,0);
+
+  \def\v{(1, 0, 1)}
+  \def\w{(-1/2, 1, 1/2)}
+
+  \node[coordinate] (X) at \v {};
+  \node[coordinate] (Y) at \w {};
+
+  \begin{scope}[x=(X), y=(Y), transformxy]
+    \path[clip] (-5/2, 5) -- (-5, 5) -- (-5, -5) -- (5/2, -5) -- cycle;
+    \fill[seq-blue!30, nearly opaque] (-2,-2) rectangle (2,2);
+    \draw[step=1cm, seq-blue, very thin] (-2,-2) grid (2,2);
+  \end{scope}
+
+  \begin{scope}[transformxy]
+    \fill[seq-red!30, nearly opaque] (-3, -3) rectangle (3, 3);
+    \draw[grid lines] (-3, -3) grid (3, 3);
+    \draw[->] (-3,0) -- (3,0);
+    \draw[->] (0,-3) -- (0,3);
+  \end{scope}
+
+  \begin{scope}[x=(X), y=(Y), transformxy]
+    \path[clip] (-5/2, 5) -- (5, 5) -- (5, -5) -- (5/2, -5) -- cycle;
+    \fill[seq-blue!30, nearly opaque] (-2,-2) rectangle (2,2);
+    \draw[step=1cm, seq-blue, very thin] (-2,-2) grid (2,2);
+  \end{scope}
+
+  \draw[->] (0,0,0) -- (0,0,3);
+
+  \node[seq-blue, anchor=south east] at (-3,-2.5,0) {$\Col(B)$};
+  \node[seq-red, anchor=south east] at (-3,2.5,0) {$\Col(A)$};
+
+  \point at (0,0,0);
+  \end{tikzpicture}
+        ]]>
+      </latex-code>
+    </p>
+  </example>
+</section>

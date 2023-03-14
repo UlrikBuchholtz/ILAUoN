@@ -153,6 +153,7 @@ Free Documentation License"
       <xi:include href="./dimension.xml" />
       <xi:include href="./b-coordinates.xml" />
       <xi:include href="./rank-thm.xml" />
+      <xi:include href="./subspace-sum-int.xml" />
     </chapter>
 
     <chapter xml:id="chap-matrices">

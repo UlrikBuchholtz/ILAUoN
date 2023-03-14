@@ -38,6 +38,8 @@ the license is included in gfdl.xml.
            <li><m>T</m> is invertible.</li>
            <li><m>T</m> is one-to-one.</li>
            <li><m>T</m> is onto.</li>
+           <li><m>\ker(T) = \{0\}</m>.</li>
+           <li><m>\img(T) = \R^n</m>.</li>
          </ol>
        </p>
      </statement>
@@ -74,6 +76,16 @@ the license is included in gfdl.xml.
        <p>
          <m>(8\iff 4,\,9\iff 5)</m>:
          See this this <xref ref="matrix-trans-one-to-one"/> and this <xref ref="matrix-trans-onto"/>.
+       </p>
+
+       <p>
+         <m>(3\iff 10)</m>:
+         This is by definition of the kernel.
+       </p>
+
+       <p>
+         <m>(9\iff 11)</m>:
+         This is by definition of the image.
        </p>
      </proof>
    </theorem>

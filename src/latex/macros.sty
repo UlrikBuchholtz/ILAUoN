@@ -1,6 +1,6 @@
 
 \ProvidesPackage{macros}
-
+\usepackage{mathtools}
 \usepackage{color}
 \usepackage{spalign}
 \usepackage{calc}
@@ -33,6 +33,7 @@
 \def\Tr{\operatorname{Tr}}
 \def\adj{\operatorname{adj}}
 \def\Re{\operatorname{Re}}
+\def\img{\operatorname{im}}
 \def\Im{\operatorname{Im}}
 \def\dist{\operatorname{dist}}
 \def\refl{\operatorname{ref}}
@@ -65,7 +66,8 @@
 \def\cE{{\mathcal E}}
 
 \newcommand{\leading}[1]{\color{red}#1}
-\newcommand{\setof}[1]{\left\{#1\right\}}
+\DeclarePairedDelimiter\setof\lbrace\rbrace
+\DeclarePairedDelimiterX\setst[2]\lbrace\rbrace{\, #1 \,\delimsize\vert\, #2 \,}
 
 \definecolor{seq-red}{rgb}{0.8941,0.1020,0.1098}
 \definecolor{seq-blue}{rgb}{0.2157,0.4941,0.7216}

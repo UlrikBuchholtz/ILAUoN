@@ -374,6 +374,55 @@ the license is included in gfdl.xml.
   </subsection>
 
   <subsection>
+    <title>Kernel and image</title>
+    <definition xml:id="linear-trans-ker-im">
+      <idx><h>Kernel</h><h>definition of</h></idx>
+      <idx><h>Image</h><h>definition of</h></idx>
+      <statement>
+        <p>
+          If <m>T\colon\R^n\to\R^m</m> is a linear transformation, then
+          we define two associated subspaces:
+          <md>
+            <mrow>\ker(T) &amp;= \setst{x\in\R^n}{T(x)=0} \subseteq \R^n,</mrow>
+            <mrow>\img(T) &amp;= \setst{T(x)}{x\in\R^n}
+            = \setst{y\in\R^m}{\exists x\in \R^n. T(x)=y} \subseteq \R^m.</mrow>
+          </md>
+          Here, <m>\ker(T)</m> is called the <term>kernel</term> of <m>T</m>
+          and <m>\img(T)</m> is called the <term>image</term> of <m>T</m>.
+        </p>
+      </statement>
+    </definition>
+
+  <p>Thus, the image is just another name for the range of <m>T</m>,
+  but the name <em>image</em> is more commonly used in the context of linear maps.
+  Note that if <m>T</m> is a matrix transformation, <m>T(x)=Ax</m> for an
+  <m>m\times n</m> matrix <m>A</m>, then
+  <me>\ker(T) = \Nul(A) \quad\text{and}\quad \img(T) = \Col(A).</me>
+  </p>
+
+  <definition>
+    <idx><h>Linear transformation</h><h>rank of</h><see>Rank</see></idx>
+    <idx><h>Image</h><h>and rank</h><see>Rank</see></idx>
+    <idx><h>Rank</h></idx>
+    <idx><h>Linear transformation</h><h>nullity of</h><see>Nullity</see></idx>
+    <idx><h>Nullity</h></idx>
+    <idx><h>Dimension</h><h>of a kernel</h></idx>
+    <idx><h>Dimension</h><h>of an image</h></idx>
+    <notation><usage>\rank(T)</usage><description>The rank of a linear transformation</description></notation>
+    <notation><usage>\nullity(T)</usage><description>The nullity of a linear transformation</description></notation>
+    <statement>
+      <p>
+        The <term>rank</term> of a linear transformation <m>T</m>, written <m>\rank(T)</m>, is the dimension of the image <m>\img(T)</m>.
+      </p>
+      <p>
+        The <term>nullity</term> of a linear transformation <m>T</m>, written <m>\nullity(T)</m>, is the dimension of the kernel <m>\ker(T)</m>.
+      </p>
+    </statement>
+  </definition>
+
+  </subsection>
+
+  <subsection>
     <title>The Standard Coordinate Vectors</title>
 
     <p>

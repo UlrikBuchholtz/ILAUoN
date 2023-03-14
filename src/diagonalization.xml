@@ -160,9 +160,9 @@ the license is included in gfdl.xml.
         <p>
           In this case, <m>A = CDC\inv</m> for
           <me>
-            C = \mat{| |,, |; v_1 v_2 \cdots, v_n; | |,, |}
+            C = \mat[c]{| |,, |; v_1 v_2 \cdots, v_n; | |,, |}
             \qquad
-            D = \mat{\lambda_1 0 \cdots, 0; 0 \lambda_2 \cdots, 0;
+            D = \mat[c]{\lambda_1 0 \cdots, 0; 0 \lambda_2 \cdots, 0;
               \vdots, \vdots, \ddots, \vdots; 0 0 \cdots, \lambda_n},
           </me>
           where <m>v_1,v_2,\ldots,v_n</m> are linearly independent eigenvectors, and <m>\lambda_1,\lambda_2,\ldots,\lambda_n</m> are the corresponding eigenvalues, in the same order.

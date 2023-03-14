@@ -37,7 +37,8 @@ the license is included in gfdl.xml.
 
   <p>
     Indeed, the columns of <m>B</m> span <m>V</m> by definition, and they're
-    linearly independent if and only if <m>T</m> is one-to-one.
+    linearly independent if and only if <m>T</m> is one-to-one, using
+    <xref ref="matrix-trans-one-to-one"/>.
   </p>
 
   <p>
@@ -67,7 +68,8 @@ the license is included in gfdl.xml.
   </bluebox>
 
   <definition xml:id="defn-BCmatrix">
-    <idx><h><m>(\cB,\cC)</m>-coordinates</h><h>definition of</h></idx>
+    <idx><h><m>(\cB,\cC)</m>-matrix</h><h>definition of</h></idx>
+    <notation><usage>{}_\cC[T]_\cB</usage><description>The <m>(\cB,\cC)</m>-matrix of a linear transformation</description></notation>
     <statement>
       <p>
         Suppose we're given bases <m>\cB = (v_1,\ldots,v_n)</m> for <m>\R^n</m>
@@ -95,10 +97,10 @@ the license is included in gfdl.xml.
   <p>
     By the discussion above, if <m>\cE</m> is the standard basis for <m>\R^n</m>
     and <m>\cB = (v_1,\ldots,v_n)</m> is another basis for <m>\R^n</m>,
-    so the square <m>n\times n</m> matrix <m>A</m> with columns
+    so the square <m>n\times n</m> matrix <m>B</m> with columns
     <m>v_1,\ldots,v_n</m> is invertible,
-    then <m>A = {}_\cE[\Id_{\R^n}]_\cB</m>
-    and <m>A^{-1} = {}_\cB[\Id_{\R^n}]_\cE</m>.
+    then <m>B = {}_\cE[\Id_{\R^n}]_\cB</m>
+    and <m>B^{-1} = {}_\cB[\Id_{\R^n}]_\cE</m>.
   </p>
 
   <bluebox>
@@ -155,6 +157,65 @@ the license is included in gfdl.xml.
       </p>
     </proof>
   </fact>
+
+  <theorem xml:id="rank-normal-form">
+    <statement>
+      <p>
+        Suppose <m>T : \R^n \to \R^m</m> is a linear map.
+        Then we can pick bases, <m>\cB</m> for <m>\R^n</m>
+        and <m>\cC</m> for <m>\R^m</m>, relative to which the
+        <m>(\cB,\cC)</m>-matrix for <m>T</m> is diagonal with <m>\rank(T)</m>
+        ones and zeroes everywhere else:
+        <me>{}_\cC[T]_\cB = \mat[c]{1 0 \cdots, 0; 0 1 \cdots, 0;
+              \vdots, \vdots, \ddots, \vdots; 0 0 \cdots, 0}.</me>
+      </p>
+    </statement>
+    <proof>
+      <p>
+        This is essentially just another application of the
+        <xref ref="linindep-pivot-cols"/>.
+        If <m>A</m> is the standard matrix for <m>T</m>, say,
+        <!-- https://ulrikbuchholtz.dk/ila/demos/rrinter.html?mat=1,2,0,3:0,0,1,-1:0,0,0,0&ops=r1:2:2,r1:-1:0,r0:2:1,r0:-1:2&cur=4 -->
+        <me>
+          A = \mat{1 2 -1 4; 2 4 -1 7; -1 -2 3 -6}
+          \quad\xrightarrow{\text{RREF}}\quad\mat{1 2 0 3; 0 0 1 -1; 0 0 0 0},
+        </me>
+        then we take the pivot columns of <m>A</m> (here, the first and third columns),
+        as these form a basis for the image, and extend to a basis for all of <m>\R^m</m>,
+        again using the pivotal theorem. In the example, we get:
+        <me>
+          \cC = \left(\vec{1 2 -1},\vec{-1 -1 3},\vec{1 0 0}\right)
+        </me>
+        To get <m>\cB</m>, we pick the standard basis vectors corresponding to the
+        pivot columns of <m>A</m> and extend that a basis for all <m>\R^n</m>
+        by appending a basis for the kernel of <m>T</m>,
+        which we find using the RREF of its standard matrix. Here we get:
+        <me>
+          \cB = \left(\vec{1 0 0 0},\vec{0 0 1 0}, \vec{-3 0 1 1},
+          \vec{-2 1 0 0}\right)
+        </me>
+        It's easy to see that this works, and we can check this by forming the matrices
+        corresponding to <m>\cB</m> and <m>\cC</m> and computing:
+        <me>
+          \begin{split}
+          {}_\cC[T]_\cB \amp= C^{-1}AB = \mat{1 -1 1;2 -1 0;-1 3 0}^{-1}
+          \mat{1 2 -1 4; 2 4 -1 7; -1 -2 3 -6}
+          \mat{1 0 -3 -2; 0 0 0 1; 0 1 1 0; 0 0 1 0} \\
+          \amp= \mat{1 0 0 0; 0 1 0 0; 0 0 0 0}.
+          \end{split}
+        </me>
+      </p>
+    </proof>
+  </theorem>
+
+  <p>
+    This is a very simple kind of diagonalisation theorem,
+    which is made possible by the fact that we can choose bases
+    for the domain and the codomain independently.
+    In <xref ref="chap-eigenvalues"/> we'll see that the situation is much more subtle
+    for linear transformations <m>T : \R^n \to \R^n</m> where the domain and
+    the codomain coincide and we want to use the <em>one</em> basis for both.
+  </p>
 
   <!--
       <p>TODO: general vector spaces? examples! passive versus active transformations.</p>
