@@ -966,7 +966,7 @@ the license is included in gfdl.xml.
             </li>
             <li>
               Since <m>I_n^T = I_n,</m> we have
-              <me>d(I_n) = \det(I_n^T) = det(I_n) = 1.</me>
+              <me>d(I_n) = \det(I_n^T) = \det(I_n) = 1.</me>
             </li>
           </ol>
         </p>
