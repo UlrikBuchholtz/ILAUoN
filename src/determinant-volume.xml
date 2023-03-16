@@ -30,7 +30,7 @@ the license is included in gfdl.xml.
   </introduction>
 
   <subsection>
-    <title>Parallelograms and Paralellepipeds</title>
+    <title>Parallelograms and Parallelepipeds</title>
 
     <p>
       The determinant computes the volume of the following kind of geometric object.
@@ -40,7 +40,7 @@ the license is included in gfdl.xml.
     <idx><h>Parallelepiped</h><h>definition of</h></idx>
     <statement>
       <p>
-        The <term>paralellepiped</term> determined by <m>n</m> vectors <m>v_1, v_2,\ldots,v_n</m> in <m>\R^n</m> is the subset
+        The <term>parallelepiped</term> determined by <m>n</m> vectors <m>v_1, v_2,\ldots,v_n</m> in <m>\R^n</m> is the subset
         <me>
           P = \bigl\{a_1v_1 + a_2v_2 + \cdots + a_nv_n \bigm| 0 \leq a_1,a_2,\ldots,a_n\leq 1\bigr\}.
         </me>
@@ -105,7 +105,7 @@ the license is included in gfdl.xml.
     <idx><h>Parallelepiped</h><h>parallelogram</h></idx>
     <idx><h>Parallelogram</h><see>Parallelepiped</see></idx>
     <p>
-      When <m>n = 2</m>, a paralellepiped is just a paralellogram in <m>\R^2</m>.  Note that the edges come in parallel pairs.
+      When <m>n = 2</m>, a parallelepiped is just a paralellogram in <m>\R^2</m>.  Note that the edges come in parallel pairs.
       <latex-code><![CDATA[
 \begin{tikzpicture}[thin border nodes, scale=1.3]
   \filldraw[fill=seq-orange, fill opacity=.2, very thin]
@@ -243,10 +243,10 @@ the license is included in gfdl.xml.
       </p>
       <p>
         <notation><usage>\vol(A)</usage><description>Volume of the parallelepiped of a matrix</description></notation>
-        For a square matrix <m>A</m>, we abuse notation and let <m>\vol(A)</m> denote the volume of the paralellepiped determined by the rows of <m>A</m>.  Then we can regard <m>\vol</m> as a function from the set of square matrices to the real numbers.  We will show that <m>\vol</m> also satisfies the above four properties.
+        For a square matrix <m>A</m>, we abuse notation and let <m>\vol(A)</m> denote the volume of the parallelepiped determined by the rows of <m>A</m>.  Then we can regard <m>\vol</m> as a function from the set of square matrices to the real numbers.  We will show that <m>\vol</m> also satisfies the above four properties.
         <ol>
           <li>
-            For simplicity, we consider a row replacement of the form <m>R_n = R_n + cR_i</m>.  The volume of a paralellepiped is the volume of its base, times its height: here the <q>base</q> is the paralellepiped determined by <m>v_1,v_2,\ldots,v_{n-1}</m>, and the <q>height</q> is the perpendicular distance of <m>v_n</m> from the base.
+            For simplicity, we consider a row replacement of the form <m>R_n = R_n + cR_i</m>.  The volume of a parallelepiped is the volume of its base, times its height: here the <q>base</q> is the parallelepiped determined by <m>v_1,v_2,\ldots,v_{n-1}</m>, and the <q>height</q> is the perpendicular distance of <m>v_n</m> from the base.
             <latex-code>
 \begin{tikzpicture}[thin border nodes, scale=1.3]
   \filldraw[fill=seq-orange, fill opacity=.2, very thin]
@@ -484,7 +484,7 @@ $\quad\xrightarrow{\phantom{MMMM}}\quad$
             </latex-code>
           </li>
           <li>
-            The rows of the identity matrix <m>I_n</m> are the standard coordinate vectors <m>e_1,e_2,\ldots,e_n</m>.  The associated paralellepiped is the unit cube, which has volume <m>1</m>.  Thus, <m>\vol(I_n) = 1</m>.
+            The rows of the identity matrix <m>I_n</m> are the standard coordinate vectors <m>e_1,e_2,\ldots,e_n</m>.  The associated parallelepiped is the unit cube, which has volume <m>1</m>.  Thus, <m>\vol(I_n) = 1</m>.
           </li>
         </ol>
         Since <m>|\det|</m> is the only function satisfying these properties, we have
@@ -495,7 +495,7 @@ $\quad\xrightarrow{\phantom{MMMM}}\quad$
   </theorem>
 
   <p>
-    Since <m>\det(A) = \det(A^T)</m> by the <xref ref="det-defn-trans-prop" text="title">transpose property</xref>, the absolute value of <m>\det(A)</m> is also equal to the volume of the paralellepiped determined by the <em>columns</em> of <m>A</m> as well.
+    Since <m>\det(A) = \det(A^T)</m> by the <xref ref="det-defn-trans-prop" text="title">transpose property</xref>, the absolute value of <m>\det(A)</m> is also equal to the volume of the parallelepiped determined by the <em>columns</em> of <m>A</m> as well.
   </p>
 
   <specialcase>
@@ -637,7 +637,7 @@ $\quad\xrightarrow{\phantom{MMMM}}\quad$
     <title>Signed volumes</title>
     <idx><h>Volume</h><h>signed</h></idx>
     <p>
-      The <xref ref="det-is-volume"/> on determinants and volumes tells us that the <em>absolute value</em> of the determinant is the volume of a paralellepiped.  This raises the question of whether the sign of the determinant has any geometric meaning.
+      The <xref ref="det-is-volume"/> on determinants and volumes tells us that the <em>absolute value</em> of the determinant is the volume of a parallelepiped.  This raises the question of whether the sign of the determinant has any geometric meaning.
     </p>
     <p>
       A <m>1\times 1</m> matrix <m>A</m> is just a number <m>\mat a</m>.  In this case, the parallelepiped <m>P</m> determined by its one row is just the interval <m>[0,a]</m> if <m>a \geq 0</m>, and it is <m>[a,0]</m> if <m>a\lt0</m>.  In this case, the sign of the determinant determines whether the interval is to the left or the right of the origin.
@@ -794,7 +794,7 @@ $\quad\xrightarrow{\phantom{MMMM}}\quad$
       </statement>
       <proof visible="true">
         <p>
-          Let <m>C</m> be the unit cube, let <m>v_1,v_2,\ldots,v_n</m> be the columns of <m>A</m>, and let <m>P</m> be the paralellepiped determined by these vectors, so <m>T(C) = P</m> and <m>\vol(P) = |\det(A)|</m>.  For <m>\epsilon > 0</m> we let <m>\epsilon C</m> be the cube with side lengths <m>\epsilon</m>, i.e., the paralellepiped determined by the vectors <m>\epsilon e_1,\epsilon e_2,\ldots,\epsilon e_n</m>, and we define <m>\epsilon P</m> similarly.  By the second <xref ref="linear-trans-defn" text="title">defining property</xref>, <m>T</m> takes <m>\epsilon C</m> to <m>\epsilon P</m>.  The volume of <m>\epsilon C</m> is <m>\epsilon^n</m> (we scaled each of the <m>n</m> standard vectors by a factor of <m>\epsilon</m>) and the volume of <m>\epsilon P</m> is <m>\epsilon^n|\det(A)|</m> (for the same reason), so we have shown that <m>T</m> scales the volume of <m>\epsilon C</m> by <m>|\det(A)|</m>.
+          Let <m>C</m> be the unit cube, let <m>v_1,v_2,\ldots,v_n</m> be the columns of <m>A</m>, and let <m>P</m> be the parallelepiped determined by these vectors, so <m>T(C) = P</m> and <m>\vol(P) = |\det(A)|</m>.  For <m>\epsilon > 0</m> we let <m>\epsilon C</m> be the cube with side lengths <m>\epsilon</m>, i.e., the parallelepiped determined by the vectors <m>\epsilon e_1,\epsilon e_2,\ldots,\epsilon e_n</m>, and we define <m>\epsilon P</m> similarly.  By the second <xref ref="linear-trans-defn" text="title">defining property</xref>, <m>T</m> takes <m>\epsilon C</m> to <m>\epsilon P</m>.  The volume of <m>\epsilon C</m> is <m>\epsilon^n</m> (we scaled each of the <m>n</m> standard vectors by a factor of <m>\epsilon</m>) and the volume of <m>\epsilon P</m> is <m>\epsilon^n|\det(A)|</m> (for the same reason), so we have shown that <m>T</m> scales the volume of <m>\epsilon C</m> by <m>|\det(A)|</m>.
           <latex-code>
 \begin{tikzpicture}[thin border nodes, scale=1.3]
   \begin{scope}[scale=1.7, yshift=.3cm]
@@ -839,7 +839,7 @@ $\quad\xrightarrow{\phantom{MMMM}}\quad$
           Since a translation does not change volumes, this proves that <m>T</m> scales the volume of a translate of <m>\epsilon C</m> by <m>|\det(A)|</m>.
         </p>
         <p>
-          At this point, we need to use techniques from multivariable calculus, so we only give an idea of the rest of the proof.  Any region <m>S</m> can be approximated by a collection of very small cubes of the form <m>x + \epsilon C</m>.  The image <m>T(S)</m> is then approximated by the image of this collection of cubes, which is a collection of very small paralellepipeds of the form <m>T(x) + \epsilon P</m>.
+          At this point, we need to use techniques from multivariable calculus, so we only give an idea of the rest of the proof.  Any region <m>S</m> can be approximated by a collection of very small cubes of the form <m>x + \epsilon C</m>.  The image <m>T(S)</m> is then approximated by the image of this collection of cubes, which is a collection of very small parallelepipeds of the form <m>T(x) + \epsilon P</m>.
           <latex-code>
 \def\curvy{(-37.3333, 2.6667)
      .. controls (-37.3333, -5.3333) and (-26.6667, -10.6667) .. (-16, -24)
@@ -886,7 +886,7 @@ $\quad\xrightarrow{\phantom{MMMM}}\quad$
   \end{scope}
 \end{tikzpicture}
           </latex-code>
-          The volume of <m>S</m> is closely approximated by the sum of the volumes of the cubes; in fact, as <m>\epsilon</m> goes to zero, the limit of this sum is precisely <m>\vol(S)</m>.  Likewise, the volume of <m>T(S)</m> is equal to the sum of the volumes of the paralellepipeds, take in the limit as <m>\epsilon\to 0</m>.  The key point is that <em>the volume of each cube is scaled by <m>|\det(A)|</m>.</em>  Therefore, the sum of the volumes of the paralellepipeds is <m>|\det(A)|</m> times the sum of the volumes of the cubes.  This proves that <m>\vol(T(S)) = |\det(A)|\vol(S).</m>
+          The volume of <m>S</m> is closely approximated by the sum of the volumes of the cubes; in fact, as <m>\epsilon</m> goes to zero, the limit of this sum is precisely <m>\vol(S)</m>.  Likewise, the volume of <m>T(S)</m> is equal to the sum of the volumes of the parallelepipeds, take in the limit as <m>\epsilon\to 0</m>.  The key point is that <em>the volume of each cube is scaled by <m>|\det(A)|</m>.</em>  Therefore, the sum of the volumes of the parallelepipeds is <m>|\det(A)|</m> times the sum of the volumes of the cubes.  This proves that <m>\vol(T(S)) = |\det(A)|\vol(S).</m>
         </p>
       </proof>
     </theorem>
