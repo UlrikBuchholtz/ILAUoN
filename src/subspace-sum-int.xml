@@ -118,13 +118,11 @@ the license is included in gfdl.xml.
     <p>
       Consider the matrices
       <me>A = \mat{1 0; 0 1; 0 0} \quad \text{and} \quad B = \mat{1 0; 0 1; 1 1}.</me>
-      These both have rank <m>2</m> and thus their column spaces are plane in <m>\R^3</m>.
+      These both have rank <m>2</m> and thus their column spaces are planes in <m>\R^3</m>.
       The combined matrix,
       <me>\mat{A B} = \mat{1 0 1 0; 0 1 0 1; 0 0 1 1},</me>
       is already in (non-reduced) row echelon form,
       with rank <m>3</m>, and its columns span all of <m>\R^3</m>.
-      (In this case, the basis given by the pivotal theorem,
-      given by the first three columns, is even the standard basis.)
       To get a basis for the intersection <m>\Col(A) \cap \Col(B)</m>,
       we first take a basis vector for <m>\Nul\mat{A B}</m>, using the fourth
       column as the only non-pivot column.

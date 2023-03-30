@@ -14,7 +14,7 @@ the license is included in gfdl.xml.
 
   <objectives>
     <ol>
-      <li>Learn to interpret similar matrices geoemetrically.</li>
+      <li>Learn to interpret similar matrices geometrically.</li>
       <li>Understand the relationship between the eigenvalues, eigenvectors, and characteristic polynomials of similar matrices.</li>
       <li><em>Recipe:</em> compute <m>Ax</m> in terms of <m>B,C</m> for <m>A=CBC\inv</m>.</li>
       <li><em>Picture:</em> the geometry of similar matrices.</li>
@@ -185,7 +185,7 @@ the license is included in gfdl.xml.
       <idx><h>Matrix multiplication</h><h>powers</h><h>and similarity</h></idx>
       <statement>
         <p>
-          Let <m>A = CBC\inv</m>.  Then for any <m>n\geq 1</m>, we have
+          Let <m>A = CBC\inv</m>.  Then for any <m>n\geq0</m>, we have
           <me>A^n = CB^n C\inv.</me>
         </p>
       </statement>

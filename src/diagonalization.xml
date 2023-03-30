@@ -147,7 +147,7 @@ the license is included in gfdl.xml.
     </paragraphs>
 
     <p>
-      A fundamental question about a matrix is whether or not it is diagonalizable.  The following is the primary criterion for diagonalizability.  It shows that diagonalizability is an eigenvalue problem.
+      A fundamental question about a square matrix is whether or not it is diagonalizable.  The following is the primary criterion for diagonalizability.  It shows that diagonalizability is an eigenvalue problem.
     </p>
 
     <theorem type-name="Diagonalization Theorem" xml:id="diagonalization-thm">
@@ -1159,7 +1159,7 @@ The eigenvectors <m>v_1,v_2,v_3</m> are linearly independent: <m>v_1,v_2</m> for
     </example>
 
     <p>
-      The converse of the <xref ref="diag-similar-amgm"/> is false: there exist matrices  whose eigenvectors have the same algebraic and geometric multiplicities, but which are not similar.  See the <xref ref="diag-eg-nonsimilar"/> below.
+      The converse of the <xref ref="diag-similar-amgm"/> is false: there exist matrices  whose eigenvalues have the same algebraic and geometric multiplicities, but which are not similar.  See the <xref ref="diag-eg-nonsimilar"/> below.
       However, for <m>2\times 2</m> and <m>3\times 3</m> matrices whose characteristic polynomial has no complex (non-real) roots, the converse of the <xref ref="diag-similar-amgm"/> is true.  (We will handle the case of complex roots in <xref ref="complex-eigenvalues"/>.)
     </p>
 
