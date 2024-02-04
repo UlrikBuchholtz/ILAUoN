@@ -48,7 +48,7 @@ the license is included in gfdl.xml.
     <edition>University of Nottingham (UoN)</edition>
 
     <copyright>
-      <year>2017<ndash/>2023</year>
+      <year>2017<ndash/>2024</year>
       <holder>Dan Margalit and Joseph Rabinoff and Ben Williams and Ulrik Buchholtz</holder>
       <minilicense>GFDL License</minilicense>
       <shortlicense>Permission is granted to copy, distribute and/or modify this document under the terms of the GNU Free Documentation License, Version 1.2 or any later version published by the Free Software Foundation; with no Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.  A copy of the license is included in the appendix entitled <q>GNU Free Documentation License.</q>  All trademarks<trademark /> are the registered<registered /> marks of their respective owners.</shortlicense>
@@ -140,7 +140,7 @@ the license is included in gfdl.xml.
       <ul>
         <li>
           You are viewing the University of Nottingham (UoN) edition of this book,
-          adapted by Ulrik Buchholtz for use in COMP1043 Mathematics for Computer Scientists 2.
+          adapted by Ulrik Buchholtz for use in COMP1043 Mathematics for Computer Scientists 2. In 2024, an appendix on fields and vector spaces was added.
         </li>
         <li>
           This edition in turn grew out of the <url href="https://personal.math.ubc.ca/~tbjw/ila/">UBC Edition</url>,

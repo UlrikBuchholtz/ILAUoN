@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--********************************************************************
+Copyright 2024 Ulrik Buchholtz
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation.  A copy of
+the license is included in gfdl.xml.
+*********************************************************************-->
+
+<appendix xml:id="fields">
+  <title>Fields and Vector Spaces</title>
+
+  <p>
+    In this Appendix we give a brief introduction to the axiomatic theory of
+    fields, which underlies the notion of abstract vector spaces.
+  </p>
+
+  <p>
+    We first give the modern algebraic definition of fields,
+  of which the real and complex numbers are the main examples.</p>
+
+  <definition>
+    <idx><h>Field</h><h>definition of</h></idx>
+    <idx><h>Ring</h><h>definition of</h></idx>
+    <statement>
+      <p>
+        A <term>commutative ring</term> is tuple <m>(\Lambda,+,\cdot,-,0,1)</m>
+        consisting of
+        a set <m>\Lambda</m>, two binary operations <m>+</m> and <m>\cdot</m>
+        of type <m>\Lambda\times\Lambda\to\Lambda</m>,
+        a unary operation <m>- : \Lambda\to\Lambda</m>, and two
+        constants <m>0,1\in\Lambda</m>,
+        satisfying the following laws, for all <m>\lambda,\mu,\nu\in\Lambda</m>:
+        <md>
+          <mrow>
+            (\lambda + \mu) + \nu &amp;= \lambda + (\mu + \nu)
+            &amp;&amp;\color{blue}\text{(a1)}
+          </mrow>
+          <mrow>
+            \lambda + 0 &amp;= \lambda
+            &amp;&amp;\color{blue}\text{(a2)}
+          </mrow>
+          <mrow>
+            \lambda + \mu &amp;= \mu + \lambda
+            &amp;&amp;\color{blue}\text{(a3)}
+          </mrow>
+          <mrow>
+            \lambda + (-\lambda) &amp;= 0
+            &amp;&amp;\color{blue}\text{(a4)}
+          </mrow>
+          <mrow>
+            (\lambda\mu)\nu &amp;= \lambda(\mu\nu)
+            &amp;&amp;\color{blue}\text{(m1)}
+          </mrow>
+          <mrow>
+            \lambda 1 &amp;= \lambda
+            &amp;&amp;\color{blue}\text{(m2)}
+          </mrow>
+          <mrow>
+            \lambda\mu &amp;= \mu\lambda
+            &amp;&amp;\color{blue}\text{(m3)}
+          </mrow>
+          <mrow>
+            \lambda(\mu+\nu) &amp;= \lambda\mu + \lambda\nu
+            &amp;&amp;\color{blue}\text{(am)}
+          </mrow>
+        </md>
+      </p>
+      <p>
+        A <term>field</term> is a commutative ring in which every <em>nonzero</em> element
+        <m>\lambda</m> has an <em>inverse</em>, i.e., an element <m>\lambda^{-1}</m>
+        satisfying <m>\lambda \lambda^{-1} = \lambda^{-1}\lambda = 1</m>.
+      </p>
+    </statement>
+  </definition>
+
+  <p>
+    The operation <m>+</m> is called the <term>addition</term>, the operation <m>\cdot</m>
+    is called the <term>multiplication</term>, and the operation <m>-</m> is called the
+    <term>negation</term> operation of the field. As usual, we leave out the dot
+    when writing multiplications.
+    To be super precise, we would have to decorate the operations and the constants with
+    <m>\Lambda</m> to disambiguate them from the usual ones, as in
+    <m>(\Lambda,+_\Lambda,\cdot_\Lambda,-_\Lambda,0_\Lambda,1_\Lambda)</m>.
+    The laws (a1) and (m1) are called the <term>associative</term> laws,
+    the laws (a2) and (m2) concern the <term>neutral elements</term> <m>0</m> and <m>1</m>,
+    the laws (a3) and (m3) are called the <term>commutative</term> laws,
+    and the law (am) is called the <term>distributive</term> law.
+  </p>
+
+  <p>
+    As a consequence of the laws, we can prove other identities, such as <m>1\lambda=\lambda</m>, <m>(\lambda+\mu)\nu = \lambda\nu + \mu\nu</m>, and <m>0\lambda=0</m>,
+    for all <m>\lambda,\mu,\nu\in\Lambda</m>. For instance, the last one follows from
+    the calculation
+    <me>
+      0\lambda = (0 + 0)\lambda = 0\lambda + 0\lambda,
+    </me>
+    together with (a4).
+  </p>
+  <p>
+    It is possible to consider many variations of these axioms, to give possibly
+    non-commutative rings, rings without units (<m>1</m>), skew-fields, etc.
+    But all the fields laws are familiar from real number arithmetic in <m>\R</m>,
+    and they also hold for complex numbers <m>\C</m> (<xref ref="complex-numbers"/>),
+    as the reader is invited to check.
+    The point of introducing the notion of a field is that all the theorems of
+    linear algebra hold over any field and that there are many other examples:
+    <ul>
+      <li>The rational numbers <m>\Q</m>: the reals numbers of the form <m>p/q</m>
+      where <m>q\ne 0</m>.</li>
+      <li>More general number fields <m>\Q \subseteq \Lambda \subseteq \C</m>,
+      for example <m>\Q(\sqrt{2})</m>,
+      the smallest subfield of <m>\C</m> containing a square root of <m>2</m>,
+      or the smallest subfield of <m>\C</m> containing a solution to some
+      polynomial equation with rational coefficients, etc.
+      (This way leads to Galois theory.)</li>
+      <li>Finite fields <m>\F_{p^n}</m> with <m>p^n</m> elements,
+      where <m>p</m> is a prime number.
+      As an example, we can describe a field <m>\F_4</m> with <m>4</m> elements
+      <m>0,1,a,a^{-1}</m>, where <m>1+1=0</m> and <m>a^2=a+1</m>.</li>
+      <li>etc.</li>
+    </ul>
+  </p>
+  
+  <p>
+  We can now give the definition of abstract vector spaces.</p>
+
+  <definition>
+    <idx><h>Vector space</h><h>definition of</h></idx>
+    <statement>
+      <p>A <term>vector space</term> over the field <m>\Lambda</m>
+      is a tuple <m>(V,+,\cdot,-,0)</m>
+      consisting of
+      a set <m>V</m>, binary operations <m>+ : V \times V \to V</m>
+      and <m>\cdot : \Lambda \times V \to V</m>,
+      a unary operation <m>- : V\to V</m>, and a
+      constant <m>0\in V</m>,
+      satisfying the following laws, for all <m>x,y,z\in V</m>
+      and <m>\lambda,\mu\in\Lambda</m>:
+      <md>
+        <mrow>
+          (x + y) + z &amp;= x + (y + z)
+          &amp;&amp;\color{blue}\text{(a1)}
+        </mrow>
+        <mrow>
+          x + 0 &amp;= x
+          &amp;&amp;\color{blue}\text{(a2)}
+        </mrow>
+        <mrow>
+          x + y &amp;= y + x
+          &amp;&amp;\color{blue}\text{(a3)}
+        </mrow>
+        <mrow>
+          x + (-x) &amp;= 0
+          &amp;&amp;\color{blue}\text{(a4)}
+        </mrow>
+        <mrow>
+          (\lambda\mu)x &amp;= \lambda(\mu x)
+          &amp;&amp;\color{blue}\text{(v1)}
+        </mrow>
+        <mrow>
+          \lambda (x+y) &amp;= \lambda x + \lambda y
+          &amp;&amp;\color{blue}\text{(v2)}
+        </mrow>
+        <mrow>
+          (\lambda + \mu)x &amp;= \lambda x + \mu x
+          &amp;&amp;\color{blue}\text{(v3)}
+        </mrow>
+        <mrow>
+          1x &amp;= x
+          &amp;&amp;\color{blue}\text{(v4)}
+        </mrow>
+      </md>
+      </p>
+    </statement>
+  </definition>
+
+  <p>
+    The operation <m>+</m> is again called the <term>addition</term> (of vectrs),
+    but the operation
+    <m>\cdot</m> is called the <term>scalar multiplication</term>; again, it is usually
+    left out of notations.
+    These operations allow us to produce linear combinations in a meaningful way,
+    and we can prove all the theorems of linear algebra for these.
+    The standard examples are the spaces <m>\Lambda^n</m> of column vectors of
+    length <m>n</m>, for any <m>n\in\N</m>,
+    and vector subspaces (<xref ref="subspaces"/>) of these.
+    Another example is the set of polynomials
+    <me>
+      \Lambda[X] = \{\;a_nX^n + \cdots + a_1X + a_0 \mid a_i\in\Lambda\;\}
+    </me>
+    with the obvious addition and scalar multiplications.
+    The set of <m>m\times n</m> matrices over <m>\Lambda</m>
+    (<xref ref="matrix-equations" />), as well as the set of
+    linear maps <m>f : V \to W</m> between two vector spaces over <m>\Lambda</m>
+    (<xref ref="linear-transformations" />),
+    furnish further examples.
+  </p>
+
+  <p>To read more about abstract algebra, including the theory of commutative rings
+  and fields, and linear algebra over fields, see most undergraduate algebra textbooks,
+  e.g., <em>A Survey of Modern Algebra</em> by Birkhoff and Mac<nbsp/>Lane.</p>
+</appendix>
