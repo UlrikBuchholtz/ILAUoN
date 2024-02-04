@@ -52,7 +52,7 @@ the license is included in gfdl.xml.
     <me>
       B^{-1} = \mat[c]{| | ,, |; {}_\cB[e_1] {}_\cB[e_2] \cdots, {}_\cB[e_n]; | | ,, |}.
     </me>
-    This is because <m>BB^{-1} = I_n</m>, so <m>B({}_\cB[e_i]) = e_i</m>,
+    This is because <m>BB^{-1} = I_n</m>, so <m>B\;{}_\cB[e_i] = e_i</m>,
     which is the definition of <m>{}_\cB[e_i]</m> being the <m>\cB</m>-coordinates
     of <m>e_i</m>.
     Multiplying by <m>B^{-1}</m> and taking linear combinations we get:
@@ -62,8 +62,12 @@ the license is included in gfdl.xml.
     <p>
       If <m>B</m> is an invertible <m>n\times n</m> square matrix,
       whose columns thus form a basis <m>\cB</m> of <m>\R^n</m>,
-      the <m>\cB</m>-coordinates of any vector <m>x\in\R^n</m> is given by:
-      <me>{}_\cB[x] = B^{-1}x</me>
+      the <m>\cB</m>-coordinates of any vector <m>x\in\R^n</m> is given by
+      <me>{}_\cB[x] = B^{-1}x \sptxt{and hence} B\;{}_\cB[x] = x.</me>
+      This says that (multiplication by) <em><m>B</m> changes from
+      the <m>\cB</m>-coordinates to the usual coordinates</em>,
+      and <em><m>B\inv</m> changes from the usual coordinates to
+      the <m>\cB</m>-coordinates.</em>
     </p>
   </bluebox>
 
@@ -98,9 +102,9 @@ the license is included in gfdl.xml.
     By the discussion above, if <m>\cE</m> is the standard basis for <m>\R^n</m>
     and <m>\cB = (v_1,\ldots,v_n)</m> is another basis for <m>\R^n</m>,
     so the square <m>n\times n</m> matrix <m>B</m> with columns
-    <m>v_1,\ldots,v_n</m> is invertible,
-    then <m>B = {}_\cE[\Id_{\R^n}]_\cB</m>
-    and <m>B^{-1} = {}_\cB[\Id_{\R^n}]_\cE</m>.
+    <m>v_1,\ldots,v_n</m> is invertible, then
+    <me>B = {}_\cE[\Id_{\R^n}]_\cB \sptxt{and}
+    B^{-1} = {}_\cB[\Id_{\R^n}]_\cE.</me>
   </p>
 
   <bluebox>
@@ -116,6 +120,175 @@ the license is included in gfdl.xml.
     </p>
   </bluebox>
 
+  <p>
+    One way to read this formula is right-to-left: The multiplying by
+    <m>B</m> converts from <m>/cB</m>-coordinates to standard
+    coordinates in <m>\R^n</m>; multiplying by the standard matrix
+    <m>[T]</m> then results in the standard coordinates in <m>\R^m</m>
+    of the result of acting with the transformation <m>T</m>, while
+    finally multiplying by <m>C\inv</m> converts to the
+    <m>\cC</m>-coordinates.  Altogether, the matrix product
+    <m>C^{-1}[T]B</m> takes <m>\cB</m>-coordinates of a vector
+    <m>x \in \R^n</m> to the <m>\cC</m>-coordinates of the image <m>T(x) \in \R^m</m>
+  </p>
+
+  <p>
+    Conversely, we can recover the standard matrix of <m>T</m> as
+    <me>[T] = C \; {}_\cC[T]_\cB \; B\inv;</me> this says that to do
+    <m>T</m> in standard coordinates is the same as to first convert
+    to <m>\cB</m>-coordinates, then do <m>T</m> in the
+    <m>(\cB,\cC)</m>-coordinates, and finally convert from
+    <m>\cC</m>-coordinates back to standard coordinates.
+  </p>
+
+  <bluebox>
+    <title>Recipe: Computing <m>T(x)</m> in terms of the <m>(\cB,\cC)</m>-matrix</title>
+    <p>
+      Suppose that <m>A = [T] = CDB\inv</m> is the standard matrix for <m>T : \R^n\to\R^m</m>,
+      where
+      <m>B</m> is the invertible matrix corresponding to
+      the basis <m>\cB</m> for <m>\R^n</m>,
+      <m>C</m> is the invertible matrix corresponding to
+      the basis <m>\cC</m> for <m>\R^m</m>,
+      and <m>D={}_\cC[T]_\cB</m> is the <m>(\cB,\cC)</m>-matrix for <m>T</m>.
+      To compute <m>T(x) = Ax</m>, for some <m>x \in \R^n</m>, one can do the following:
+      <ol>
+        <li>
+          Multiply <m>x</m> by <m>B\inv</m>, which changes to the <m>\cB</m>-coordinates:
+          <m>{}_\cB[x] = B\inv x</m>.
+          </li>
+          <li>
+            Multiply this by <m>D</m>: <m>D\;{}_\cB[x] = DB\inv x</m>.
+          </li>
+          <li>
+            Interpreting this vector as a <m>\cC</m>-coordinate vector,
+            we multiply it by <m>C</m> to change back to the usual coordinates for <m>\R^m</m>:
+            <m>Ax = CDB\inv x = CD{}_\cB[x].</m>
+          </li>
+        </ol>
+      </p>
+      <p>
+        To summarize: if <m>A = CDB\inv</m>, then <m>A</m> and <m>D</m> do the same thing, only in different coordinate systems for <m>\R^n</m> and <m>\R^m</m>.
+      </p>
+    </bluebox>
+
+    <specialcase xml:id="bc-matrix-worked-eg">
+      <idx><h><m>(\cB,\cC)</m>-matrix</h><h>worked example</h></idx>
+      <p>
+        Consider the matrices
+        <me>
+          A = \mat{0 1; 0 1} \quad
+          B = \mat{0 -1; 1 0} \quad
+          C = \mat{1 1; 1 -1} \quad
+          D = \mat{1 0; 0 0}.
+        </me>
+        One can verify that <m>A = CDB\inv</m>: try it yourself.
+        Let <m>v_1 = {0\choose 1}</m> and <m>v_2 = {-1\choose 0}</m>, the columns of <m>B</m> corresponding to the basis <m>\cB = (v_1,v_2)</m> of <m>\R^2</m>.
+        Let <m>w_1 = {1\choose 1}</m> and <m>w_2 = {1\choose -1}</m>, the columns of <m>C</m> corresponding to the basis <m>\cC = (w_1,w_2)</m>, another basis of <m>\R^2</m>.
+      </p>
+      <p>
+        The matrix <m>D</m> is diagonal with a one and a zero: it keeps the <m>x</m>-direction and zeroes out the <m>y</m>-direction.
+      </p>
+      <p>
+        To compute <m>Ax</m>, first we multiply by <m>B\inv</m> to find
+        the <m>\cB</m>-coordinates of <m>x</m>,
+        then we multiply by <m>D</m>,
+        then we multiply by <m>C</m>.
+        For instance, let <m>\textcolor{seq-green}x = {1\choose 2}</m>.
+        <ol>
+          <li>
+            We see from the <m>\cB</m>-coordinate grid below that
+            <m>\textcolor{seq-green}x = 2\textcolor{seq-violet}{v_1} - \textcolor{seq-blue}{v_2}</m>.
+            Therefore, <m>B\inv\textcolor{seq-green}x = \textcolor{seq-green}{{}_\cB[x]} = {2\choose -1}.</m>
+          </li>
+          <li>
+            Multiplying by <m>D</m> zeroes out the <m>y</m>-coordinate: <m>\textcolor{seq-red}{D\;{}_\cB[x]} = {2\choose 0}</m>.
+          </li>
+          <li>
+            Interpreting <m>{2\choose 0}</m> as a <m>\cC</m>-coordinate vector,
+            we multiply by <m>C</m> to get
+            <me>
+              \textcolor{seq-red}{Ax} = C\vec{2 0} = 2\textcolor{seq-violet}{w_1}
+              = \vec{2 2}.
+            </me>
+            Of course, this vector lies at <m>(2, 0)</m> on
+            the <m>\cC</m>-coordinate grid.
+          </li>
+        </ol>
+        <latex-code>
+\begin{tikzpicture}[scale=.8, thin border nodes]
+  \draw[help lines] (-3,-3) grid (3,3);
+  \node at (0, 3.5) {$\cB$-coordinates};
+
+  \draw[seq-violet, vector, opacity=.5] (0,0) -- (1,0);
+  \draw[seq-blue,   vector, opacity=.5] (0,0) -- (0,1);
+
+  \draw[seq-green, vector] (0, 0) to["{${}_\cB[x]$}" above right] (2, -1);
+  \point at (0, 0);
+
+  \begin{scope}[xshift=9cm]
+    \draw[help lines] (-3,-3) grid (3,3);
+    \node at (0, 3.5) {usual $\cE_n$-coordinates, $n=2$};
+
+    \draw[seq-violet, vector, opacity=.5] (0,0) -- (0,1);
+    \draw[seq-blue,   vector, opacity=.5] (0,0) -- (-1,0);
+
+    \draw[seq-green, vector] (0, 0) to["$x$" below right] (1, 2);
+    \point at (0, 0);
+
+  \end{scope}
+
+  \begin{scope}[yshift=-9cm]
+    \draw[help lines] (-3,-3) grid (3,3);
+    \node at (0, 3.5) {$\cC$-coordinates};
+
+    \draw[seq-violet, vector, opacity=.5] (0,0) -- (1,0);
+    \draw[seq-blue,   vector, opacity=.5] (0,0) -- (0,1);
+
+    \draw[seq-red, vector] (0, 0) to["${D\;{}_\cB[x]}$"] (2, 0);
+    \point at (0, 0);
+
+  \end{scope}
+
+  \begin{scope}[xshift=9cm,yshift=-9cm]
+    \draw[help lines] (-3,-3) rectangle (3,3);
+    \node at (0, 3.5) {usual $\cE_m$-coordinates, $m=2$};
+    \path[clip] (-3, -3) rectangle (3, 3);
+    \begin{scope}[cm={(1,1,1,-1,(0,0))}, scale=.7]
+      \draw[help lines] (-5,-5) grid (5,5);
+      \draw[seq-violet, vector, opacity=.5] (0,0) -- (1,0);
+      \draw[seq-blue,   vector, opacity=.5] (0,0) -- (0,1);
+
+      \draw[seq-red, vector] (0, 0) to["${Ax=CDB^{-1}x}$"] (2, 0);
+      \end{scope}
+    \point at (0, 0);
+  \end{scope}
+
+  \draw[->, shorten=2mm, thick] (6, 1) to[bend right]
+    node[above=1mm] {multiply by $B\inv$} (3, 1);
+  \draw[->, shorten=2mm, thick] (3, -10) to[bend right]
+    node[below=1mm] {multiply by $C$} (6, -10);
+  \draw[->, shorten=2mm, thick] (-1, -3) to[bend right]
+    node[right=1mm] {multiply by $D$} (-1, -5);
+  \draw[->, shorten=2mm, thick, xshift=11cm] (1, -3) to[bend left]
+    node[left=1mm] {multiply by $A$} (1, -5);
+
+\end{tikzpicture}
+        </latex-code>
+        To summarize:
+        <ul>
+          <li>
+            <m>D</m> retains the <m>e_1</m>-direction
+            and zeroes out the <m>e_2</m>-direction.
+          </li>
+          <li>
+            <m>A</m> maps <m>v_1</m>-direction onto the <m>w_1</m>-direction
+            and maps the <m>v_2</m>-direction to zero.
+          </li>
+        </ul>
+      </p>
+    </specialcase>
+
   <fact hide-type="true">
     <title>Facts about <m>(\cB,\cC)</m>-matrices</title>
     <statement>
@@ -125,10 +298,11 @@ the license is included in gfdl.xml.
         Then:
         <ol>
           <li>
-            <m>{}_\cD[T(v)] = ({}_\cD[T]_\cC)({}_\cC[v])</m> for any <m>v\in\R^n</m>.
+            <m>{}_\cD[T(v)] = {}_\cD[T]_\cC \; {}_\cC[v]</m> for any <m>v\in\R^n</m>.
           </li>
           <li>
-            <m>{}_\cD[T \circ U]_\cB = ({}_\cD[T]_\cC)({}_\cC[U]_\cB)</m>
+            <m>{}_\cD[T \circ U]_\cB = {}_\cD[T]_\cC
+            \; {}_\cC[U]_\cB</m>
           </li>
           <li>
             If <m>T</m> is invertible (so <m>n=m</m>),
@@ -142,15 +316,15 @@ the license is included in gfdl.xml.
         <ol>
           <li>
             <m>{}_\cD[T(v)] = D^{-1}(T(v)) = D^{-1}[T]v
-            = D^{-1}[T]CC^{-1}v = ({}_\cD[T]_\cC)({}_\cC[v])</m>
+            = D^{-1}[T]CC^{-1}v = {}_\cD[T]_\cC \; {}_\cC[v]</m>
           </li>
           <li>
             <m>{}_\cD[T \circ U]_\cB = D^{-1}[T][U]B
-            = D^{-1}[T]CC^{-1}[U] = ({}_\cD[T]_\cC)({}_\cC[U]_\cB)</m>
+            = D^{-1}[T]CC^{-1}[U] = {}_\cD[T]_\cC \; {}_\cC[U]_\cB</m>
           </li>
           <li>
             This follows directly from 2:
-            <m>({}_\cC[T^{-1}]_\cD)({}_\cD[T]_\cC)^{-1} = {}_\cC[T^{-1} \circ T]_\cC
+            <m>{}_\cC[T^{-1}]_\cD \; {}_\cD[T]_\cC = {}_\cC[T^{-1} \circ T]_\cC
             = {}_\cC[\Id_{\R^n}]_\cC = I_n</m>.
           </li>
         </ol>

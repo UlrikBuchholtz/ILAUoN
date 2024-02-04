@@ -178,7 +178,7 @@ window.demo1 = new (if size == 3 then Demo else Demo2D) {
     labeled = @labeledVectors view,
         vectors:       [vectorIn1, vectorOut1, e1, e2, e3][0...size+2]
         colors:        colors
-        labels:        ['[x]_B', BName + '[x]_B', 'e1', 'e2', 'e3'][0...size+2]
+        labels:        ['𝓒[x]', BName + '𝓒[x]', 'e1', 'e2', 'e3'][0...size+2]
         live:          true
         zeroPoints:    true
         zeroThreshold: 0.3
@@ -287,7 +287,7 @@ window.demo1 = new (if size == 3 then Demo else Demo2D) {
     elt = document.getElementById "sim-here"
     katex.render("#{AName} = #{CName}#{BName}#{CName}^{-1} " +
                  "\\quad \\color{#{xColor.str()}}{x} = " +
-                 "#{CName}\\color{#{bColor.str()}}{[x]_{\\mathcal B}}", elt)
+                 "#{CName}\\color{#{bColor.str()}}{{}_{\\mathcal C}[x]}", elt)
 
     eq1Elt = document.getElementById 'mult-here1'
     eq2Elt = document.getElementById 'mult-here2'

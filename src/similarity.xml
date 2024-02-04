@@ -233,60 +233,74 @@ the license is included in gfdl.xml.
     <idx><h>Similarity</h><h>geometry of</h></idx>
 
     <p>
-      Similarity is a very interesting construction when viewed geometrically.  We will see that, roughly, <em>similar matrices do the same thing in different coordinate systems.</em>  The reader might want to review <m>\cB</m>-coordinates and nonstandard coordinate grids in <xref ref="bases-as-coord-systems"/> before reading this subsection.
+      Similarity is a very interesting construction when viewed geometrically.  We will see that, roughly, <em>similar matrices do the same thing in different coordinate systems.</em>  The reader might want to review <m>\cB</m>-coordinates and nonstandard coordinate grids in <xref ref="bases-as-coord-systems"/> and well as <m>(\cB,\cC)</m>-matrices in <xref ref="matrix-coords"/> before reading this subsection.
     </p>
 
     <p>
-      By conditions 4 and 5 of the <xref ref="imt-2"/>, an <m>n\times n</m> matrix <m>C</m> is invertible if and only if its columns <m>v_1,v_2,\ldots,v_n</m> form a basis for <m>\R^n</m>.  This means we can speak of the <m>\cB</m>-coordinates of a vector in <m>\R^n</m>, where <m>\cB</m> is the basis of columns of <m>C</m>.  Recall that
+      Recall that (by conditions 4 and 5 of the <xref ref="imt-2"/>)
+      an <m>n\times n</m> matrix <m>C</m> is invertible if and only if
+      its columns <m>v_1,v_2,\ldots,v_n</m> form a basis for <m>\R^n</m>.
+      This means we can speak of the <m>\cC</m>-coordinates of a vector in <m>\R^n</m>,
+      where <m>\cC</m> is the basis of columns of <m>C</m>. Recall from
+      <xref ref="matrix-coords"/> that this means
       <me>
-        [x]_\cB = \vec{c_1 c_2 \vdots, c_n} \sptxt{means}
-        x = c_1v_1 + c_2v_2 + \cdots + c_nv_n
-        = \mat{| | ,, |; v_1 v_2 \cdots, v_n; | | ,, |}\vec{c_1 c_2 \vdots, c_n}.
+        C{}_\cC[x] = x \sptxt{and} C\inv x = {}_\cC[x].
       </me>
-      Since <m>C</m> is the matrix with columns <m>v_1,v_2,\ldots,v_n</m>, this says that <m>x = C[x]_\cB</m>.  Multiplying both sides by <m>C\inv</m> gives <m>[x]_\cB = C\inv x.</m>  To summarize:
     </p>
 
-    <bluebox>
-      <idx><h><m>\cB</m>-coordinates</h><h>change of basis matrix</h></idx>
-      <p>
-        Let <m>C</m> be an invertible <m>n\times n</m> matrix with columns <m>v_1,v_2,\ldots,v_n</m>, and let <m>\cB = \{v_1,v_2,\ldots,v_n\}</m>, a basis for <m>\R^n</m>.  Then for any <m>x</m> in <m>\R^n</m>, we have
-        <me>
-          C[x]_\cB = x \sptxt{and} C\inv x = [x]_\cB.
-        </me>
-        This says that <em><m>C</m> changes from the <m>\cB</m>-coordinates to the usual coordinates</em>, and <em><m>C\inv</m> changes from the usual coordinates to the <m>\cB</m>-coordinates.</em>
-      </p>
-    </bluebox>
+    <observation xml:id="solnsets-nontrivial">
+      <p>If the linear map <m>T : \R^n \to \R^n</m> has as standard matrix <m>A</m>,
+      and <m>C</m> is the <m>n \times n</m> matrix with
+      columns given by the basis <m>\cC</m>,
+      then the <m>(\cC,\cC)</m>-matrix of <m>T</m> is
+      <me>B := {}_\cC[T]_\cC = {}_\cC[\Id]_\cE\; {}_\cE[T]_\cE \; {}_\cE[\Id]_\cC
+      = C\inv A C</me>,
+      so <m>A = CBC\inv</m>.</p>
+    </observation>
+
+    <p>In other words, two <m>n\times n</m>-matrices <m>A</m> and <m>B</m>
+    are similar if and only they represent the same linear map
+    <m>T : \R^n \to \R^n</m>, but expressed in different bases.</p>
 
     <p>
-      Suppose that <m>A = CBC\inv.</m>  The above observation gives us another way of computing <m>Ax</m> for a vector <m>x</m> in <m>\R^n</m>.  Recall that
-      <m>CBC\inv x = C(B(C\inv x)),</m>
-      so that multiplying <m>CBC\inv</m> by <m>x</m> means <em>first</em> multiplying by <m>C\inv</m>, <em>then</em> by <m>B</m>, <em>then</em> by <m>C</m>.  See this <xref ref="matrix-mult-order-ops"/>.
+      Let's now illustrate this more concretely.
+      Suppose that <m>A = CBC\inv.</m>
+      The above observation gives us another way of computing <m>Ax</m>
+      for a vector <m>x</m> in <m>\R^n</m>.
+      Recall that <m>CBC\inv x = C(B(C\inv x)),</m>
+      so that multiplying <m>CBC\inv</m> by <m>x</m> means <em>first</em>
+      multiplying by <m>C\inv</m>, <em>then</em> by <m>B</m>,
+      <em>then</em> by <m>C</m>.  See this <xref ref="matrix-mult-order-ops"/>.
     </p>
 
     <bluebox>
       <title>Recipe: Computing <m>Ax</m> in terms of <m>B</m></title>
       <idx><h>Similarity</h><h>action on a vector</h></idx>
-    <p>
-        Suppose that <m>A = CBC\inv,</m> where <m>C</m> is an invertible matrix with columns <m>v_1,v_2,\ldots,v_n.</m>  Let <m>\cB = \{v_1,v_2,\ldots,v_n\}</m>, a basis for <m>\R^n</m>.  Let <m>x</m> be a vector in <m>\R^n</m>.  To compute <m>Ax</m>, one does the following:
+      <p>
+        Suppose that <m>A = CBC\inv,</m> where <m>C</m> is an invertible matrix with columns <m>v_1,v_2,\ldots,v_n</m>, and let <m>\cC = (v_1,v_2,\ldots,v_n)</m>
+        be the corresponding basis for <m>\R^n</m>.
+        Let <m>x</m> be a vector in <m>\R^n</m>.
+        To compute <m>Ax</m>, one does the following:
         <ol>
           <li>
-            Multiply <m>x</m> by <m>C\inv</m>, which changes to the <m>\cB</m>-coordinates: <m>[x]_\cB = C\inv x</m>.
+            Multiply <m>x</m> by <m>C\inv</m>, which changes to the <m>\cC</m>-coordinates: <m>{}_\cC[x] = C\inv x</m>.
           </li>
           <li>
-            Multiply this by <m>B</m>: <m>B[x]_\cB = BC\inv x</m>.
+            Multiply this by <m>B</m>: <m>B\;{}_\cC[x] = BC\inv x</m>.
           </li>
           <li>
-            Interpreting this vector as a <m>\cB</m>-coordinate vector, we multiply it by <m>C</m> to change back to the usual coordinates:
-            <m>Ax = CBC\inv x = CB[x]_\cB.</m>
+            Interpreting this vector as a <m>\cC</m>-coordinate vector,
+            we multiply it by <m>C</m> to change back to the usual coordinates:
+            <m>Ax = CBC\inv x = CB{}_\cC[x].</m>
           </li>
         </ol>
         <latex-code>
 \begin{tikzpicture}[scale=.8, thin border nodes]
   \draw[help lines] (-3,-3) grid (3,3);
-  \node at (0, 3.5) {$\cB$-coordinates};
+  \node at (0, 3.5) {$\cC$-coordinates};
 
-  \draw[seq-green, vector] (0, 0) to["{$[x]_\cB$}" above right] (-2, 1);
-  \draw[seq-red, vector] (0, 0) to["{$B[x]_\cB$}"] (-2, -1);
+  \draw[seq-green, vector] (0, 0) to["{${}_\cC[x]$}" above right] (-2, 1);
+  \draw[seq-red, vector] (0, 0) to["{$B\;{}_\cC[x]$}"] (-2, -1);
 
   \draw[->, shorten=2mm, thick] (8, 1) to[bend right]
      node[above=1mm] {multiply by $C\inv$} (3, 1);
@@ -313,7 +327,7 @@ the license is included in gfdl.xml.
         To summarize: if <m>A = CBC\inv</m>, then <m>A</m> and <m>B</m> do the same thing, only in different coordinate systems.
       </p>
     </bluebox>
-
+    
     <p>
       The following example is the heart of this section.
     </p>
@@ -327,7 +341,7 @@ the license is included in gfdl.xml.
           B = \mat{2 0; 0 -1} \qquad
           C = \mat{1 1; 1 -1}.
         </me>
-        One can verify that <m>A = CBC\inv</m>: see this <xref ref="diagonal-eg-22"/>.  Let <m>v_1 = {1\choose 1}</m> and <m>v_2 = {1\choose -1}</m>, the columns of <m>C</m>, and let <m>\cB = \{v_1,v_2\}</m>, a basis of <m>\R^2</m>.
+        One can verify that <m>A = CBC\inv</m>: see this <xref ref="diagonal-eg-22"/>.  Let <m>v_1 = {1\choose 1}</m> and <m>v_2 = {1\choose -1}</m>, the columns of <m>C</m>, and let <m>\cC = (v_1,v_2)</m>, a basis of <m>\R^2</m>.
       </p>
       <p>
         The matrix <m>B</m> is diagonal: it scales the <m>x</m>-direction by a factor of <m>2</m> and the <m>y</m>-direction by a factor of <m>-1</m>.
@@ -360,33 +374,34 @@ the license is included in gfdl.xml.
 
 \end{tikzpicture}
         </latex-code>
-        To compute <m>Ax</m>, first we multiply by <m>C\inv</m> to find the <m>\cB</m>-coordinates of <m>x</m>, then we multiply by <m>B</m>, then we multiply by <m>C</m> again.  For instance, let <m>\textcolor{seq-green}x = {0\choose -2}</m>.
+        To compute <m>Ax</m>, first we multiply by <m>C\inv</m> to find the <m>\cC</m>-coordinates of <m>x</m>, then we multiply by <m>B</m>, then we multiply by <m>C</m> again.  For instance, let <m>\textcolor{seq-green}x = {0\choose -2}</m>.
         <ol>
           <li>
-            We see from the <m>\cB</m>-coordinate grid below that
-            <m>\textcolor{seq-green}x = -\textcolor{seq-violet}{v_1} + \textcolor{seq-blue}{v_2}</m>.  Therefore, <m>C\inv\textcolor{seq-green}x = \textcolor{seq-green}{[x]_\cB} = {-1\choose 1}.</m>
+            We see from the <m>\cC</m>-coordinate grid below that
+            <m>\textcolor{seq-green}x = -\textcolor{seq-violet}{v_1} + \textcolor{seq-blue}{v_2}</m>.  Therefore, <m>C\inv\textcolor{seq-green}x = \textcolor{seq-green}{{}_\cC[x]} = {-1\choose 1}.</m>
           </li>
           <li>
-            Multiplying by <m>B</m> scales the coordinates: <m>\textcolor{seq-red}{B[x]_\cB} = {-2\choose -1}</m>.
+            Multiplying by <m>B</m> scales the coordinates: <m>\textcolor{seq-red}{B\;{}_\cC[x]} = {-2\choose -1}</m>.
           </li>
           <li>
-            Interpreting <m>{-2\choose -1}</m> as a <m>\cB</m>-coordinate vector, we multiply by <m>C</m> to get
+            Interpreting <m>{-2\choose -1}</m> as a <m>\cC</m>-coordinate vector,
+            we multiply by <m>C</m> to get
             <me>
               \textcolor{seq-red}{Ax} = C\vec{-2 -1} = -2\textcolor{seq-violet}{v_1} - \textcolor{seq-blue}{v_2} = \vec{-3 -1}.
             </me>
-            Of course, this vector lies at <m>(-2, -1)</m> on the <m>\cB</m>-coordinate grid.
+            Of course, this vector lies at <m>(-2, -1)</m> on the <m>\cC</m>-coordinate grid.
           </li>
         </ol>
         <latex-code>
 \begin{tikzpicture}[scale=.85, thin border nodes]
   \draw[help lines] (-3,-3) grid (3,3);
-  \node at (0, 3.5) {$\cB$-coordinates};
+  \node at (0, 3.5) {$\cC$-coordinates};
 
   \draw[seq-violet, vector, opacity=.5] (0,0) -- (1,0);
   \draw[seq-blue,   vector, opacity=.5] (0,0) -- (0,1);
 
-  \draw[seq-green, vector] (0, 0) to["{$[x]_\cB$}" {above left, pos=1}] (-1, 1);
-  \draw[seq-red, vector] (0, 0) to["{$B[x]_\cB$}"] (-2, -1);
+  \draw[seq-green, vector] (0, 0) to["{${}_\cC[x]$}" {above left, pos=1}] (-1, 1);
+  \draw[seq-red, vector] (0, 0) to["{$B\;{}_\cC[x]$}"] (-2, -1);
 
   \draw[->, shorten=2mm, thick] (9, 1) to[bend right]
      node[above=1mm] {multiply by $C\inv$} (3, 1);
@@ -422,30 +437,32 @@ the license is included in gfdl.xml.
         Now let <m>\textcolor{seq-green}x = \frac 12{5\choose -3}</m>.
         <ol>
           <li>
-            We see from the <m>\cB</m>-coordinate grid that
-            <m>\textcolor{seq-green}x = \frac 12\textcolor{seq-violet}{v_1} + 2\textcolor{seq-blue}{v_2}</m>.  Therefore, <m>C\inv\textcolor{seq-green}x = \textcolor{seq-green}{[x]_\cB} = {1/2\choose 2}.</m>
+            We see from the <m>\cC</m>-coordinate grid that
+            <m>\textcolor{seq-green}x = \frac 12\textcolor{seq-violet}{v_1} + 2\textcolor{seq-blue}{v_2}</m>.
+            Therefore, <m>C\inv\textcolor{seq-green}x
+            = \textcolor{seq-green}{{}_\cC[x]} = {1/2\choose 2}.</m>
           </li>
           <li>
-            Multiplying by <m>B</m> scales the coordinates: <m>\textcolor{seq-red}{B[x]_\cB} = {1\choose -2}</m>.
+            Multiplying by <m>B</m> scales the coordinates: <m>\textcolor{seq-red}{B\;{}_\cC[x]} = {1\choose -2}</m>.
           </li>
           <li>
-            Interpreting <m>{1\choose -2}</m> as a <m>\cB</m>-coordinate vector, we multiply by <m>C</m> to get
+            Interpreting <m>{1\choose -2}</m> as a <m>\cC</m>-coordinate vector, we multiply by <m>C</m> to get
             <me>
               \textcolor{seq-red}{Ax} = C\vec{1 -2} = \textcolor{seq-violet}{v_1} - 2\textcolor{seq-blue}{v_2} = \vec{-1 3}.
             </me>
-            This vector lies at <m>(1, -2)</m> on the <m>\cB</m>-coordinate grid.
+            This vector lies at <m>(1, -2)</m> on the <m>\cC</m>-coordinate grid.
           </li>
         </ol>
         <latex-code>
 \begin{tikzpicture}[scale=.85, thin border nodes]
   \draw[help lines] (-3,-3) grid (3,3);
-  \node at (0, 3.5) {$\cB$-coordinates};
+  \node at (0, 3.5) {$\cC$-coordinates};
 
   \draw[seq-violet, vector, opacity=.5] (0,0) -- (1,0);
   \draw[seq-blue,   vector, opacity=.5] (0,0) -- (0,1);
 
-  \draw[seq-green, vector] (0, 0) to["{$[x]_\cB$}" {above left, pos=1}] (1/2, 2);
-  \draw[seq-red, vector] (0, 0) to["{$B[x]_\cB$}" pos=.7] (1, -2);
+  \draw[seq-green, vector] (0, 0) to["{${}_\cC[x]$}" {above left, pos=1}] (1/2, 2);
+  \draw[seq-red, vector] (0, 0) to["{$B\;{}_\cC[x]$}" pos=.7] (1, -2);
 
   \draw[->, shorten=2mm, thick] (9, 1) to[bend right]
      node[above=1mm] {multiply by $C\inv$} (3, 1);
@@ -549,7 +566,7 @@ the license is included in gfdl.xml.
         </latex-code>
       </p>
       <figure>
-        <caption>The geometric relationship between the similar matrices <m>A</m> and <m>B</m> acting on <m>\R^2</m>.  Click and drag the heads of <m>x</m> and <m>[x]_\cB</m>.  Study this picture until you can reliably predict where the other three vectors will be after moving one of them: this is the essence of the geometry of similar matrices.</caption>
+        <caption>The geometric relationship between the similar matrices <m>A</m> and <m>B</m> acting on <m>\R^2</m>.  Click and drag the heads of <m>x</m> and <m>{}_\cC[x]</m>.  Study this picture until you can reliably predict where the other three vectors will be after moving one of them: this is the essence of the geometry of similar matrices.</caption>
         <mathbox source="demos/similarity.html?B=2,0:0,-1&amp;C=1,1:1,-1&amp;closed" height="600px"/>
       </figure>
     </specialcase>
@@ -563,7 +580,7 @@ the license is included in gfdl.xml.
           B = \mat{2 0; 0 -1} \qquad
           C' = \frac 12\mat{-1 -3; 2 1}.
         </me>
-        Then <m>A' = C'B(C')\inv</m>, as one can verify.  Let <m>v_1'=\frac 12{-1\choose 2}</m> and <m>v_2' = \frac 12{-3\choose 1}</m>, the columns of <m>C'</m>, and let <m>\cB' = \{v_1',v_2'\}</m>.  Then <m>A'</m> does the same thing as <m>B</m>, as in the previous <xref ref="similarity-worked-eg"/>, except <m>A'</m> uses the <m>\cB'</m>-coordinate system.  In other words:
+        Then <m>A' = C'B(C')\inv</m>, as one can verify.  Let <m>v_1'=\frac 12{-1\choose 2}</m> and <m>v_2' = \frac 12{-3\choose 1}</m>, the columns of <m>C'</m>, and let <m>\cC' = (v_1',v_2')</m>.  Then <m>A'</m> does the same thing as <m>B</m>, as in the previous <xref ref="similarity-worked-eg"/>, except <m>A'</m> uses the <m>\cC'</m>-coordinate system.  In other words:
         <ul>
           <li>
             <m>B</m> scales the <m>e_1</m>-direction by <m>2</m> and the <m>e_2</m>-direction by <m>-1</m>.
@@ -634,7 +651,7 @@ the license is included in gfdl.xml.
         </latex-code>
       </p>
       <figure>
-        <caption>The geometric relationship between the similar matrices <m>A'</m> and <m>B</m> acting on <m>\R^2</m>.  Click and drag the heads of <m>x</m> and <m>[x]_{\cB'}</m>.</caption>
+        <caption>The geometric relationship between the similar matrices <m>A'</m> and <m>B</m> acting on <m>\R^2</m>.  Click and drag the heads of <m>x</m> and <m>{}_{\cC'}[x]</m>.</caption>
         <mathbox source="demos/similarity.html?B=2,0:0,-1&amp;C=-1/2,-3/2:1,1/2&amp;closed" height="600px"/>
       </figure>
     </example>
@@ -648,7 +665,7 @@ the license is included in gfdl.xml.
           B = \mat{0 -1; 1 0} \qquad
           C = \mat{2 -1/2; 1 1/2}.
         </me>
-        One can verify that <m>A = CBC\inv.</m>  Let <m>v_1 = {2\choose 1}</m> and <m>v_2 = \frac 12{-1\choose 1}</m>, the columns of <m>C</m>, and let <m>\cB = \{v_1,v_2\}</m>, a basis of <m>\R^2</m>.
+        One can verify that <m>A = CBC\inv.</m>  Let <m>v_1 = {2\choose 1}</m> and <m>v_2 = \frac 12{-1\choose 1}</m>, the columns of <m>C</m>, and let <m>\cC = (v_1,v_2)</m>, a basis of <m>\R^2</m>.
       </p>
       <p>
         The matrix <m>B</m> rotates the plane counterclockwise by <m>90^\circ</m>.
@@ -683,26 +700,26 @@ the license is included in gfdl.xml.
 
 \end{tikzpicture}
         </latex-code>
-        To compute <m>Ax</m>, first we multiply by <m>C\inv</m> to find the <m>\cB</m>-coordinates of <m>x</m>, then we multiply by <m>B</m>, then we multiply by <m>C</m> again.  For instance, let <m>\textcolor{seq-green}x = \frac 32{1\choose 1}</m>.
+        To compute <m>Ax</m>, first we multiply by <m>C\inv</m> to find the <m>\cC</m>-coordinates of <m>x</m>, then we multiply by <m>B</m>, then we multiply by <m>C</m> again.  For instance, let <m>\textcolor{seq-green}x = \frac 32{1\choose 1}</m>.
         <ol>
           <li>
-            We see from the <m>\cB</m>-coordinate grid below that
-            <m>\textcolor{seq-green}x = \textcolor{seq-violet}{v_1} + \textcolor{seq-blue}{v_2}</m>.  Therefore, <m>C\inv\textcolor{seq-green}x = \textcolor{seq-green}{[x]_\cB} = {1\choose 1}.</m>
+            We see from the <m>\cC</m>-coordinate grid below that
+            <m>\textcolor{seq-green}x = \textcolor{seq-violet}{v_1} + \textcolor{seq-blue}{v_2}</m>.  Therefore, <m>C\inv\textcolor{seq-green}x = \textcolor{seq-green}{{}_\cC[x]} = {1\choose 1}.</m>
           </li>
           <li>
-            Multiplying by <m>B</m> rotates by <m>90^\circ</m>: <m>\textcolor{seq-red}{B[x]_\cB} = {-1\choose 1}</m>.
+            Multiplying by <m>B</m> rotates by <m>90^\circ</m>: <m>\textcolor{seq-red}{B\;{}_\cC[x]} = {-1\choose 1}</m>.
           </li>
           <li>
-            Interpreting <m>{-1\choose 1}</m> as a <m>\cB</m>-coordinate vector, we multiply by <m>C</m> to get
+            Interpreting <m>{-1\choose 1}</m> as a <m>\cC</m>-coordinate vector, we multiply by <m>C</m> to get
             <me>
               \textcolor{seq-red}{Ax} = C\vec{-1 1} = -\textcolor{seq-violet}{v_1} + \textcolor{seq-blue}{v_2} = \frac 12\vec{-5 -1}.
             </me>
-            Of course, this vector lies at <m>(-1, 1)</m> on the <m>\cB</m>-coordinate grid.
+            Of course, this vector lies at <m>(-1, 1)</m> on the <m>\cC</m>-coordinate grid.
           </li>
         </ol>
         <latex-code>
 \begin{tikzpicture}[scale=.75, thin border nodes]
-  \node at (0, 3.5) {$\cB$-coordinates};
+  \node at (0, 3.5) {$\cC$-coordinates};
 
   \begin{scope}[scale=3/2, arrows={[line width=.6pt]}]
     \draw[help lines] (-2,-2) grid (2, 2);
@@ -712,8 +729,8 @@ the license is included in gfdl.xml.
 
     \draw[|->, shorten=1.5mm, dashed]
         (1,1) arc[radius=sqrt(2), start angle=45, delta angle=90];
-    \draw[seq-green, vector] (0, 0) -- (1, 1) node[above right] {$[x]_\cB$};
-    \draw[seq-red, vector] (0, 0) -- (-1, 1) node[above left] {$B[x]_\cB$};
+    \draw[seq-green, vector] (0, 0) -- (1, 1) node[above right] {${}_\cC[x]$};
+    \draw[seq-red, vector] (0, 0) -- (-1, 1) node[above left] {$B\;{}_\cC[x]$};
   \end{scope}
 
   \draw[->, shorten=2mm, thick] (9, 1) to[bend right]
@@ -752,23 +769,23 @@ the license is included in gfdl.xml.
         Now let <m>\textcolor{seq-green}x = \frac 12{-1\choose -2}</m>.
         <ol>
           <li>
-            We see from the <m>\cB</m>-coordinate grid that
-            <m>\textcolor{seq-green}x = -\frac 12\textcolor{seq-violet}{v_1} - \textcolor{seq-blue}{v_2}</m>.  Therefore, <m>C\inv\textcolor{seq-green}x = \textcolor{seq-green}{[x]_\cB} = {-1/2\choose -1}.</m>
+            We see from the <m>\cC</m>-coordinate grid that
+            <m>\textcolor{seq-green}x = -\frac 12\textcolor{seq-violet}{v_1} - \textcolor{seq-blue}{v_2}</m>.  Therefore, <m>C\inv\textcolor{seq-green}x = \textcolor{seq-green}{[x]_\cC} = {-1/2\choose -1}.</m>
           </li>
           <li>
-            Multiplying by <m>B</m> rotates by <m>90^\circ</m>: <m>\textcolor{seq-red}{B[x]_\cB} = {1\choose -1/2}</m>.
+            Multiplying by <m>B</m> rotates by <m>90^\circ</m>: <m>\textcolor{seq-red}{B[x]_\cC} = {1\choose -1/2}</m>.
           </li>
           <li>
-            Interpreting <m>{1\choose -1/2}</m> as a <m>\cB</m>-coordinate vector, we multiply by <m>C</m> to get
+            Interpreting <m>{1\choose -1/2}</m> as a <m>\cC</m>-coordinate vector, we multiply by <m>C</m> to get
             <me>
-              \textcolor{seq-red}{Ax} = C\vec{1 -1/2} = \textcolor{seq-violet}{v_1} - \frac 12\textcolor{seq-blue}{v_2} = \frac 14\vec{9 3}.
+              \textcolor{seq-red}{Ax} = C\vec[c]{1 -1/2} = \textcolor{seq-violet}{v_1} - \frac 12\textcolor{seq-blue}{v_2} = \frac 14\vec{9 3}.
             </me>
-            This vector lies at <m>(1, -\frac 12)</m> on the <m>\cB</m>-coordinate grid.
+            This vector lies at <m>(1, -\frac 12)</m> on the <m>\cC</m>-coordinate grid.
           </li>
         </ol>
         <latex-code>
 \begin{tikzpicture}[scale=.75, thin border nodes]
-  \node at (0, 3.5) {$\cB$-coordinates};
+  \node at (0, 3.5) {$\cC$-coordinates};
 
   \begin{scope}[scale=3/2, arrows={[line width=.6pt]}]
     \draw[help lines] (-2,-2) grid (2, 2);
@@ -778,8 +795,8 @@ the license is included in gfdl.xml.
 
     \draw[|->, shorten=1.5mm, dashed]
         (-1/2,-1) arc[radius=sqrt(5/4), start angle={atan2(-1,-1/2)}, delta angle=90];
-    \draw[seq-green, vector] (0, 0) -- (-1/2, -1) node[below left=-1mm] {$[x]_\cB$};
-    \draw[seq-red, vector] (0, 0) -- (1, -1/2) node[right] {$B[x]_\cB$};
+    \draw[seq-green, vector] (0, 0) -- (-1/2, -1) node[below left=-1mm] {${}_\cC[x]$};
+    \draw[seq-red, vector] (0, 0) -- (1, -1/2) node[right] {$B\;{}_\cC[x]$};
   \end{scope}
 
   \draw[->, shorten=2mm, thick] (9, 1) to[bend right]
@@ -879,7 +896,7 @@ the license is included in gfdl.xml.
 
   \draw[->, shorten=2mm, thick] (3, 1) to[bend left, "$B$" above=.5mm] (6, 1);
   \draw[->, shorten=2mm, thick, yshift=-9cm]
-    (3, -1) to[bend right, "$A'$" above=.5mm] (6, -1);
+    (3, -1) to[bend right, "$A$" above=.5mm] (6, -1);
   \draw[->, shorten=2mm, thick] (-1, -6) to[bend left, "$C\inv$" right=.5mm] (-1, -3);
   \draw[->, shorten=2mm, thick, xshift=9cm]
     (1, -3) to[bend left, "$C$" left=.5mm] (1, -6);
@@ -888,7 +905,7 @@ the license is included in gfdl.xml.
         </latex-code>
       </p>
       <figure>
-        <caption>The geometric relationship between the similar matrices <m>A</m> and <m>B</m> acting on <m>\R^2</m>.  Click and drag the heads of <m>x</m> and <m>[x]_\cB</m>.</caption>
+        <caption>The geometric relationship between the similar matrices <m>A</m> and <m>B</m> acting on <m>\R^2</m>.  Click and drag the heads of <m>x</m> and <m>[x]_\cC</m>.</caption>
         <mathbox source="demos/similarity.html?B=0,-1:1,0&amp;C=2,-1/2:1,1/2&amp;snap=off" height="600px"/>
       </figure>
     </example>
@@ -904,7 +921,7 @@ the license is included in gfdl.xml.
         <me>
           B = \mat{\cos\theta,-\sin\theta; \sin\theta,\cos\theta}
           \qquad
-          C = \mat{| |; v_1 v_2; | |}
+          C = \mat[c]{| |; v_1 v_2; | |}
           \qquad
           A = CBC\inv,
         </me>
@@ -972,7 +989,7 @@ the license is included in gfdl.xml.
 
   \draw[->, shorten=2mm, thick] (3, 1) to[bend left, "$B$" above=.5mm] (6, 1);
   \draw[->, shorten=2mm, thick, yshift=-9cm]
-    (3, -1) to[bend right, "$A'$" above=.5mm] (6, -1);
+    (3, -1) to[bend right, "$A$" above=.5mm] (6, -1);
   \draw[->, shorten=2mm, thick] (-1, -6) to[bend left, "$C\inv$" right=.5mm] (-1, -3);
   \draw[->, shorten=2mm, thick, xshift=9cm]
     (1, -3) to[bend left, "$C$" left=.5mm] (1, -6);
@@ -991,7 +1008,7 @@ the license is included in gfdl.xml.
           B = \mat{-1 0 0; 0 -1 0; 0 0 2} \qquad
           C = \mat{-1 1 0; 1 1 1; -1 0 1}.
         </me>
-        Then <m>A = CBC\inv</m>, as one can verify.  Let <m>v_1,v_2,v_3</m> be the columns of <m>C</m>, and let <m>\cB = \{v_1,v_2,v_3\}</m>, a basis of <m>\R^3</m>.  Then <m>A</m> does the same thing as <m>B</m>, except <m>A</m> uses the <m>\cB</m>-coordinate system.  In other words:
+        Then <m>A = CBC\inv</m>, as one can verify.  Let <m>v_1,v_2,v_3</m> be the columns of <m>C</m>, and let <m>\cC = (v_1,v_2,v_3)</m>, a basis of <m>\R^3</m>.  Then <m>A</m> does the same thing as <m>B</m>, except <m>A</m> uses the <m>\cC</m>-coordinate system.  In other words:
         <ul>
           <li>
             <m>B</m> scales the <m>e_1,e_2</m>-plane by <m>-1</m> and the <m>e_3</m>-direction by <m>2</m>.
@@ -1002,7 +1019,7 @@ the license is included in gfdl.xml.
         </ul>
       </p>
       <figure>
-        <caption>The geometric relationship between the similar matrices <m>A</m> and <m>B</m> acting on <m>\R^3</m>.  Click and drag the heads of <m>x</m> and <m>[x]_\cB</m>.</caption>
+        <caption>The geometric relationship between the similar matrices <m>A</m> and <m>B</m> acting on <m>\R^3</m>.  Click and drag the heads of <m>x</m> and <m>{}_\cC[x]</m>.</caption>
         <mathbox source="demos/similarity.html?B=-1,0,0:0,-1,0:0,0,2&amp;C=-1,1,0:1,1,1:-1,0,1&amp;closed" height="600px"/>
       </figure>
     </example>
@@ -1062,6 +1079,10 @@ the license is included in gfdl.xml.
       <idx><h>Determinant</h><h>of similar matrices</h></idx>
       <idx><h>Matrix</h><h>trace of</h><h>similar matrices</h></idx>
       By this <xref ref="charpoly-is-poly"/>, similar matrices also have the same trace and determinant.
+      Both of these observations also follow from the fact that similar matrices
+      represent the same linear endomorphism considered with respect to different bases,
+      and the determinant, trace, and characteristic polynomial don't depend on
+      the choice of basis.
     </p>
 
     <note>
@@ -1073,7 +1094,7 @@ the license is included in gfdl.xml.
     </note>
 
     <p>
-      Given that similar matrices have the same eigenvalues, one might guess that they have the same eigen<em>vectors</em> as well.  Upon reflection, this is not what one should expect: indeed, the eigenvectors should only match up after changing from one coordinate system to another.  This is the content of the next fact, remembering that <m>C</m> and <m>C\inv</m> change between the usual coordinates and the <m>\cB</m>-coordinates.
+      Given that similar matrices have the same eigenvalues, one might guess that they have the same eigen<em>vectors</em> as well.  Upon reflection, this is not what one should expect: indeed, the eigenvectors should only match up after changing from one coordinate system to another.  This is the content of the next fact, remembering that <m>C</m> and <m>C\inv</m> change between the usual coordinates and the <m>\cC</m>-coordinates.
     </p>
 
     <theorem type-name="Fact" xml:id="similarity-evecs">
