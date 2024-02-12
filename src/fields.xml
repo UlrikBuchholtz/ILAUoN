@@ -120,10 +120,14 @@ the license is included in gfdl.xml.
       where <m>p</m> is a prime number.
       As an example, we can describe a field <m>\F_4</m> with <m>4</m> elements
       <m>0,1,a,a^{-1}</m>, where <m>1+1=0</m> and <m>a^2=a+1</m>.</li>
+      <li>The field of rational functions <m>\Lambda(X)</m> over a field <m>\Lambda</m>
+      consists of rational functions, i.e., those of the form <m>P/Q</m>,
+      where <m>P,Q</m> are polynomials with coefficients from <m>\Lambda</m>
+      and <m>Q\ne 0</m>.</li>
       <li>etc.</li>
     </ul>
   </p>
-  
+
   <p>
   We can now give the definition of abstract vector spaces.</p>
 
@@ -183,20 +187,29 @@ the license is included in gfdl.xml.
     <m>\cdot</m> is called the <term>scalar multiplication</term>; again, it is usually
     left out of notations.
     These operations allow us to produce linear combinations in a meaningful way,
-    and we can prove all the theorems of linear algebra for these.
+    and we can prove all the theorems of linear algebra for these,
+    at least when they are <term>finite dimensional</term>, i.e.,
+    admit a finite ordered basis, as defined in <xref ref="dimension"/>.
     The standard examples are the spaces <m>\Lambda^n</m> of column vectors of
-    length <m>n</m>, for any <m>n\in\N</m>,
-    and vector subspaces (<xref ref="subspaces"/>) of these.
-    Another example is the set of polynomials
-    <me>
-      \Lambda[X] = \{\;a_nX^n + \cdots + a_1X + a_0 \mid a_i\in\Lambda\;\}
-    </me>
-    with the obvious addition and scalar multiplications.
-    The set of <m>m\times n</m> matrices over <m>\Lambda</m>
-    (<xref ref="matrix-equations" />), as well as the set of
-    linear maps <m>f : V \to W</m> between two vector spaces over <m>\Lambda</m>
-    (<xref ref="linear-transformations" />),
-    furnish further examples.
+    length <m>n</m>, for any <m>n\in\N</m>. Other examples:
+    <ul>
+      <li>Vector subspaces (<xref ref="subspaces"/>) of any vector space.</li>
+      <li>The set of polynomials
+      <me>
+        \Lambda[X] = \{\;a_nX^n + \cdots + a_1X + a_0 \mid a_i\in\Lambda\;\}
+      </me>
+      with the obvious addition and scalar multiplications.</li>
+      <li>The set of <m>m\times n</m> matrices over <m>\Lambda</m>
+      (<xref ref="matrix-equations" />).</li>
+      <li>The set of linear maps <m>f : V \to W</m> between two vector spaces
+      over <m>\Lambda</m> (<xref ref="linear-transformations" />).</li>
+      <li>The quotient space <m>V/U</m> of a vector space <m>V</m> with respect
+      to a subspace <m>U</m>: This is obtained a the quotient of <m>V</m> by the
+      equivalence relation <m>\sim</m> defined by <m>x\sim y</m> if and only if
+      <m>y-x \in U</m>. The operations are inhered from <m>V</m> in the sense that
+      <m>\lambda[x] = [\lambda x]</m> and <m>[x]+[y]=[x+y]</m> are well defined.</li>
+      <li>etc.</li>
+    </ul>
   </p>
 
   <p>To read more about abstract algebra, including the theory of commutative rings

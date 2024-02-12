@@ -388,7 +388,7 @@ the license is included in gfdl.xml.
     for the domain and the codomain independently.
     In <xref ref="chap-eigenvalues"/> we'll see that the situation is much more subtle
     for linear transformations <m>T : \R^n \to \R^n</m> where the domain and
-    the codomain coincide and we want to use the <em>one</em> basis for both.
+    the codomain coincide and we want to use the <em>same</em> basis for both.
   </p>
 
   <!--

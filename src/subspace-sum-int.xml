@@ -104,7 +104,7 @@ the license is included in gfdl.xml.
       that is, the columns coming from <m>A</m>.
       (Indeed, we must have <m>\dim(U) \le \dim(U+V)</m>.)
       The non-pivot columns give us a basis for the null space of <m>\mat{A B}</m>.
-      The is because this null space consists of <m>(k+\ell)</m>-dimensional
+      This is because this null space consists of <m>(k+\ell)</m>-dimensional
       vectors <m>\vec{x y}</m> such that <m>Ax + By = 0</m>, or equivalently,
       <m>By = -Ax</m>. So any such pair of coefficient vectors <m>x</m> and <m>y</m>
       gives an element of the intersection <m>U \cap V = \Col(A) \cap \Col(B)</m>.

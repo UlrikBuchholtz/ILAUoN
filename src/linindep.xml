@@ -756,11 +756,15 @@ Let's explain why the vectors <m>(1,1,0)</m> and <m>(-2,0,1)</m> are linearly in
       <statement>
         <p>
           Let <m>v_1,v_2,\ldots,v_k</m> be vectors in <m>\R^n</m>, and consider the matrix
-          <me>A = \mat{| |, , |; v_1 v_2 \cdots, v_k; | |, , |}.</me>
+          <me>A = \mat[c]{| |, , |; v_1 v_2 \cdots, v_k; | |, , |}.</me>
           Then we can delete the columns of <m>A</m> <em>without</em> pivots (the columns corresponding to the free variables), without changing <m>\Span\{v_1,v_2,\ldots,v_k\}</m>.
         </p>
 
         <p>The pivot columns are linearly independent, so we cannot delete any more columns without changing the span.</p>
+
+        <p>Every non-pivot column belong to the span of the pivot columns to its left,
+        more precisely, it is the linear combination with coefficients given by the non-pivot column
+        itself in the reduced row echelon form.</p>
       </statement>
 
       <proof>
@@ -800,6 +804,11 @@ Let's explain why the vectors <m>(1,1,0)</m> and <m>(-2,0,1)</m> are linearly in
     </theorem>
 
     <p>
+      As a corollary, we note the uniqueness of the reduced row echelon form,
+      already stated in <xref ref="row-reduction-works"/>, by uniqueness of the coefficients
+    expressing a non--pivot column as a linear combination of pivot columns to its left.</p>
+
+    <p>
       Note that it is necessary to row reduce <m>A</m> to find which are its <xref ref="defn-pivot-pos" text="title">pivot columns</xref>.  However, the span of the columns of the row reduced matrix is generally <em>not</em> equal to the span of the columns of <m>A</m>: one must use the pivot columns of the <em>original</em> matrix.  See <xref ref="dimension-basis-colspace"/> for a restatement of the above theorem.
     </p>
 
@@ -822,7 +831,7 @@ Let's explain why the vectors <m>(1,1,0)</m> and <m>(-2,0,1)</m> are linearly in
       <title>Pivot Columns and Dimension</title>
       <p>
         Let <m>d</m> be the number of pivot columns in the matrix
-        <me>A = \mat{| |, , |; v_1 v_2 \cdots, v_k; | |, , |}.</me>
+        <me>A = \mat[c]{| |, , |; v_1 v_2 \cdots, v_k; | |, , |}.</me>
         <ul>
           <li>If <m>d=1</m> then <m>\Span\{v_1,v_2,\ldots,v_k\}</m> is a line.</li>
           <li>If <m>d=2</m> then <m>\Span\{v_1,v_2,\ldots,v_k\}</m> is a plane.</li>
