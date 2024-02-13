@@ -49,6 +49,14 @@ the license is included in gfdl.xml.
     </proof>
   </fact>
 
+  <p>
+    When we combine this observation with the <xref ref="linindep-pivot-cols" />,
+    we deduce the uniqueness of the reduced row echelon form,
+    already stated in this <xref ref="row-reduction-works"/>.
+    Indeed, each non-pivot column in the reduced row echelon form consists of the uniquely determined coefficients
+    expressing it as a linear combination of the pivot columns to its left, followed by zeros.
+  </p>
+
   <specialcase>
     <p>
       Consider the standard basis of <m>\R^3</m> from this <xref ref="dimension-eg-Rn"/>:
