@@ -749,7 +749,7 @@ $\quad\xrightarrow{\phantom{MMMM}}\quad$
 
   \draw[->, thick] (a) to[bend left]
       node[above=2pt] {$T$}
-      node[below=4pt] {$\mat{| |; v_1 v_2; | |}$}
+      node[below=4pt] {$\mat[c]{| |; v_1 v_2; | |}$}
       ($(a) + (2.8cm,0)$);
 
   \begin{scope}[xshift=5cm]
@@ -814,7 +814,7 @@ $\quad\xrightarrow{\phantom{MMMM}}\quad$
 
   \draw[->, thick] (a) to[bend left]
       node[above=2pt] {$T$}
-      node[below=4pt] {$\mat{| |; v_1 v_2; | |}$}
+      node[below=4pt] {$\mat[c]{| |; v_1 v_2; | |}$}
       ($(a) + (2.8cm,0)$);
 
   \begin{scope}[xshift=5cm]

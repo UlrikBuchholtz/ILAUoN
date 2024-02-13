@@ -942,7 +942,7 @@ So, for example, if <m>x=(1,0,0)</m>, this formula tells us that <m>x_W = (2,1,-
       <p>
         As we saw in this <xref ref="projections-onto-plane4"/>, if you are willing to compute bases for <m>W</m> and <m>W^\perp</m>, then this provides a third way of finding the standard matrix <m>B</m> for projection onto <m>W</m>: indeed, if <m>\{v_1,v_2,\ldots,v_m\}</m> is a basis for <m>W</m> and <m>\{v_{m+1},v_{m+2},\ldots,v_n\}</m> is a basis for <m>W^\perp</m>, then
         <me>
-          B = \mat{| | ,, |; v_1 v_1 \cdots, v_n; | | ,, |}
+          B = \mat[c]{| | ,, |; v_1 v_1 \cdots, v_n; | | ,, |}
           \mat{
           1 \cdots, 0 0 \cdots, 0;
           \vdots, \ddots, \vdots, \vdots, \ddots, \vdots;
@@ -950,7 +950,7 @@ So, for example, if <m>x=(1,0,0)</m>, this formula tells us that <m>x_W = (2,1,-
           0 \cdots, 0 0 \cdots, 0;
           \vdots, \ddots, \vdots, \vdots, \ddots, \vdots;
           0 \cdots, 0 0 \cdots, 0}
-          \mat{| | ,, |; v_1 v_1 \cdots, v_n; | | ,, |}\inv,
+          \mat[c]{| | ,, |; v_1 v_1 \cdots, v_n; | | ,, |}\inv,
         </me>
         where the middle matrix in the product is the diagonal matrix with <m>m</m> ones and <m>n-m</m> zeros on the diagonal.  However, since you already have a basis for <m>W</m>, it is faster to multiply out the expression <m>A(A^TA)\inv A^T</m> as in the <xref ref="projections-ATA-formula2"/>.
       </p>

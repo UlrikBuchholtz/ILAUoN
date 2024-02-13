@@ -2,6 +2,7 @@
 
 <!--********************************************************************
 Copyright 2019 Dan Margalit and Joseph Rabinoff
+Copyright 2024 Ulrik Buchholtz
 
 Permission is granted to copy, distribute and/or modify this document
 under the terms of the GNU Free Documentation License, Version 1.3 or
@@ -20,6 +21,7 @@ the license is included in gfdl.xml.
       <li><em>Recipe:</em> test if a set of vectors is linearly independent / find an equation of linear dependence.</li>
       <li><em>Picture:</em> whether a set of vectors in <m>\R^2</m> or <m>\R^3</m> is linearly independent or not.</li>
       <li><em>Vocabulary:</em> <term>linear dependence relation</term> / <term>equation of linear dependence</term>.</li>
+      <li><em>Theorem:</em> “pivotal” theorem.</li>
       <li><em>Essential Vocabulary:</em> <term>linearly independent</term>, <term>linearly dependent</term>.</li>
     </ol>
   </objectives>
@@ -205,7 +207,7 @@ Let's explain why the vectors <m>(1,1,0)</m> and <m>(-2,0,1)</m> are linearly in
       has only the trivial solution, if and only if the matrix equation
       <m>Ax=0</m>
       has only the trivial solution, where <m>A</m> is the matrix with columns <m>v_1,v_2,\ldots,v_k</m>:
-      <me>A = \mat{| |, , |; v_1 v_2 \cdots, v_k; | |, , |}.</me>
+      <me>A = \mat[c]{| |, , |; v_1 v_2 \cdots, v_k; | |, , |}.</me>
       This is true if and only if <m>A</m> has a <xref ref="defn-pivot-pos" text="title">pivot position</xref> in every column.
     </p>
     <p>
@@ -762,7 +764,7 @@ Let's explain why the vectors <m>(1,1,0)</m> and <m>(-2,0,1)</m> are linearly in
 
         <p>The pivot columns are linearly independent, so we cannot delete any more columns without changing the span.</p>
 
-        <p>Every non-pivot column belong to the span of the pivot columns to its left,
+        <p>Every non-pivot column belongs to the span of the pivot columns to its left,
         more precisely, it is the linear combination with coefficients given by the non-pivot column
         itself in the reduced row echelon form.</p>
       </statement>
@@ -771,7 +773,8 @@ Let's explain why the vectors <m>(1,1,0)</m> and <m>(-2,0,1)</m> are linearly in
         <p>
           If the matrix is in reduced row echelon form:
           <me>A = \mat{1 0 2 0; 0 1 3 0; 0 0 0 1}</me>
-          then the column without a pivot is visibly in the span of the pivot columns:
+          then the column without a pivot is visibly in the span of the pivot columns,
+          with only nonzero coefficients for the pivot columns to its left:
           <me>\vec{2 3 0} = 2\vec{1 0 0} + 3\vec{0 1 0} + 0\vec{0 0 1},</me>
           and the pivot columns are linearly independent:
           <me>
@@ -805,8 +808,9 @@ Let's explain why the vectors <m>(1,1,0)</m> and <m>(-2,0,1)</m> are linearly in
 
     <p>
       As a corollary, we note the uniqueness of the reduced row echelon form,
-      already stated in <xref ref="row-reduction-works"/>, by uniqueness of the coefficients
-    expressing a non--pivot column as a linear combination of pivot columns to its left.</p>
+      already stated in this <xref ref="row-reduction-works"/>, by uniqueness of the coefficients
+      expressing a non-pivot column as a linear combination of pivot columns to its left,
+    see this <xref ref="dimension-unique-coeff"/>.</p>
 
     <p>
       Note that it is necessary to row reduce <m>A</m> to find which are its <xref ref="defn-pivot-pos" text="title">pivot columns</xref>.  However, the span of the columns of the row reduced matrix is generally <em>not</em> equal to the span of the columns of <m>A</m>: one must use the pivot columns of the <em>original</em> matrix.  See <xref ref="dimension-basis-colspace"/> for a restatement of the above theorem.

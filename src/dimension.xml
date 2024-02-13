@@ -305,7 +305,7 @@ the license is included in gfdl.xml.
       <idx><h>Basis</h><h>of a span</h></idx>
       <idx><h>Span</h><h>basis of</h><see>Basis</see></idx>
       Computing a basis for a span is the same as computing a basis for a column space.  Indeed, the span of finitely many vectors <m>v_1,v_2,\ldots,v_m</m> <em>is</em> the column space of a matrix, namely, the matrix <m>A</m> whose columns are <m>v_1,v_2,\ldots,v_m</m>:
-      <me>A = \mat{| | ,, |; v_1 v_2 \cdots, v_m; | | ,, |}.</me>
+      <me>A = \mat[c]{| | ,, |; v_1 v_2 \cdots, v_m; | | ,, |}.</me>
     </p>
 
     <example xml:id="dimension-eg-basis-span">

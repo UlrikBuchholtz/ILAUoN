@@ -639,7 +639,7 @@ A-\frac{4+3i}5I_3 =
         <p>
           Let <m>A</m> be a <m>2\times 2</m> real matrix with a complex (non-real) eigenvalue <m>\lambda</m>, and let <m>v</m> be an eigenvector.  Then <m>A = CBC\inv</m> for
           <me>
-            C = \mat{| |; \Re(v) \Im(v); | |}
+            C = \mat[c]{| |; \Re(v) \Im(v); | |}
             \sptxt{and}
             B = \mat{\Re(\lambda) \Im(\lambda); -\Im(\lambda) \Re(\lambda)}.
           </me>
@@ -751,7 +751,7 @@ A-\frac{4+3i}5I_3 =
           <li>
             Then <m>A=CBC\inv</m> for
           <me>
-            C = \mat{| |; \Re(v) \Im(v); | |}
+            C = \mat[c]{| |; \Re(v) \Im(v); | |}
             \sptxt{and}
             B = \mat{\Re(\lambda) \Im(\lambda); -\Im(\lambda) \Re(\lambda)}.
           </me>
@@ -1058,7 +1058,7 @@ A-\frac{4+3i}5I_3 =
       <idx><h>Complex eigenvalue</h><h><m>2\times 2</m> matrices</h><h>different rotation-scaling matrices</h></idx>
       We saw in the above examples that the <xref ref="cplx-diagonalization-thm"/> can be applied in two different ways to any given matrix: one has to choose one of the two conjugate eigenvalues to work with.  Replacing <m>\lambda</m> by <m>\bar\lambda</m> has the effect of replacing <m>v</m> by <m>\bar v</m>, which just negates all imaginary parts, so we also have <m>A=C'B'(C')\inv</m> for
       <me>
-        C' = \mat{| |; \Re(v) -\Im(v); | |}
+        C' = \mat[c]{| |; \Re(v) -\Im(v); | |}
         \sptxt{and}
         B' = \mat{\Re(\lambda) -\Im(\lambda); \Im(\lambda) \Re(\lambda)}.
       </me>
@@ -1439,7 +1439,7 @@ B =
           According to the <xref ref="block-diag-thm"/>, we have <m>A=CBC\inv</m> for
           <me>
             \begin{split}
-            C \amp= \mat{| | |; \Re(v_1) \Im(v_1) v_2; | | |}
+            C \amp= \mat[c]{| | |; \Re(v_1) \Im(v_1) v_2; | | |}
             = \mat{-7 -1 2; 2 -9 -1; 5 0 3} \\
             B \amp= \mat{\Re(\lambda_1) \Im(\lambda_1) 0;
             -\Im(\lambda_1) \Re(\lambda_1) 0; 0 0 2}

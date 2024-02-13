@@ -763,7 +763,7 @@ the license is included in gfdl.xml.
   <p>
     Suppose that <m>A</m> has columns <m>v_1,v_2,\ldots,v_n</m>.  If we multiply <m>A</m> by a general vector <m>x</m>, we get
     <me>
-      Ax = \mat{| | ,, |; v_1 v_2 \cdots, v_n; | | ,, |}\vec{x_1 x_2 \vdots, x_n}
+      Ax = \mat[c]{| | ,, |; v_1 v_2 \cdots, v_n; | | ,, |}\vec{x_1 x_2 \vdots, x_n}
       = x_1v_1 + x_2v_2 + \cdots + x_nv_n.
     </me>
     This is just a general linear combination of <m>v_1,v_2,\ldots,v_n</m>.  Therefore, the outputs of <m>T(x) = Ax</m> are exactly the linear combinations of the columns of <m>A</m>: the <em>range</em> of <m>T</m> is the column space of <m>A</m>.  See this <xref ref="matrixeq-spans-consistency"/>.

@@ -260,12 +260,12 @@ the license is included in gfdl.xml.
         We saw in the above example that changing the order of the eigenvalues and eigenvectors produces a different diagonalization of the same matrix. There are generally many different ways to diagonalize a matrix, corresponding to different orderings of the eigenvalues of that matrix.  The important thing is that the eigenvalues and eigenvectors have to be listed in the same order.
         <me>
           \begin{split}
-          A \amp= \mat{| | |; v_1 v_2 v_3; | | |}
+          A \amp= \mat[c]{| | |; v_1 v_2 v_3; | | |}
           \mat{\lambda_1 0 0; 0 \lambda_2 0; 0 0 \lambda_3}
-          \mat{| | |; v_1 v_2 v_3; | | |}\inv \\
-          \amp= \mat{| | |; v_3 v_2 v_1; | | |}
+          \mat[c]{| | |; v_1 v_2 v_3; | | |}\inv \\
+          \amp= \mat[c]{| | |; v_3 v_2 v_1; | | |}
           \mat{\lambda_3 0 0; 0 \lambda_2 0; 0 0 \lambda_1}
-          \mat{| | |; v_3 v_2 v_1; | | |}\inv.
+          \mat[c]{| | |; v_3 v_2 v_1; | | |}\inv.
           \end{split}
         </me>
       </p>
@@ -273,12 +273,12 @@ the license is included in gfdl.xml.
         There are other ways of finding different diagonalizations of the same matrix.  For instance, you can scale one of the eigenvectors by a constant <m>c</m>:
         <me>
           \begin{split}
-          A \amp= \mat{| | |; v_1 v_2 v_3; | | |}
+          A \amp= \mat[c]{| | |; v_1 v_2 v_3; | | |}
           \mat{\lambda_1 0 0; 0 \lambda_2 0; 0 0 \lambda_3}
-          \mat{| | |; v_1 v_2 v_3; | | |}\inv \\
-          \amp= \mat{| | |; cv_1 v_2 v_3; | | |}
+          \mat[c]{| | |; v_1 v_2 v_3; | | |}\inv \\
+          \amp= \mat[c]{| | |; cv_1 v_2 v_3; | | |}
           \mat{\lambda_1 0 0; 0 \lambda_2 0; 0 0 \lambda_3}
-          \mat{| | |; cv_1 v_2 v_3; | | |}\inv,
+          \mat[c]{| | |; cv_1 v_2 v_3; | | |}\inv,
           \end{split}
         </me>
         you can find a different basis entirely for an eigenspace of dimension at least <m>2</m>, etc.
@@ -474,7 +474,7 @@ The eigenvectors <m>v_1,v_2,v_3</m> are linearly independent: <m>v_1,v_2</m> for
           <li>
             Otherwise, the <m>n</m> vectors <m>v_1,v_2,\ldots,v_n</m> in the eigenspace bases are linearly independent, and <m>A = CDC\inv</m> for
             <me>
-    C = \mat{| |,, |; v_1 v_2 \cdots, v_n; | | ,, |} \sptxt{and}
+    C = \mat[c]{| |,, |; v_1 v_2 \cdots, v_n; | | ,, |} \sptxt{and}
   D = \mat{\lambda_1 0 \cdots, 0;
     0 \lambda_2 \cdots, 0;
     \vdots, \vdots, \ddots, \vdots;

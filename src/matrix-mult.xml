@@ -336,9 +336,9 @@ the license is included in gfdl.xml.
       <statement>
         <p>
           Let <m>A</m> be an <m>m\times n</m> matrix and let <m>B</m> be an <m>n\times p</m> matrix.  Denote the columns of <m>B</m> by <m>v_1,v_2,\ldots,v_p</m>:
-          <me>B = \mat{| | ,, |; v_1 v_2 \cdots, v_p; | | ,, |}.</me>
+          <me>B = \mat[c]{| | ,, |; v_1 v_2 \cdots, v_p; | | ,, |}.</me>
           The <term>product</term> <m>AB</m> is the <m>m\times p</m> matrix with columns <m>Av_1,Av_2,\ldots,Av_p</m>:
-          <me>AB = \mat{| | ,, |; Av_1 Av_2 \cdots, Av_p; | | ,, |}.</me>
+          <me>AB = \mat[c]{| | ,, |; Av_1 Av_2 \cdots, Av_p; | | ,, |}.</me>
         </p>
       </statement>
     </definition>
@@ -475,15 +475,15 @@ the license is included in gfdl.xml.
           = \vec{r_1x r_2x \vdots, r_mx}.
           </me>
           The <xref ref="matrix-mult-defn-of"/> of matrix multiplication is
-          <me>A\mat{| | ,, |; c_1 c_2 \cdots, c_p; | | ,, |} =
-          \mat{| | ,, |; Ac_1 Ac_2 \cdots, Ac_p; | | ,, |}.</me>
+          <me>A\mat[c]{| | ,, |; c_1 c_2 \cdots, c_p; | | ,, |} =
+          \mat[c]{| | ,, |; Ac_1 Ac_2 \cdots, Ac_p; | | ,, |}.</me>
           It follows that
           <me>
             \mat[c]{ \matrow{r_1};
             \matrow{r_2};
             \vdots ;
             \matrow{r_m}}
-            \mat{| | ,, |; c_1 c_2 \cdots, c_p; | | ,, |}
+            \mat[c]{| | ,, |; c_1 c_2 \cdots, c_p; | | ,, |}
             = \mat{ r_1c_1 r_1c_2 \cdots, r_1c_p;
             r_2c_1 r_2c_2 \cdots, r_2c_p;
             \vdots, \vdots, , \vdots;
@@ -756,7 +756,7 @@ $\xrightarrow{\text{reflect $xy$}}$
           Since <m>e_3</m> is perpendicular to the <m>xy</m>-plane, reflecting over the <m>xy</m>-plane takes <m>e_3</m> to its negative:
           <me>U(e_3) = -e_3 = \vec{0 0 -1}.</me>
           We have computed all of the columns of <m>B</m>:
-          <me>B = \mat{| | |; U(e_1) U(e_2) U(e_3); | | |}
+          <me>B = \mat[c]{| | |; U(e_1) U(e_2) U(e_3); | | |}
           = \mat{1 0 0; 0 1 0; 0 0 -1}.</me>
           By a similar method, we find
           <me>A = \mat{0 0 0; 0 1 0; 0 0 1}.</me>

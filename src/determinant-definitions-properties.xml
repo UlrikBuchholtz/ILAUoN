@@ -876,7 +876,7 @@ the license is included in gfdl.xml.
           <me>
             AB =
             \mat[c]{ \matrow{r_1}; \matrow{r_2}; \vdots ; \matrow{r_m}}
-            \mat{| | ,, |; c_1 c_2 \cdots, c_p; | | ,, |}
+            \mat[c]{| | ,, |; c_1 c_2 \cdots, c_p; | | ,, |}
             = \mat{ r_1c_1 r_1c_2 \cdots, r_1c_p;
               r_2c_1 r_2c_2 \cdots, r_2c_p;
               \vdots, \vdots, , \vdots;
@@ -895,7 +895,7 @@ the license is included in gfdl.xml.
               \vdots, \vdots, , \vdots;
               c_p^Tr_1^T c_p^Tr_2^T \cdots, c_p^Tr_m^T} \\
             \amp= \mat[c]{ \matrow{c_1^T}; \matrow{c_2^T}; \vdots ; \matrow{c_p^T}}
-            \mat{| | ,, |; r_1^T r_2^T \cdots, r_m^T; | | ,, |}
+            \mat[c]{| | ,, |; r_1^T r_2^T \cdots, r_m^T; | | ,, |}
             = B^TA^T.
             \end{split}
           </me>
@@ -1133,8 +1133,8 @@ the license is included in gfdl.xml.
       </me>
       By the <xref ref="det-defn-trans-prop">transpose property</xref>, the determinant is also multilinear in the <em>columns</em> of a matrix:
       <me>
-        \det\mat{| | |; v_1 av+bw v_3; | | |}
-        = a\det\mat{| | |; v_1 v v_3; | | |} + b\det\mat{| | |; v_1 w v_3; | | |}.
+        \det\mat[c]{| | |; v_1 av+bw v_3; | | |}
+        = a\det\mat[c]{| | |; v_1 v v_3; | | |} + b\det\mat[c]{| | |; v_1 w v_3; | | |}.
       </me>
     </p>
 
