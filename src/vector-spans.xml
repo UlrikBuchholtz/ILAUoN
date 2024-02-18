@@ -214,19 +214,19 @@ the license is included in gfdl.xml.
 
     <example>
       <statement>
-	<p> Is <m>\vec{3 1 1}</m> in <m>\Span\left\{ \vec{1 0 0}, \vec{0 1 1} \right\}</m>?
+	<p> Is <m>\vec{3 1 1}</m> in <m>\Span\left\{ \vec{1 0 0}, \vec{1 1 1} \right\}</m>?
 	</p>
       </statement>
       <solution>
 	<p>This question is asking whether we can find scalars <m>x_1</m> and <m>x_2</m> that make the equation
 	<me> \vec{3 1 1} = x_1\vec{1 0 0} + x_2\vec{1 1 1} </me>
-	hold. We can rearrange this to give
+	hold. We can rearrange this to give the vector equation
 	<me> \vec{3 1 1} = \vec{x_1+x_2 0+x_2 0+x_2},</me>
-	which we can rewrite this vector equation as three ordinary equations
+	which we can rewrite as three ordinary equations
 	<me> \syseq{x_1+x_2=3; x_2=1; x_2=1\rlap.}</me>
 	If we set <m>x_1=2</m> and <m>x_2=1</m>, then the equations are true. Therefore we can write
 	<me> \vec{3 1 1} = 2 \vec{1 0 0} + \vec{1 1 1}.</me>
-	This shows that <m>\vec{3 1 1}</m> is in <m>\Span\left\{ \vec{1 0 0}, \vec{0 1 1} \right\}</m>.
+	This shows that <m>\vec{3 1 1}</m> is in <m>\Span\left\{ \vec{1 0 0}, \vec{1 1 1} \right\}</m>.
 	</p>
       </solution>
     </example>
