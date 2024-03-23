@@ -71,7 +71,7 @@ the license is included in gfdl.xml.
       </latex-code>
     </p>
 
-    <note hide-type="true">
+    <note hide-type="true"  xml:id="appAoCN">
       <title>Arithmetic of Complex Numbers</title>
       <idx><h>Complex numbers</h><h>arithmetic of</h></idx>
       <p>
