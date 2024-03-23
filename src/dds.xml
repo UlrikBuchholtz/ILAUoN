@@ -39,28 +39,28 @@ the license is included in gfdl.xml.
 
  <p>Before giving too many technical definitions, we consider an example:</p>
 
- <specialcase xml:id="stochastic-truck-eg1">
+ <specialcase xml:id="stochastic-scooter-eg1">
  <idx><h></h></idx>
  <p>
-	A truck rental company has locations all over Vancouver, where you can rent moving trucks. You can return them
+	An electric scooter company has locations all over Nottingham, where you can rent scooters. You can return them
 	to any other location. For simplicity, pretend that there are three locations, and that every customer returns
-	their truck the next day. Let <m>v_t</m> be the vector whose entries <m>x_t,y_t,z_t</m> are the number of trucks
+	their scoote the next day. Let <m>v_t</m> be the vector whose entries <m>x_t,y_t,z_t</m> are the number of scooters
 	in locations <m>1,2,</m> and <m>3</m>, respectively. Let <m>A</m> be the matrix whose <m>i,j</m>-entry is the
-	probability that a customer renting a truck from location <m>j</m> returns it to location <m>i</m>. For example, the
+	probability that a customer renting a scooter from location <m>j</m> returns it to location <m>i</m>. For example, the
 	matrix
  <me>
  A = \mat{.3 .4 .5; .3 .4 \color{seq-red}.3; \color{seq-green}.4 .2 .2}
  </me>
- encodes a <m>\color{seq-red}30\%</m> probability that a customer renting from location 3 returns the truck to location 2, and a <m>\color{seq-green}40\%</m> probability that a truck rented from location <m>1</m> gets returned to location <m>3</m>. The second row (for instance) of the matrix <m>A</m> says:
+ encodes a <m>\color{seq-red}30\%</m> probability that a customer renting from location 3 returns the scooter to location 2, and a <m>\color{seq-green}40\%</m> probability that a scooter rented from location <m>1</m> gets returned to location <m>3</m>. The second row (for instance) of the matrix <m>A</m> says:
  </p>
  <blockquote>
  <p>
- The number of trucks returned to location <m>2</m> will be (on average):
+ The number of scooters returned to location <m>2</m> will be (on average):
  <me>
  \begin{split}
- 30\% \amp\text{ of the trucks from location } 1 \\
- 40\% \amp\text{ of the trucks from location } 2 \\
- 30\% \amp\text{ of the trucks from location } 3 \\
+ 30\% \amp\text{ of the scooters from location } 1 \\
+ 40\% \amp\text{ of the scooters from location } 2 \\
+ 30\% \amp\text{ of the scooters from location } 3 \\
  \end{split}
  </me>
  </p>
@@ -70,7 +70,7 @@ the license is included in gfdl.xml.
  <me>
  A\vec{x_t y_t z_t} = \vec{.3x_t+.4y_t+.5z_t .3x_t+.4y_t+.3z_t .4x_t+.2y_t+.2z_t}.
  </me>
- Therefore, <m>Av_t</m> represents the number of trucks at each location the next day:
+ Therefore, <m>Av_t</m> represents the number of scooters at each location the next day:
  <me>Av_t = v_{t+1}.</me>
 	This is an example of a linear discrete dynamical system.
  </p>
@@ -139,7 +139,7 @@ the license is included in gfdl.xml.
  <subsection>
    <title>Long-term behaviour</title>
    <p>
-   An important question to ask about a dynamical system is: what is its long-term behavior? How many trucks will be
+   An important question to ask about a dynamical system is: what is its long-term behavior? How many scooters will be
    at each location after 100 days (assuming no intervention from the business owner)? How many rabbits will there be in
    20 years (and how many of them will be adults)? In this subsection, we will address this kind of question.
  </p>

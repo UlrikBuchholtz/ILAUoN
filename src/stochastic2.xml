@@ -64,7 +64,7 @@ the license is included in gfdl.xml.
    <title>Probabilities</title>
    <p>
  In this subsection, we discuss difference equations representing <em>probabilities</em>, like the <xref
- ref="stochastic-truck-eg1">truck rental example</xref>. Such systems are called <em>Markov chains</em>. The most important result in this section is the Perron<ndash/>Frobenius theorem, which describes the long-term behavior of a Markov chain.
+ ref="stochastic-scooter-eg1">scooter rental example</xref>. Such systems are called <em>Markov chains</em>. The most important result in this section is the Perron<ndash/>Frobenius theorem, which describes the long-term behavior of a Markov chain.
    </p>
 
    <note><p>Not every example of a discrete dynamical system with an eigenvalue of <m>1</m> arises from a Markov
@@ -102,19 +102,19 @@ the license is included in gfdl.xml.
  </p>
  </remark>
 
- <specialcase xml:id="stochastic-truck-eg2">
- <idx><h>Truck rental</h></idx>
+ <specialcase xml:id="stochastic-scooter-eg2">
+ <idx><h>Scooter rental</h></idx>
  <p>
- Continuing with the <xref ref="stochastic-truck-eg1">truck rental example</xref>, the matrix
+ Continuing with the <xref ref="stochastic-scooter-eg1">scooter rental example</xref>, the matrix
  <me>
  A = \mat{.3 .4 .5; .3 .4 .3; .4 .2 .2}
  </me>
- is a positive stochastic matrix. The fact that the columns sum to <m>1</m> says that all of the trucks rented from a
- particular location must be returned to <em>some</em> other location (remember that every customer returns the truck the next day). For instance, the first column says:
+ is a positive stochastic matrix. The fact that the columns sum to <m>1</m> says that all of the scooters rented from a
+ particular location must be returned to <em>some</em> other location (remember that every customer returns the scooter the next day). For instance, the first column says:
  </p>
  <blockquote>
  <p>
- Of the trucks rented from location <m>1</m>,
+ Of the scooters rented from location <m>1</m>,
  <me>
  \begin{split}
  30\% \amp\text{ will be returned to location } 1 \\
@@ -122,7 +122,7 @@ the license is included in gfdl.xml.
  40\% \amp\text{ will be returned to location } 3. \\
  \end{split}
  </me>
- The sum is <m>100\%</m>, as all of the trucks are returned to one of the three locations.
+ The sum is <m>100\%</m>, as all of the scooters are returned to one of the three locations.
  </p>
  </blockquote>
  <p>
@@ -138,7 +138,7 @@ the license is included in gfdl.xml.
  \amp\qquad= x_t + y_t + z_t.
  \end{split}
  </me>
- This says that the <em>total</em> number of trucks in the three locations does not change from day to day, as we expect.
+ This says that the <em>total</em> number of scooters in the three locations does not change from day to day, as we expect.
  </p>
  </specialcase>
 
@@ -371,9 +371,9 @@ the license is included in gfdl.xml.
  </example>
 
  <specialcase xml:id="stochastic-redbox-eg3">
- <idx><h>Truck rental</h></idx>
+ <idx><h>Scooter rental</h></idx>
  <p>
- Continuing with the <xref ref="stochastic-truck-eg2">truck rental example</xref>, we can illustrate the Perron<ndash/>Frobenius theorem explicitly. The matrix
+ Continuing with the <xref ref="stochastic-scooter-eg2">scooter rental example</xref>, we can illustrate the Perron<ndash/>Frobenius theorem explicitly. The matrix
  <me>
  A = \mat{.3 .4 .5; .3 .4 .3; .4 .2 .2}
  </me>
@@ -405,10 +405,10 @@ the license is included in gfdl.xml.
  as <m>t\to\infty</m>. This shows that <m>A^tx</m> approaches <m>a_1u_1</m>, which is an <em>eigenvector with eigenvalue <m>1</m></em>, as guaranteed by the Perron<ndash/>Frobenius theorem.
  </p>
  <p>
- What do the above calculations say about the number of trucks in the rental locations? Suppose that the locations start
- with 100 total trucks, with <m>30</m> trucks at location 1, <m>50</m> trucks at location <m>2</m>, and <m>20</m> trucks
+ What do the above calculations say about the number of scooters in the rental locations? Suppose that the locations start
+ with 100 total scooters, with <m>30</m> scooters at location 1, <m>50</m> scooters at location <m>2</m>, and <m>20</m> scooters
  at location <m>3</m>. Let <m>v_0 = (30,50,20)</m> be the vector describing this state. Then there will be <m>v_1 =
- Av_0</m> trucks at the locations the next day, <m>v_2 = Av_1</m> the day after that, and so on. We let <m>v_t = (x_t,y_t,z_t).</m>
+ Av_0</m> scooters at the locations the next day, <m>v_2 = Av_1</m> the day after that, and so on. We let <m>v_t = (x_t,y_t,z_t).</m>
  <me>
 \begin{array}{c|c|c|c}
  t &amp; x_t &amp; y_t &amp; z_t \\\hline
@@ -425,12 +425,12 @@ the license is included in gfdl.xml.
  10&amp; 38.888889 &amp; 33.333333 &amp; 27.777778 \\
 \end{array}
  </me>
- (Of course it does not make sense to have a fractional number of trucks; the decimals are included here to illustrate the convergence.) The steady-state vector says that eventually, the trucks will be distributed in the kiosks according to the percentages
+ (Of course it does not make sense to have a fractional number of scooters; the decimals are included here to illustrate the convergence.) The steady-state vector says that eventually, the scooters will be distributed in the kiosks according to the percentages
  <me>
  w = \frac 1{18}\vec{7 6 5} = \vec{38.888888\% 33.333333\% 27.777778\%},
  </me>
  which agrees with the above table. Moreover, this distribution is <em>independent</em> of the beginning distribution of
- trucks at locations.
+ scooters at locations.
  </p>
  <p>
  Now we turn to visualizing the dynamics of (i.e., repeated multiplication by) the matrix <m>A</m>. This matrix is diagonalizable; we have <m>A=CDC\inv</m> for
@@ -818,7 +818,7 @@ Page <m>\color{seq4}D</m> has <m>2</m> links, so it passes <m>\frac 12</m> of it
  \end{scope}
 \end{tikzpicture}
  ]]></latex-code>
- Page <m>C</m> is the most important, with a rank of <m>0.558</m>, and page <m>B</m> is the least important, with a rank of <m>0.1752.</m>
+ Page <m>C</m> is the most important, with a rank of <m>0.3558</m>, and page <m>B</m> is the least important, with a rank of <m>0.1752.</m>
  </p>
  </solution>
  </example>
