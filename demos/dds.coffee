@@ -1605,8 +1605,8 @@ dynamicsDemo = (controller, opts) ->
         viewT = dynView.view
 
         labeled = @labeledPoints view,
-            points:        [vectorIn, vectorOut[1]]
-            colors:        [vecColor, vecColor.lighten(.1)] #, vecColor.lighten(.1), vecColor.lighten(.1), vecColor.lighten(.1), vecColor.lighten(.1)]
+            points:        [vectorIn, vectorOut]
+            colors:        [vecColor, vecColor.darken(.1)]
             labels:        [vecName, matName + vecName]
             live:          true
             zeroPoints:    false
@@ -1629,7 +1629,7 @@ dynamicsDemo = (controller, opts) ->
                     vec.copy snapped
 
         drag = @draggable view,
-            points: vectorIn
+            points: [vectorIn]
             onDrag: snap
             postDrag: () ->
                 computeOut()
@@ -1638,10 +1638,9 @@ dynamicsDemo = (controller, opts) ->
 
         computeOut = () ->
             return unless params["Test vector"]
-            [vectorOut[0][0], vectorOut[0][1], vectorOut[0][2]]=vectorIn
-            [vectorOut[i][0], vectorOut[i][1], vector[i][2]] = vectorOut[i-1] for i in [1..5] 
-            dynView.matrixOrigCoords.applyToVector3Array vectorOut[i]
-            # updateCaption()
+            [vectorOut[0], vectorOut[1], vectorOut[2]] = vectorIn
+            dynView.matrixOrigCoords.applyToVector3Array vectorOut
+            updateCaption()
 
         @setVec = (vec) ->
             [vectorIn[0], vectorIn[1], vectorIn[2]] = vec

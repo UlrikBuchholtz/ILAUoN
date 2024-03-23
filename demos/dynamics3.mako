@@ -134,7 +134,7 @@ controller.loadDynamics type, typeOpts
 #######################################################
 # * Create demo
 
-params = 
+params =
     "Test vector": urlParams.get 'vec', 'bool', false
     "Show path":   urlParams.get 'path', 'bool', false
 
@@ -150,9 +150,9 @@ window.demo = demo = dynamicsDemo controller,
     axes:         true
     numPoints:    30
 
-# gui = new dat.GUI autoPlace: false
-# params["Multiply"] = controller.step
-# gui.add(params, "Multiply")
+gui = new dat.GUI autoPlace: false
+params["Multiply"] = controller.step
+gui.add(params, "Multiply")
 # params["Un-multiply"] = controller.unStep
 # gui.add(params, "Un-multiply")
 # gui.add(params, "Test vector").onFinishChange demo.toggleVector
