@@ -84,19 +84,21 @@ the license is included in gfdl.xml.
       </statement>
       <proof>
         <p>
-          Let <m>m = \dim(W)</m>, so <m>n-m = \dim(W^\perp)</m> by this <xref ref="orthocomp-facts-basic"/>.  Let <m>v_1,v_2,\ldots,v_m</m> be a basis for <m>W</m> and let <m>v_{m+1},v_{m+2},\ldots,v_n</m> be a basis for <m>W^\perp</m>.  We showed in the proof of this <xref ref="orthocomp-facts-basic"/> that <m>\{v_1,v_2,\ldots,v_m,v_{m+1},v_{m+2},\ldots,v_n\}</m> is linearly independent, so it forms a basis for <m>\R^n</m>.  Therefore, we can write
-          <me>
-            x = (c_1v_1 + \cdots + c_mv_m) + (c_{m+1}v_{m+1} + \cdots + c_nv_n)
-            = x_W + x_{W^\perp},
-          </me>
-          where <m>x_W = c_1v_1 + \cdots + c_mv_m</m> and <m>x_{W^\perp} = c_{m+1}v_{m+1} + \cdots + c_nv_n</m>.  Since <m>x_{W^\perp}</m> is orthogonal to <m>W</m>, the vector <m>x_W</m> is the closest vector to <m>x</m> on <m>W</m>, so this proves that such a decomposition exists.
+          If <m>U,V \subseteq\R^n</m> are any subspaces with <m>\dim U + \dim V = n</m>
+          and <m>\dim(U\cap V)=0</m>, then any vector <m>x \in \R^n</m> can be uniquely
+          written as <m>x = u+v</m> with <m>u\in U</m> and <m>v\in V</m>: indeed,
+          if we have two such expressions <m>x=u+v=u'+v'</m>, then
+          <m>u-u'=v-v' \in U\cap V = \{0\}</m>, so <m>u=u'</m> and <m>v=v'</m>
         </p>
+
         <p>
-          As for uniqueness, suppose that
-          <me>x = x_W + x_{W^\perp} = y_W + y_{W^\perp}</me>
-          for <m>x_W,y_W</m> in <m>W</m> and <m>x_{W^\perp},y_{W^\perp}</m> in <m>W^\perp</m>.  Rearranging gives
-          <me>x_W - y_W = y_{W^\perp} - x_{W^\perp}.</me>
-          Since <m>W</m> and <m>W^\perp</m> are subspaces, the left side of the equation is in <m>W</m> and the right side is in <m>W^\perp</m>.  Therefore, <m>x_W-y_W</m> is in <m>W</m> and in <m>W^\perp</m>, so it is orthogonal to itself, which implies <m>x_W-y_W=0</m>.  Hence <m>x_W = y_W</m> and <m>x_{W^\perp} = y_{W^\perp}</m>, which proves uniqueness.
+          To can apply this to <m>W</m> and <m>W^\perp</m> because of the
+          <xref ref="orthocomp-facts-basic">second fact</xref>.
+          Thus we can write any <m>x \in \R^n</m> uniquely as
+          <me>x = x_W + x_{W^\perp}</me>
+          where <m>x_W\in W</m> and <m>x_{W^\perp} \in W^\perp</m>.
+          Since <m>x_{W^\perp}</m> is orthogonal to <m>W</m>,
+          the vector <m>x_W</m> is the closest vector to <m>x</m> on <m>W</m>.
         </p>
       </proof>
     </theorem>

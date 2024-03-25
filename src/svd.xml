@@ -22,4 +22,31 @@ the license is included in gfdl.xml.
     Write the content.
   </p>
 
+  <!--
+    symmetric matrices have orthogonal eigenspaces
+      (λ₁v)·w = (Av)·w = vᵀAᵀw = vᵀAw = v·(Aw) = v·(λ₂w)
+      so (λ₁ - λ₂)(v·w) = 0, so v·w = 0
+    the eigenvalues are real
+    the spectral theorem A is symmetric iff basis of orthogonal e-vecs
+    (no proof)
+    diagonalize as A = PDPᵀ where PPᵀ=PᵀP=I
+
+    general (rectangular) A, what is the longest vector Ax for unit x?
+    optimize ∥Ax∥² = xᵀAᵀAx largest when x is e-vec of symmetric AᵀA
+
+    thm: e-vals of AᵀA are real non-negative
+
+    SVD: let λ₁ ≥ ⋯ ≥ λᵣ ≥ 0 = ⋯ = 0 be the e-vals of AᵀA with r of them > 0
+    n - r = nullity(AᵀA) = nullity(A) zeros. (so r = rank(A) = rank(AᵀA))
+    pick a ONB 𝓥 of ℝⁿ of corresponding e-vects v₁,…,vᵣ,vᵣ₊₁,…vₙ,
+    so vᵣ₊₁,…vₙ is an ONB for Nul(A) and v₁,…,vᵣ ONB for Row(A) = Nul(A)⊥
+    Claim: Av₁,…,Avᵣ orthogonal set: (Avᵢ)·(Avⱼ) = vᵢᵀAᵀAvⱼ = λⱼvᵢᵀvⱼ = 0.
+    Let uᵢ = σᵢ⁻¹Avᵢ, so u₁,…,uᵣ ONB for Col(A).
+    Append uᵣ₊₁,…,uₘ ONB for Col(A)⊥ = Nul(Aᵀ) to get ONB 𝓤 for ℝᵐ
+    then 𝓤[T]𝓥 = diag(σ₁,…,σᵣ,0,…,0) =: D
+    and A = UDVᵀ = σ₁u₁v₁ᵀ + ⋯ + σᵣuᵣvᵣᵀ
+
+    In application, we can leave out terms with small σ to get
+    a good approximation of A.
+   -->
 </section>

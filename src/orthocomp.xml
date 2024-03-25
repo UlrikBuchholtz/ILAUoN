@@ -194,7 +194,12 @@ the license is included in gfdl.xml.
 
     <proof>
       <p>
-        To justify the first equality, we need to show that a vector <m>x</m> is perpendicular to  all of the vectors in <m>W</m> if and only if it is perpendicular to <m>v_1,v_2,\ldots,v_m</m>.  Since the <m>v_i</m> are contained in <m>W</m>, we really only have to show that if <m>x\cdot v_1 = x\cdot v_2 = \cdots = x\cdot v_m = 0</m>, then <m>x</m> is perpendicular to every vector <m>v</m> in <m>W</m>.  Indeed, any vector in <m>W</m> has the form <m>v = c_1v_1 + c_2v_2 + \cdots + c_mv_m</m> for suitable scalars <m>c_1,c_2,\ldots,c_m</m>, so
+        We need to show that a vector <m>x</m> is perpendicular to  all of the vectors in <m>W</m> if and only if it is perpendicular to <m>v_1,v_2,\ldots,v_m</m>,
+        where
+        <me>
+          A = \mat[c]{| | ,, |; v_1 v_1 \cdots, v_n; | | ,, |}.
+        </me>
+        Since the <m>v_i</m> are contained in <m>W</m>, we really only have to show that if <m>x\cdot v_1 = x\cdot v_2 = \cdots = x\cdot v_m = 0</m>, then <m>x</m> is perpendicular to every vector <m>v</m> in <m>W</m>.  Indeed, any vector in <m>W</m> has the form <m>v = c_1v_1 + c_2v_2 + \cdots + c_mv_m</m> for suitable scalars <m>c_1,c_2,\ldots,c_m</m>, so
         <me>
           \begin{split}
           x\cdot v \amp= x\cdot(c_1v_1 + c_2v_2 + \cdots + c_mv_m) \\
@@ -203,22 +208,6 @@ the license is included in gfdl.xml.
           \end{split}
         </me>
         Therefore, <m>x</m> is in <m>W^\perp.</m>
-      </p>
-      <p>
-        To prove the second equality, we let
-        <me>
-          A = \mat{
-            \matrow{v_1^T};
-            \matrow{v_2^T};
-            \vdots;
-            \matrow{v_m^T}}.
-        </me>
-        By the <xref ref="matrixeq-row-column-prod">row-column rule for matrix multiplication</xref>, for any vector <m>x</m> in <m>\R^n</m> we have
-        <me>
-          Ax = \vec{v_1^Tx v_2^Tx \vdots, v_m^Tx}
-          = \vec{v_1\cdot x v_2\cdot x \vdots, v_m\cdot x}.
-        </me>
-        Therefore, <m>x</m> is in <m>\Nul(A)</m> if and only if <m>x</m> is perpendicular to each vector <m>v_1,v_2,\ldots,v_m</m>.
       </p>
     </proof>
   </proposition>
@@ -350,8 +339,10 @@ the license is included in gfdl.xml.
         Let <m>W</m> be a subspace of <m>\R^n</m>.  Then:
         <ol>
           <li><m>W^\perp</m> is also a subspace of <m>\R^n.</m></li>
-          <li><m>(W^\perp)^\perp = W.</m></li>
+          <li><m>W \cap W^\perp = \{0\}</m></li>
+          <li><m>W + W^\perp = \R^n</m></li>
           <li><m>\dim(W) + \dim(W^\perp) = n.</m></li>
+          <li><m>(W^\perp)^\perp = W.</m></li>
         </ol>
       </p>
     </statement>
@@ -372,27 +363,39 @@ the license is included in gfdl.xml.
           </li>
         </ol>
       </p>
+
       <p>
-        Next we prove the third assertion.  Let <m>v_1,v_2,\ldots,v_m</m> be a basis for <m>W</m>, so <m>m = \dim(W)</m>, and let <m>v_{m+1},v_{m+2},\ldots,v_k</m> be a basis for <m>W^\perp</m>, so <m>k-m = \dim(W^\perp)</m>.  We need to show <m>k=n</m>.  First we claim that <m>\{v_1,v_2,\ldots,v_m,v_{m+1},v_{m+2},\ldots,v_k\}</m> is linearly independent.  Suppose that <m>c_1v_1 + c_2v_2 + \cdots + c_kv_k = 0</m>.  Let <m>w = c_1v_1 + c_2v_2 + \cdots + c_mv_m</m> and <m>w' = c_{m+1}v_{m+1} + c_{m+2}v_{m+2} + \cdots + c_kv_k</m>, so <m>w</m> is in <m>W</m>, <m>w'</m> is in <m>W'</m>, and <m>w + w' = 0</m>.  Then <m>w = -w'</m> is in both <m>W</m> and <m>W^\perp</m>, which implies <m>w</m> is perpendicular to <em>itself</em>.  In particular, <m>w\cdot w = 0</m>, so <m>w = 0</m>, and hence <m>w' = 0</m>.  Therefore, all coefficients <m>c_i</m> are equal to zero, because <m>\{v_1,v_2,\ldots,v_m\}</m> and <m>\{v_{m+1},v_{m+2},\ldots,v_k\}</m> are linearly independent.
+        For the second assertion, assume <m>w \in W\cap W^\perp</m>. Then
+        <m>w</m> is perpendicular to <em>itself</em>.
+        In particular, <m>w\cdot w = 0</m>, so <m>\|w\|=0</m> and <m>w = 0</m>.
       </p>
+
       <p>
-        It follows from the previous paragraph that <m>k \leq n</m>.  Suppose that <m>k \lt n</m>.  Then the matrix
-        <me>
-          A = \mat{
-            \matrow{v_1^T};
-            \matrow{v_2^T};
-            \vdots;
-            \matrow{v_k^T}}
-        </me>
-        has more columns than rows (it is <q>wide</q>), so its null space is nonzero by this <xref ref="one-to-one-wide-matrices"/>.  Let <m>x</m> be a nonzero vector in <m>\Nul(A)</m>.  Then
-        <me>
-          0 = Ax = \vec{v_1^Tx v_2^Tx \vdots, v_k^Tx}
-          = \vec{v_1\cdot x v_2\cdot x \vdots, v_k\cdot x}
-        </me>
-        by the <xref ref="matrixeq-row-column-prod">row-column rule for matrix multiplication</xref>.  Since <m>v_1\cdot x = v_2\cdot x = \cdots = v_m\cdot x = 0</m>, it follows from this <xref ref="orthocomp-comp-of-span"/> that <m>x</m> is in <m>W^\perp</m>, and similarly, <m>x</m> is in <m>(W^\perp)^\perp</m>.  As above, this implies <m>x</m> is orthogonal to itself, which contradicts our assumption that <m>x</m> is nonzero.  Therefore, <m>k = n</m>, as desired.
+        For the third assertion, assume that the subspace sum <m>W+W^\perp</m> is
+        not all of <m>\R^n</m>. Then it is expressible as a column space
+        <m>\Col(A)</m> for an <m>n\times k</m> matrix <m>A</m> with less than <m>n</m>
+        columns. Then by <xref ref="orthocomp-comp-of-span"/> we have that
+        <m>\Col(A)^\perp = \Nul(A^T)</m> has at least dimension <m>1</m>
+        by <xref ref="one-to-one-wide-matrices"/>,
+        since <m>A^T</m> is a wide <m>k\times n</m> matrix.
+        That is, there is a nonzero vector
+        <m>x \in (W + W^\perp)^\perp = W^\perp\cap (W^\perp)^\perp</m>,
+        which is impossible by the second assertion applied to <m>W^\perp</m>.
       </p>
+
       <p>
-        Finally, we prove the second assertion.  Clearly <m>W</m> is contained in <m>(W^\perp)^\perp</m>: this says that everything in <m>W</m> is perpendicular to the set of all vectors perpendicular to everything in <m>W</m>.  Let <m>m=\dim(W).</m> By 3, we have <m>\dim(W^\perp) = n-m</m>, so <m>\dim((W^\perp)^\perp) = n - (n-m) = m</m>.  The only <m>m</m>-dimensional subspace of <m>(W^\perp)^\perp</m> is all of <m>(W^\perp)^\perp</m>, so <m>(W^\perp)^\perp = W.</m>
+        The fourth assertion now follows directly from <xref ref="grassmann-formula"/> as
+        <m>\dim(W) + \dim(W^\perp) = \dim(W\cap W^\perp) + \dim(W+W^\perp) = 0+n = n</m>.
+      </p>
+
+      <p>
+        For the final assertion, first note that <m>W</m> is contained in
+        <m>(W^\perp)^\perp</m>: this says that everything in <m>W</m> is perpendicular
+        to the set of all vectors perpendicular to everything in <m>W</m>.
+        Let <m>m=\dim(W).</m> By 4, we have <m>\dim(W^\perp) = n-m</m>,
+        so <m>\dim((W^\perp)^\perp) = n - (n-m) = m</m>.
+        The only <m>m</m>-dimensional subspace of <m>(W^\perp)^\perp</m> is all of
+        <m>(W^\perp)^\perp</m>, so <m>(W^\perp)^\perp = W.</m>
       </p>
     </proof>
   </fact>
@@ -430,7 +433,7 @@ the license is included in gfdl.xml.
   <p>
     We showed in the above <xref ref="orthocomp-comp-of-span"/> that if <m>A</m> has rows <m>v_1^T,v_2^T,\ldots,v_m^T</m>, then
     <me>\Row(A)^\perp = \Span\{v_1,v_2,\ldots,v_m\}^\perp = \Nul(A).</me>
-    Taking orthogonal complements of both sides and using the <xref ref="orthocomp-facts-basic">second fact</xref> gives
+    Taking orthogonal complements of both sides and using the <xref ref="orthocomp-facts-basic">final fact</xref> gives
     <me>\Row(A) = \Nul(A)^\perp.</me>
     Replacing <m>A</m> by <m>A^T</m> and remembering that <m>\Row(A)=\Col(A^T)</m> gives
     <me>\Col(A)^\perp = \Nul(A^T) \sptxt{and} \Col(A) = \Nul(A^T)^\perp.</me>
