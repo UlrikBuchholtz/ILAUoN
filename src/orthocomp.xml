@@ -374,10 +374,10 @@ the license is included in gfdl.xml.
         For the third assertion, assume that the subspace sum <m>W+W^\perp</m> is
         not all of <m>\R^n</m>. Then it is expressible as a column space
         <m>\Col(A)</m> for an <m>n\times k</m> matrix <m>A</m> with less than <m>n</m>
-        columns. Then by <xref ref="orthocomp-comp-of-span"/> we have that
+        columns. Then by the <xref ref="orthocomp-comp-of-span"/> we have that
         <m>\Col(A)^\perp = \Nul(A^T)</m> has at least dimension <m>1</m>
-        by <xref ref="one-to-one-wide-matrices"/>,
-        since <m>A^T</m> is a wide <m>k\times n</m> matrix.
+        by the <xref ref="one-to-one-wide-matrices"/>,
+        since <m>A^T</m> is then a wide <m>k\times n</m> matrix.
         That is, there is a nonzero vector
         <m>x \in (W + W^\perp)^\perp = W^\perp\cap (W^\perp)^\perp</m>,
         which is impossible by the second assertion applied to <m>W^\perp</m>.
@@ -385,7 +385,9 @@ the license is included in gfdl.xml.
 
       <p>
         The fourth assertion now follows directly from <xref ref="grassmann-formula"/> as
-        <m>\dim(W) + \dim(W^\perp) = \dim(W\cap W^\perp) + \dim(W+W^\perp) = 0+n = n</m>.
+        <me>
+          \dim(W) + \dim(W^\perp) = \dim(W\cap W^\perp) + \dim(W+W^\perp) = 0+n = n.
+        </me>
       </p>
 
       <p>

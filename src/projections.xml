@@ -84,17 +84,18 @@ the license is included in gfdl.xml.
       </statement>
       <proof>
         <p>
-          If <m>U,V \subseteq\R^n</m> are any subspaces with <m>\dim U + \dim V = n</m>
+          If <m>U,V \subseteq\R^n</m> are any subspaces with <m>\dim(U) + \dim(V) = n</m>
           and <m>\dim(U\cap V)=0</m>, then any vector <m>x \in \R^n</m> can be uniquely
           written as <m>x = u+v</m> with <m>u\in U</m> and <m>v\in V</m>: indeed,
+          <m>U+V = \R^n</m> so such decompositions exist,
           if we have two such expressions <m>x=u+v=u'+v'</m>, then
-          <m>u-u'=v-v' \in U\cap V = \{0\}</m>, so <m>u=u'</m> and <m>v=v'</m>
+          <m>u-u'=v'-v \in U\cap V = \{0\}</m>, so <m>u=u'</m> and <m>v=v'</m>.
         </p>
 
         <p>
-          To can apply this to <m>W</m> and <m>W^\perp</m> because of the
-          <xref ref="orthocomp-facts-basic">second fact</xref>.
-          Thus we can write any <m>x \in \R^n</m> uniquely as
+          To can apply this to <m>W</m> and <m>W^\perp</m> because of these
+          <xref ref="orthocomp-facts-basic">facts</xref>.
+          Thus, we can write any <m>x \in \R^n</m> uniquely as
           <me>x = x_W + x_{W^\perp}</me>
           where <m>x_W\in W</m> and <m>x_{W^\perp} \in W^\perp</m>.
           Since <m>x_{W^\perp}</m> is orthogonal to <m>W</m>,
