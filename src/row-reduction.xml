@@ -550,8 +550,6 @@ the license is included in gfdl.xml.
 </p>
     </remark>
 
-
-
   </subsection>
 
   <subsection>
@@ -564,6 +562,17 @@ the license is included in gfdl.xml.
     </theorem>
 
     <p>We will give an algorithm, called <term>row reduction</term> or <term>Gaussian elimination</term>, which demonstrates that every matrix is row equivalent to <em>at least one</em> matrix in reduced row echelon form.</p>
+
+    <remark>
+      <title>On the name <q>Gaussian elimination</q></title>
+      <p>
+        Although the algorithm is called Gaussian elimination,
+        the method predates Carl Friedrich Gauss considerably.
+        A variation appears in Chapter 8 on Rectangular Arrays in the
+        <em>The Nine Chapters on the Mathematical Art</em>,
+        a Chinese book dating back to before the 1st century BCE.
+      </p>
+    </remark>
 
     <bluebox>
       <p>The uniqueness statement is interesting<mdash/>it means that, no matter <em>how</em> you row reduce,
