@@ -1,0 +1,337 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!--********************************************************************
+Copyright 2025 Ulrik Buchholtz
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation.  A copy of
+the license is included in gfdl.xml.
+*********************************************************************-->
+<section xml:id="probability">
+  <title>Probability Theory</title>
+
+  <objectives>
+    <ol>
+      <li>Learn the basic framework for working with probabilities with finitely many outcomes.</li>
+      <li><em>Recipe:</em> calculate probabilities for events of interest.</li>
+      <li><em>Bayes' Rule</em> for conditional probability.</li>
+      <li><em>Vocabulary:</em> <term>sample space</term>, <term>outcome</term>,
+      <term>event</term>,
+      <term>false positive/negative</term>, <term>independence</term>,
+      <term>random variable</term>, <term>expectation</term></li>
+    </ol>
+  </objectives>
+
+  <subsection>
+    <title>Introduction: Monty Hall Problem</title>
+
+    <p>Lots of problems in computer science involve probabilities:
+    <ul>
+      <li>Randomized (Monte Carlo) algorithms (for example in computer graphics)</li>
+      <li>Machine learning and statistical modeling</li>
+      <li>Cryptography and secure communication</li>
+      <li>Network reliability and performance analysis</li>
+    </ul>
+    Most of these can be modeled using only finite sample spaces, i.e., there are only finitely many possible outcomes.
+    To get started, we will look at a simple problem that is often misunderstood: the <em>Monty Hall problem</em>.</p>
+
+    <p>Suppose you are on a game show and are given the choice of three doors. Behind one door is a car (electric, of course!);
+    behind the others, goats.
+    You pick a door, say No. 1, and the host, who knows what's behind the doors, opens another door that has a goat, say No. 3.
+     He then says to you, <q>Do you want to pick door No. 2 instead?</q>
+    What is the probability of getting the car if you stay and if you switch?</p>
+
+    <p>Intuitively, it seems like the probability of getting the car is <m>\frac 12</m> if you stay and <m>\frac 12</m> if you switch.
+    But this is wrong! The probability of getting the car if you stay is <m>\frac 13</m> and the probability of getting the car if you switch is <m>\frac 23</m>.
+    The reason is that the host's action of opening a door gives you more information about the location of the car.
+    We can model this problem using a tree diagram.
+      <latex-code><![CDATA[
+  \begin{tikzpicture}
+    \node (car) at (25mm,90mm) {car};
+    \node (car) at (50mm,90mm) {host opens};
+    \begin{scope}[every node/.style={draw, circle, thick,
+        anchor=center, font=\large}]
+      \node (start) at (0,50mm) {};
+      \foreach \n/\l in {1/3,2/2,3/1} {
+        \node (D\n) at (25mm,\n*25mm) {Door \l};
+      }
+      \node (H0) at (50mm,20mm) {Door 2};
+      \node (H1) at (50mm,40mm) {Door 3};
+      \node (H2) at (50mm,60mm) {Door 2};
+      \node (H3) at (50mm,80mm) {Door 3};
+    \end{scope}
+      \foreach \n in {1,2,3} {
+        \draw (start) to node[above] {$1/3$} (D\n);
+      }
+    \draw (D1) to node[below] {$1$} (H0);
+    \draw (D2) to node[below] {$1$} (H1);
+    \draw (D3) to node[below] {$1/2$} (H2);
+    \draw (D3) to node[below] {$1/2$} (H3);
+    \node (prob) at (70mm,90mm) {probability};
+    \node (P1) at (70mm,20mm) {$1/3$};
+    \node (P2) at (70mm,40mm) {$1/3$};
+    \node (P3) at (70mm,60mm) {$1/6$};
+    \node (P4) at (70mm,80mm) {$1/6$};
+  \end{tikzpicture}
+   ]]></latex-code>
+    The tree diagram shows all possible outcomes of the game.
+    The first level of the tree shows the three possibilities for the car.
+    The second level shows the host's action of opening a door.
+    The probabilities of the host's action depend on the car's location.
+    The host will always open a door with a goat behind it.
+    The probabilities of the host's action are shown on the edges of the tree.
+    There are four possible outcomes of the game, listed by the leaves of the tree on the right.
+    If you stay at door No. 1, the probability of getting the car is <m>\frac 13</m> (the first two leaves),
+    while if you switch to the remaining closed door, the probability of getting the car is <m>\frac 23</m> (the last two leaves).
+    This is the correct answer to the Monty Hall problem.</p>
+
+    <p>With this example in mind, we can now introduce the basic concepts of probability theory.</p>
+  </subsection>
+
+  <subsection>
+    <title>Basic concepts</title>
+    <p>We will work with finite sample spaces, i.e., there are only finitely many possible outcomes.
+    The <em>sample space</em> <m>S</m> is the (finite) set of all possible outcomes of an experiment.
+    An <em>event</em> is a subset of the sample space.
+    We get a <em>probability space</em> by assigning a probability to each outcome in the sample space,
+    i.e., a function <m>P: S \to [0,1]</m> such that <m>\sum_{s \in S} P(s) = 1</m>.
+    The probability of an event <m>A \subseteq S</m> is given by <m>P(A) = \sum_{s \in A} P(s)</m>.
+    By assuming a total ordering on the sample space, we can also represent the probabilities as a vector <m>p = (P(s_1), P(s_2), \ldots, P(s_n))</m>.
+    </p>
+
+    <theorem xml:id="basic-laws-probability">
+      <idx><h>Probability</h><h>basic laws of probability</h></idx>
+      <statement>
+      <p>The following are the basic laws of probability:
+      <ol>
+        <li><em>Non-negativity:</em> For any event <m>A</m>, <m>P(A) \geq 0</m>.</li>
+        <li><em>Normalization:</em> The probability of the entire sample space is 1, i.e., <m>P(S) = 1</m>.</li>
+        <li><em>Additivity:</em> For any two mutually exclusive events <m>A</m> and <m>B</m>,
+         i.e., <m>A \cap B = \emptyset</m>, we have <m>P(A \cup B) = P(A) + P(B)</m>.</li>
+        <li><em>Complement Rule:</em> For any event <m>A</m>, <m>P(A^c) = 1 - P(A)</m>, where <m>A^c</m> is the complement of <m>A</m>.</li>
+        <li><em>Inclusion-Exclusion Principle:</em> For any two events <m>A</m> and <m>B</m>, <m>P(A \cup B) = P(A) + P(B) - P(A \cap B)</m>.</li>
+      </ol></p>
+      </statement>
+    </theorem>
+    
+    <example xml:id="full-house-probability">
+      <p>In a standard 52-card deck, a <em>full house</em> consists of three cards of one rank and two cards of another rank.
+      To calculate the probability of being dealt a full house in a 5-card draw, we proceed as follows:</p>
+      <p><ol>
+        <li>Choose the rank for the three cards. There are <m>13</m> ways to do this.</li>
+        <li>Choose 3 cards of that rank. There are <m>\binom{4}{3} = 4</m> ways to do this.</li>
+        <li>Choose the rank for the pair. There are <m>12</m> ways to do this (excluding the rank already chosen).</li>
+        <li>Choose 2 cards of that rank. There are <m>\binom{4}{2} = 6</m> ways to do this.</li>
+        <li>The total number of ways to get a full house is therefore <m>13 \cdot 4 \cdot 12 \cdot 6 = 3744</m>.</li>
+        <li>The total number of 5-card hands is <m>\binom{52}{5} = 2598960</m>.</li>
+        <li>Thus, the probability of being dealt a full house is <m>\frac{3744}{2598960} \approx 0.00144</m>.</li>
+      </ol></p>
+      <p>This means that the probability of being dealt a full house in a 5-card draw is approximately 0.144%.</p>
+    </example>
+  </subsection>
+
+  <subsection>
+    <title>Conditional probability</title>
+    <p>In the Monty Hall problem, we saw the utility of conditional probabilities.
+    Let us now define this more formally:
+    The <em>conditional probability</em> of an event <m>A</m> given another event <m>B</m> is defined as:
+    <m>P(A | B) = \frac{P(A \cap B)}{P(B)}</m>, provided <m>P(B) > 0</m>.
+    This is the probability of <m>A</m> given that <m>B</m> has occurred.
+    Another way to think about this is that we are restricting our attention to the sample space <m>B</m>
+    with the probability of <m>B</m> normalized to 1.
+    </p>
+
+    <theorem xml:id="bayes-rule">
+      <idx><h>Bayes' Rule</h><h>conditional probability</h></idx>
+      <statement>
+        <p>Bayes' Rule relates the conditional probability of two events <m>A</m> and <m>B</m>:
+        <m>P(A | B) = \frac{P(A)P(B | A)}{P(B)}</m>, provided <m>P(B) > 0</m>.
+        </p>
+      </statement>
+    </theorem>
+    <p>Note that the rule makes sense even if <m>P(A) = 0</m>, since the right-hand side is then 0.</p>
+    <proof>
+      <p>As noted, we may assume <m>P(A) > 0</m>. To prove Bayes' Rule, we start with the definition of conditional probability:
+        <m>P(A | B) = \frac{P(A \cap B)}{P(B)}</m>.
+      </p>
+      <p>Similarly, the conditional probability of <m>B</m> given <m>A</m> is:
+        <m>P(B | A) = \frac{P(A \cap B)}{P(A)}</m>.
+      </p>
+      <p>Rearranging the second equation, we get:
+        <m>P(A \cap B) = P(A)P(B | A)</m>.
+      </p>
+      <p>Substituting this into the first equation, we obtain:
+        <m>P(A | B) = \frac{P(A)P(B | A)}{P(B)}</m> as desired.
+      </p>
+    </proof>
+
+    <example xml:id="medical-testing-conditional-probability">
+      <p>Consider a medical test for a certain disease The sample space have four elements,
+      for whether the person has the disease or not, and whether the test is positive or negative.
+      Let:
+        <ul>
+          <li><m>D</m> represent the event that a person has the disease.</li>
+          <li><m>\neg D</m> represent the event that a person does not have the disease.</li>
+          <li><m>T</m> represent the event that the test result is positive.</li>
+          <li><m>\neg T</m> represent the event that the test result is negative.</li>
+        </ul>
+      </p>
+      <p>Suppose the following probabilities are known:
+        <ul>
+          <li>The prevalence of the disease: <m>P(D) = 0.01</m>.</li>
+          <li>The sensitivity of the test (probability of a positive result given the person has the disease): <m>P(T | D) = 0.95</m>.</li>
+          <li>The specificity of the test (probability of a negative result given the person does not have the disease): <m>P(\neg T | \neg D) = 0.90</m>.</li>
+        </ul>
+      </p>
+      <p>We are interested in the probability that a person has the disease given a positive test result, <m>P(D | T)</m>. Using Bayes' rule, we have:
+        <m>P(D | T) = \frac{P(T | D)P(D)}{P(T)}</m>.
+      </p>
+      <p>To compute <m>P(T)</m>, we use the law of total probability:
+        <m>P(T) = P(T | D)P(D) + P(T | \neg D)P(\neg D)</m>.
+      </p>
+      <p>Substituting the known values:
+        <m>P(T) = (0.95)(0.01) + (1 - 0.90)(1 - 0.01) = 0.0095 + 0.099 = 0.1085</m>.
+      </p>
+      <p>Now, substituting back into Bayes' rule:
+        <m>P(D | T) = \frac{(0.95)(0.01)}{0.1085} \approx 0.0876</m>.
+      </p>
+      <p>This means that even with a positive test result, the probability that the person actually
+      has the disease is only about 8.76%. This highlights the importance of considering 
+      false positives and the prevalence of the disease when interpreting medical test results.</p>
+    </example>
+    
+    <definition xml:id="independence-definition">
+      <idx><h>Independence</h><h>events</h></idx>
+      <statement>
+        <p>Two events <m>A</m> and <m>B</m> are said to be <em>independent</em>
+         if the occurrence of one does not affect the probability of the other. Formally, this means:
+          <m>P(A | B) = P(A)</m> or equivalently <m>P(A \cap B) = P(A)P(B)</m>.
+        </p>
+      </statement>
+    </definition>
+
+    <example xml:id="independence-hashing">
+      <p>Consider a hash function <m>h</m> used in a hash table. The hash function maps keys to buckets,
+       and we assume that the hash function distributes keys uniformly and independently across the buckets.</p>
+      <p>Let:
+        <ul>
+          <li><m>A</m> represent the event that key <m>k_1</m> is mapped to bucket <m>b</m>.</li>
+          <li><m>B</m> represent the event that key <m>k_2</m> is mapped to bucket <m>b</m>.</li>
+        </ul>
+      </p>
+      <p>Since the hash function is assumed to distribute keys independently, the events <m>A</m> and <m>B</m> are independent. This means:
+        <m>P(A \cap B) = P(A)P(B)</m>.
+      </p>
+      <p>For example, if there are <m>n</m> buckets, then <m>P(A) = P(B) = \frac{1}{n}</m>, and <m>P(A \cap B) = \frac{1}{n} \cdot \frac{1}{n} = \frac{1}{n^2}</m>.</p>
+      <p>This independence property is crucial for analyzing the performance of hash tables,
+       as it ensures that the probability of collisions (two keys being mapped to the same bucket) can be computed accurately.</p>
+    </example>
+  </subsection>
+
+  <subsection>
+    <title>Random variables and expectation</title>
+
+    <p>A <em>random variable</em> (RV) is a function that assigns a real number to each outcome in the sample space.
+    Formally, a random variable is a function <m>X: S \to \mathbb{R}</m> that maps outcomes in the sample space <m>S</m> to real numbers.
+    Random variables are often denoted by uppercase letters (e.g., <m>X</m>, <m>Y</m>) and their values by lowercase letters (e.g., <m>x</m>, <m>y</m>).</p>
+
+    <p>Probability mass functions (PMFs) fundamental tools for describing random variables (RVs).
+    The PMF of a random variable assigns a probability to each possible value of the RV:
+    <m>P(X = x) = P(A_x)</m>,
+    where <m>A_x = \{ s \in S \mid X(s) = x \}</m> is the set of outcomes (i.e., the event) where <m>X</m> has the value <m>x</m>.</p>
+
+    <p>For example, the Bernoulli distribution models a single trial with two outcomes
+    (success has value <m>1</m> with probability <m>p</m> and failure has value <m>0</m> with probability <m>1-p</m>).
+    This has PMF <m>P(X = x) = p^x (1-p)^{1-x}</m> for <m>x \in \{0, 1\}</m>.
+    The binomial distribution generalizes this to <m>n</m> independent trials,
+    with a PMF
+    <me>P(X = k) = \binom{n}{k} p^k (1-p)^{n-k}</me>
+    for <m>k \in \{0, 1, \ldots, n\}</m>.
+    The uniform distribution, on the other hand, assigns equal probability to all outcomes in a finite sample space,
+    with a PMF <m>P(X = x) = \frac{1}{n}</m> for <m>x</m> in the range of the random variable.</p>
+
+    <definition xml:id="expectation-definition">
+      <idx><h>Expectation</h><h>random variable</h></idx>
+      <statement>
+        <p>The <em>expectation</em> (or expected value) of a random variable <m>X</m>, denoted <m>E[X]</m>,
+         is a measure of the <q>average</q> value of <m>X</m>.
+         For a discrete random variable on the sample space <m>S</m> with probability function <m>P</m>,
+         the expectation is defined as:
+          <me>E[X] = \sum_{s \in S} X(s)P(s)</me>.
+        </p>
+      </statement>
+    </definition>
+
+    <p>For example, if <m>X</m> is a random variable representing the outcome of rolling a fair six-sided die,
+     then the expectation is:
+      <me>E[X] = \sum_{i=1}^6 i \cdot P(X = i) = \sum_{i=1}^6 i \cdot \frac{1}{6} = \frac{1}{6}(1 + 2 + 3 + 4 + 5 + 6) = \frac{21}{6} = 3.5</me>.
+    This means that the average outcome of rolling the die is 3.5.</p>
+
+    <p>It's often useful to rewrite the expectation in terms of the probability mass function (PMF) of the random variable.
+    The PMF gives the probability of each possible outcome, and we can express the expectation as:
+    <me>E[X] = \sum_{x} x \cdot P(X = x).</me>
+    </p>
+
+    <definition xml:id="independence-random-variables">
+      <idx><h>Independence</h><h>random variables</h></idx>
+      <statement>
+        <p>Two random variables <m>X</m> and <m>Y</m> are said to be <em>independent</em>
+         if the joint probability distribution of <m>X</m> and <m>Y</m>
+          factors into the product of their marginal distributions. Formally, this means:
+          <m>P(X = x, Y = y) = P(X = x)P(Y = y)</m> for all values <m>x</m> and <m>y</m>.
+        </p>
+      </statement>
+    </definition>
+
+    <p>In other words, two random variables are independent if the events of them taking on specific values are independent.</p>
+
+    <theorem xml:id="expectation-sum-product">
+      <idx><h>Expectation</h><h>sum of random variables</h><h>product of independent random variables</h></idx>
+      <statement>
+        <p>The following properties hold for expectations:
+          <ol>
+            <li><em>Linearity of Expectation:</em> For any random variables <m>X</m> and <m>Y</m>, <m>E[X + Y] = E[X] + E[Y]</m>.
+             This holds regardless of whether <m>X</m> and <m>Y</m> are independent.</li>
+            <li><em>Law of Total Expectation:</em> If <m>X, Y</m> are random variables,
+            then <m>E[Y] = E[E[Y | X]]</m>.</li>
+            <li><em>Product of Independent Random Variables:</em>
+             If <m>X</m> and <m>Y</m> are independent random variables, then <m>E[XY] = E[X]E[Y]</m>.</li>
+          </ol>
+        </p>
+      </statement>
+    </theorem>
+    <p>Here the <em>conditional expectation</em> <m>E[Y | X]</m> is the expected value of <m>Y</m> given the value of <m>X</m>.
+    It is defined as:
+      <me>E[Y | X] = \sum_{s \in S} Y(s)P(s | X)</me>.
+    It is a random variable since it depends on <m>X</m>.</p>
+    <proof>
+      <p><em>1. Linearity of Expectation:</em>
+      Let <m>X</m> and <m>Y</m> be random variables on the sample space <m>S</m>. By the definition of expectation, we have:
+          <me>E[X + Y] = \sum_{s \in S} (X(s) + Y(s))P(s) = \sum_{s \in S} X(s)P(s) + \sum_{s \in S} Y(s)P(s) = E[X] + E[Y]</me>.
+      </p>
+
+      <p><em>2. Law of Total Expectation:</em>
+        Let <m>X, Y</m> be random variables. By the definition of conditional expectation, we have:
+          <m>E[Y | X] = \sum_{s \in S} Y(s)P(s | X)</m>.
+        Taking the expectation over <m>X</m>, we get:
+          <me>E[E[Y | X]] = \sum_{x} \left(\sum_{s \in S} Y(s)P(s | X = x)\right)P(X = x)</me>
+        Rearranging the sums and using the law of total probability, we obtain:
+          <me>E[E[Y | X]] = \sum_{s \in S} Y(s) \left(\sum_{x} P(s | X = x)P(X = x)\right) = \sum_{s \in S} Y(s)P(s) = E[Y]</me>
+        Thus <m>E[Y] = E[E[Y | X]]</m>, proving the law of total expectation.</p>
+
+      <p><em>3. Product of Independent Random Variables:</em>
+        Let <m>X</m> and <m>Y</m> be independent random variables. By the law of total expectation, we have:
+          <m>E[XY] = E[E[XY | X]]</m>.
+        Since <m>X</m> and <m>Y</m> are independent, the conditional expectation <m>E[XY | X]</m> simplifies to:
+          <m>E[XY | X] = X \cdot E[Y]</m>.
+        Substituting this into the law of total expectation, we get:
+          <m>E[XY] = E[X \cdot E[Y]]</m>.
+        Since <m>E[Y]</m> is a constant with respect to <m>X</m>, we can factor it out:
+          <m>E[XY] = E[Y] \cdot E[X]</m>.
+        Thus <m>E[XY] = E[X]E[Y]</m>, proving the product rule for independent random variables.</p>
+    </proof>
+  </subsection>
+
+
+</section>
