@@ -3,7 +3,7 @@
 <!--********************************************************************
 Copyright 2022 Dan Margalit and Joseph Rabinoff
 Copyright 2020 Ben Williams
-Copyright 2023-2024 Ulrik Buchholtz
+Copyright 2023-2025 Ulrik Buchholtz
 
 Permission is granted to copy, distribute and/or modify this document
 under the terms of the GNU Free Documentation License, Version 1.3
@@ -359,10 +359,9 @@ Free Documentation License"
           In <xref ref="similarity"/> we introduce the notion of <em>similar</em> matrices, and demonstrate that similar
           matrices do indeed behave similarly. In <xref ref="diagonalization"/> we study matrices that are similar to
           diagonal matrices and in <xref ref="complex-eigenvalues"/> we study matrices that are similar to
-          rotation-scaling matrices, thus gaining a solid geometric understanding of large classes of matrices. In
-	  <xref ref="dds"/> we present a common kind of application of eigenvalues and
-          eigenvectors to real-world problems. We refine this application to specific problems involving probabilities
-	  in <xref ref="stochastic2"/>, including searching the Internet using Google<rsq/>s PageRank algorithm
+          rotation-scaling matrices, thus gaining a solid geometric understanding of large classes of matrices.
+          The next chapter will then zero in on applications of eigenvalues and
+          eigenvectors to real-world problems.
         </p>
       </introduction>
 
@@ -371,10 +370,37 @@ Free Documentation License"
       <xi:include href="./similarity.xml" />
       <xi:include href="./diagonalization.xml" />
       <xi:include href="./cplx-eigenvals.xml" />
+
+    </chapter>
+
+    <chapter xml:id="chap-graphs">
+      <title>Graphs and probability theory</title>
+
+      <introduction>
+        <p>
+          We now take a brief detour from the main thread of the book
+          to explore a particular range of examples of the theory
+          we've developed so far,
+          culminating in
+          This also enables us to learn the basics of graph theory and
+          probability theory.
+        </p>
+        <p>
+          In <xref ref="dds"/> we present a common kind of application of eigenvalues and
+          eigenvectors to real-world problems in the form of discrete dynamical systems.
+          We refine this application to specific problems involving probabilities
+	        in <xref ref="stochastic2"/>, including searching the Internet using
+          Google<rsq/>s PageRank algorithm.
+        </p>
+      </introduction>
+
+      <xi:include href="./graphs.xml" />
+      <xi:include href="./probability.xml" />
       <xi:include href="./dds.xml" />
       <xi:include href="./stochastic2.xml"/>
 
     </chapter>
+
 
     <chapter xml:id="chap-orthogonality">
       <title>Orthogonality</title>
