@@ -381,11 +381,16 @@ Free Documentation License"
           We now take a brief detour from the main thread of the book
           to explore a particular range of examples of the theory
           we've developed so far,
-          culminating in
-          This also enables us to learn the basics of graph theory and
-          probability theory.
+          culminating in a discussion of the PageRank algorithm.
+          This gives us to an opportunity to learn the basics of graph theory and
+          probability theory, before covering discrete dynamical systems
+          and stochastic matrices, leading to the PageRank algorithm.
         </p>
         <p>
+          In <xref ref="graphs"/> we introduce the basic concepts of graph theory,
+          and we show how to represent graphs with matrices.
+          In <xref ref="probability"/> we introduce the basic concepts of probability theory,
+           including some facts about expectation values of random variables.
           In <xref ref="dds"/> we present a common kind of application of eigenvalues and
           eigenvectors to real-world problems in the form of discrete dynamical systems.
           We refine this application to specific problems involving probabilities

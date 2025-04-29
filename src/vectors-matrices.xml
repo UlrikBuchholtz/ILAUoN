@@ -519,7 +519,7 @@ the license is included in gfdl.xml.
       <notation><usage>I_n</usage><description>The <m>n\times n</m> identity matrix</description></notation>
       <statement>
         <p>
-          The <term><m>n\times n</m> identity matrix</term> is the the matrix <m>I_n</m> whose columns are the unit coordinate vectors in <m>\R^n</m>:
+          The <term><m>n\times n</m> identity matrix</term> is the matrix <m>I_n</m> whose columns are the unit coordinate vectors in <m>\R^n</m>:
           <me> I_n = \mat[c]{1 0 0 \cdots, 0;
                              0 1 0 \cdots, 0;
                              0 0 1 \cdots, 0;
@@ -540,7 +540,7 @@ the license is included in gfdl.xml.
       <idx><h>Matrix</h><h>zero</h></idx>
       <statement>
         <p>
-          The <term><m>m\times n</m> zero matrix</term> is the the <m>m\times n</m> matrix 0 whose entries are all equal to zero:
+          The <term><m>m\times n</m> zero matrix</term> is the <m>m\times n</m> matrix 0 whose entries are all equal to zero:
           <me> 0 = \mat[c]{0 0 \cdots, 0;
                            0 0 \cdots, 0;
                            \vdots, \vdots, \ddots, \vdots;

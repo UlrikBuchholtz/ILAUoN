@@ -456,7 +456,7 @@ the license is included in gfdl.xml.
                 Since <m>\det(I_n) = 1</m> and we scaled by the reciprocals of the diagonal entries, this implies <m>\det(A)</m> is the product of the diagonal entries.
               </p>
               <p>
-                The same argument works for lower triangular matrices, except that the the row replacements go down instead of up.
+                The same argument works for lower triangular matrices, except that the row replacements go down instead of up.
               </p>
             </li>
           </ol>

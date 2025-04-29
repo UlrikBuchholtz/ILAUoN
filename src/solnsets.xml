@@ -163,7 +163,7 @@ the license is included in gfdl.xml.
         This is the parametric vector form of the solution set.
         Since <m>x_2</m> is allowed to be anything, this says that the solution set is the set of all scalar multiples of <m>{3\choose 1}</m>, otherwise known as
         <me>\Span\left\{\vec{3 1}\right\}.</me>
-        We know how to draw the picture of a span of a vector: it is a line.  Therefore, this is a picture of the the solution set:
+        We know how to draw the picture of a span of a vector: it is a line.  Therefore, this is a picture of the solution set:
         <latex-code>
               <![CDATA[
 \begin{tikzpicture}
@@ -341,7 +341,7 @@ the license is included in gfdl.xml.
         This vector equation is called the <term>parametric vector form</term> of the solution set.
         We write the solution set as
         <me>\Span\left\{\vec{3 1}\right\} + \vec{-3 0}.</me>
-        Here is a picture of the the solution set:
+        Here is a picture of the solution set:
         <latex-code>
               <![CDATA[
 \begin{tikzpicture}[thin border nodes]
