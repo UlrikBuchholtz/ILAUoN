@@ -280,8 +280,10 @@ the license is included in gfdl.xml.
     <p>There are also famous special type of trails and cycles:
     <ul>
       <li>A <term>circuit</term> is a closed trail.</li>
-      <li>A <term>Eulerian circuit</term> is a closed trail that visits every edge exactly once.</li>
-      <li>A <term>Hamiltonian cycle</term> is a closed path that visits every vertex exactly once.</li>
+      <li>A <term>Eulerian circuit</term> is a closed trail that visits every edge exactly once.
+       A graph is called Eulerian if it has an Eulerian circuit.</li>
+      <li>A <term>Hamiltonian cycle</term> is a closed path that visits every vertex exactly once.
+      A graph is called Hamiltonian if it has a Hamiltonian cycle.</li>
     </ul>
     The name <q>Eulerian</q> comes from the mathematician Leonhard Euler, who studied the famous
     problem of the Seven Bridges of Königsberg in 1736. It boils down to the question of whether
@@ -315,8 +317,13 @@ the license is included in gfdl.xml.
       </statement>
     </theorem>
 
-    <p>An undirected graph is <term>connected</term> if there is a path between any two vertices,
-    and a directed graph is <term>strongly connected</term> if there is a (directed) path between any two vertices.</p>
+    <p>An undirected graph is <term>connected</term> if it is nonempty and there is a path between any two vertices,
+    and a directed graph is <term>strongly connected</term> if it is nonempty and there is a (directed) path between any two vertices.</p>
+
+    <p>We don't give the proof of the Eulerian circuit theorem, but it boils down to the correctness of a greedy algorithm: Keep finding cycles
+     (where all vertices have even degree, viz. 2, until no edges remain; then glue the cycles together into a circuit).
+    In contrast to Eulerian circuits, Hamiltonian cycles are much harder to find.
+    In fact, it is NP-complete to determine whether a given graph has a Hamiltonian cycle.</p>
   </subsection>
 
   <subsection>
@@ -346,7 +353,8 @@ the license is included in gfdl.xml.
     bounded amount of resources), or whether it is NP-complete (intractable).
     The <em>subgraph isomorphism problem</em> is to determine whether a simple graph <m>G</m> contains another graph <m>H</m>
     as a subgraph, i.e., whether there is an injection from the vertex set of <m>H</m> to the vertex set of <m>G</m>
-    such that there is an edge between two vertices in <m>H</m> if and only if there is an edge between the corresponding vertices in <m>G</m>.</p>
+    such that there is an edge between two vertices in <m>H</m> if and only if there is an edge between the corresponding vertices in <m>G</m>.
+    This is NP-complete.</p>
   </subsection>
 
   <subsection>
@@ -384,6 +392,13 @@ the license is included in gfdl.xml.
     whose adjacency matrix is:
     <me>\mat{0 1 1 1; 0 0 1 1; 1 0 0 0; 1 0 1 0}</me>.</p>
 
+    <p>We can also accommodate graphs with multiple (yet finitely many) edges and loops by using a weighted adjacency matrix,
+    where the <m>(i,j)</m> entry is the number of edges from vertex <m>v_i</m> to vertex <m>v_j</m>.
+    For example, the adjacency matrix of the graph we started this section with is:
+      <me>\mat{0 2 1 1; 0 0 1 1; 1 0 0 0; 1 0 1 1}</me>.
+    Note, however, that we loose some information, by replacing the finite sets <m>E(v_i,v_j)</m> with their
+    size <m>a_{i,j}</m>.</p>
+
     <p>Not only are adjacency matrices a useful data structure for storing graphs,
     we can even link matrix multiplication to graph theoretic features, e.g.:</p>
 
@@ -400,13 +415,6 @@ the license is included in gfdl.xml.
       can be obtained by taking a walk of length <m>k</m> from <m>v_i</m> to some vertex <m>w</m>, and then
       taking an edge from <m>w</m> to <m>v_j</m>.</p>
     </proof>
-
-  <p>We can also accommodate graphs with multiple (yet finitely many) edges and loops by using a weighted adjacency matrix,
-  where the <m>(i,j)</m> entry is the number of edges from vertex <m>v_i</m> to vertex <m>v_j</m>.
-  For example, the adjacency matrix of the graph we started with is:
-    <me>\mat{0 2 1 1; 0 0 1 1; 1 0 0 0; 2 0 1 0}</me>.
-  Note, however, that we loose some information, by replacing the finite sets <m>E(v_i,v_j)</m> with their
-  size <m>a_{i,j}</m>.</p>
 
   <p>We can also represent undirected graphs as adjacency matrices, by using symmetric matrices.
   These have real eigenvalues, and we can learn a lot about the graph from the eigenvalues and eigenvectors.

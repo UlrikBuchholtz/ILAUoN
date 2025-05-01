@@ -293,42 +293,64 @@ the license is included in gfdl.xml.
           <ol>
             <li><em>Linearity of Expectation:</em> For any random variables <m>X</m> and <m>Y</m>, <m>E[X + Y] = E[X] + E[Y]</m>.
              This holds regardless of whether <m>X</m> and <m>Y</m> are independent.</li>
-            <li><em>Law of Total Expectation:</em> If <m>X, Y</m> are random variables,
+            <li><em>Law of Total Expectation:</em> If <m>X</m> is a random variable and
+            we have a partition of the sample space <m>S = A_1 \cup \cdots \cup A_k</m>,
+            then <m>E[Y] = \sum_{i=1}^k E[Y | A_i]P(A_i)</m>. (An average can be calculated as an average of averages.)</li>
+            <li><em>Law of Iterated Expectation:</em> If <m>X, Y</m> are random variables,
             then <m>E[Y] = E[E[Y | X]]</m>.</li>
             <li><em>Product of Independent Random Variables:</em>
-             If <m>X</m> and <m>Y</m> are independent random variables, then <m>E[XY] = E[X]E[Y]</m>.</li>
+             If <m>X</m> and <m>Y</m> are <em>independent</em> random variables, then <m>E[XY] = E[X]E[Y]</m>.</li>
           </ol>
         </p>
       </statement>
     </theorem>
-    <p>Here the <em>conditional expectation</em> <m>E[Y | X]</m> is the expected value of <m>Y</m> given the value of <m>X</m>.
+
+    <p>Here there are two kinds of <em>conditional expectation</em>: <m>E[Y | A]</m> is the expected value
+    of <m>Y</m> restricted to the probability space determined by the event <m>A</m> with <m>P(A)>0</m>, i.e.,
+      <me>E[Y | A] = \sum_{s\in A} Y(s)\frac{P(s)}{P(A)} = \sum_y yP(Y=y|A),</me>
+    while <m>E[Y | X]</m> is the expected value of <m>Y</m> given the value of <m>X</m>.
     It is defined as:
-      <me>E[Y | X] = \sum_{s \in S} Y(s)P(s | X)</me>.
-    It is a random variable since it depends on <m>X</m>.</p>
+      <me>E[Y | X] = \sum_{s \in S} Y(s)P(s | X) = \sum_y y P(Y = y|X)</me>
+    It is a random variable since it depends on <m>X</m>. More formally, we ought to write
+      <me>E[Y | X=x] = \sum_y yP(Y = y|X = x).</me>
+    Note this also means that if <m>X</m> and <m>Y</m> are independent,
+    then this further simplifies as
+      <me>E[Y | X=x] = \sum_y yP(Y = y|X = x) = \sum_y yP(Y = y) = E[Y].</me>
+    Thus, when <m>X</m> and <m>Y</m> are independent, we have <m>E[Y|X] = E[Y]</m>.</p>
+
     <proof>
       <p><em>1. Linearity of Expectation:</em>
       Let <m>X</m> and <m>Y</m> be random variables on the sample space <m>S</m>. By the definition of expectation, we have:
           <me>E[X + Y] = \sum_{s \in S} (X(s) + Y(s))P(s) = \sum_{s \in S} X(s)P(s) + \sum_{s \in S} Y(s)P(s) = E[X] + E[Y]</me>.
       </p>
 
-      <p><em>2. Law of Total Expectation:</em>
-        Let <m>X, Y</m> be random variables. By the definition of conditional expectation, we have:
-          <m>E[Y | X] = \sum_{s \in S} Y(s)P(s | X)</m>.
-        Taking the expectation over <m>X</m>, we get:
-          <me>E[E[Y | X]] = \sum_{x} \left(\sum_{s \in S} Y(s)P(s | X = x)\right)P(X = x)</me>
-        Rearranging the sums and using the law of total probability, we obtain:
-          <me>E[E[Y | X]] = \sum_{s \in S} Y(s) \left(\sum_{x} P(s | X = x)P(X = x)\right) = \sum_{s \in S} Y(s)P(s) = E[Y]</me>
-        Thus <m>E[Y] = E[E[Y | X]]</m>, proving the law of total expectation.</p>
+      <p><em>1. Law of Total Expectation:</em>
+        Indeed, this boils down to the following calculation:
+        <me>
+          E[Y] = \sum_{s \in S} Y(s)P(s) = \sum_{i=1}^k \sum_{s \in A_i} Y(s)P(s) = \sum_{i=1}^k E[Y | A_i]P(A_i).
+        </me>
+      </p>
+
+      <p><em>3. Law of Iterated Expectation:</em>
+
+        Now let <m>X, Y</m> be random variables. Suppose that the range of <m>X</m> is <m>\{x_1, \ldots, x_k\}</m>,
+        giving a partition of the sample space <m>S = A_1 \cup \cdots \cup A_k</m> where <m>A_i = \{s \in S | X(s) = x_i\}</m>.
+        Then by the above we can write the expectation of <m>Y</m> as
+          <me>E[Y] = \sum_{i=1}^k E[Y | X = x_i]P(X = x_i) = E[E[Y | X]],</me>
+        proving the law of total expectation.</p>
 
       <p><em>3. Product of Independent Random Variables:</em>
-        Let <m>X</m> and <m>Y</m> be independent random variables. By the law of total expectation, we have:
+        Let <m>X</m> and <m>Y</m> be independent random variables. Let's use the law of total expectation:
           <m>E[XY] = E[E[XY | X]]</m>.
-        Since <m>X</m> and <m>Y</m> are independent, the conditional expectation <m>E[XY | X]</m> simplifies to:
-          <m>E[XY | X] = X \cdot E[Y]</m>.
-        Substituting this into the law of total expectation, we get:
-          <m>E[XY] = E[X \cdot E[Y]]</m>.
-        Since <m>E[Y]</m> is a constant with respect to <m>X</m>, we can factor it out:
-          <m>E[XY] = E[Y] \cdot E[X]</m>.
+        The inner expectation <m>E[XY | X]</m> (which,  recall is a random variable depending on the value <m>x</m> of <m>X</m>)
+        simplifies by our independence assumption:
+        <me>
+          E[XY | X] = X E[Y | X] = X E[Y].
+          </me>
+        Now we can substitute this back, and take the expectation over <m>X</m>:
+        <me>
+          E[XY] = \sum_{x} x E[Y] P(X=x) = E[Y] \sum_{x} x P(X=x) = E[Y] E[X].
+        </me>
         Thus <m>E[XY] = E[X]E[Y]</m>, proving the product rule for independent random variables.</p>
     </proof>
   </subsection>
