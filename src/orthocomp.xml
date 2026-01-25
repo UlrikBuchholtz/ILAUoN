@@ -407,7 +407,7 @@ the license is included in gfdl.xml.
     <me>
       \begin{split}
       \Span\bigl\{e_1,e_2\bigr\}^\perp
-      \amp= \left\{\vec{x y z w}\text{ in }\R^4\biggm|\vec{x y z w}\cdot\vec{1 0 0 0} = 0 \text{ and } \vec{x y z w}\vec{0 1 0 0} = 0\right\} \\
+      \amp= \left\{\vec{x y z w}\text{ in }\R^4\biggm|\vec{x y z w}\cdot\vec{1 0 0 0} = 0 \text{ and } \vec{x y z w}\cdot\vec{0 1 0 0} = 0\right\} \\
       \amp= \left\{\vec{0 0 z w}\text{ in }\R^4\right\}
       = \Span\bigl\{e_3,e_4\}:
       \end{split}
