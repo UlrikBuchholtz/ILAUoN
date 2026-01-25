@@ -44,7 +44,7 @@ the license is included in gfdl.xml.
  <p>
 	An electric scooter company has locations all over Nottingham, where you can rent scooters. You can return them
 	to any other location. For simplicity, pretend that there are three locations, and that every customer returns
-	their scoote the next day. Let <m>v_t</m> be the vector whose entries <m>x_t,y_t,z_t</m> are the number of scooters
+	their scooter the next day. Let <m>v_t</m> be the vector whose entries <m>x_t,y_t,z_t</m> are the number of scooters
 	in locations <m>1,2,</m> and <m>3</m>, respectively. Let <m>A</m> be the matrix whose <m>i,j</m>-entry is the
 	probability that a customer renting a scooter from location <m>j</m> returns it to location <m>i</m>. For example, the
 	matrix
@@ -220,7 +220,7 @@ the license is included in gfdl.xml.
        population for the year after, and so on.
        </p>
 
-       <p>For example, if we calculate that there are <m>700</m> frogs and <m>9\times 10^5</m>midges in year 0, then we
+       <p>For example, if we calculate that there are <m>700</m> frogs and <m>9\times 10^5</m> midges in year 0, then we
        would record this as
        <me> v_0 = \vec{7 9}.</me>
        We could then calculate
