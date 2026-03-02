@@ -403,16 +403,16 @@ the license is included in gfdl.xml.
   </fact>
 
   <p>
-    See these <xref lower="true" ref="orthocomp-pictures"/> for pictures of the second property.  As for the third: for example, if <m>W</m> is a (<m>2</m>-dimensional) plane in <m>\R^4</m>, then <m>W^\perp</m> is another (<m>2</m>-dimensional) plane.  Explicitly, we have
+    See these <xref lower="true" ref="orthocomp-pictures"/> for pictures of the second property.  As for the third: for example, if <m>W</m> is a (<m>2</m>-dimensional) plane in <m>\R^4</m>, then <m>W^\perp</m> is another (<m>2</m>-dimensional) plane.  Explicitly, we have:
     <me>
       \begin{split}
       \Span\bigl\{e_1,e_2\bigr\}^\perp
       \amp= \left\{\vec{x y z w}\text{ in }\R^4\biggm|\vec{x y z w}\cdot\vec{1 0 0 0} = 0 \text{ and } \vec{x y z w}\cdot\vec{0 1 0 0} = 0\right\} \\
       \amp= \left\{\vec{0 0 z w}\text{ in }\R^4\right\}
-      = \Span\bigl\{e_3,e_4\}:
+      = \Span\bigl\{e_3,e_4\}
       \end{split}
     </me>
-    the orthogonal complement of the <m>xy</m>-plane is the <m>zw</m>-plane.
+    Thus, the orthogonal complement of the <m>xy</m>-plane is the <m>zw</m>-plane.
   </p>
 
   <definition>

@@ -770,10 +770,10 @@ the license is included in gfdl.xml.
         <ol>
           <li>
             We see from the <m>\cC</m>-coordinate grid that
-            <m>\textcolor{seq-green}x = -\frac 12\textcolor{seq-violet}{v_1} - \textcolor{seq-blue}{v_2}</m>.  Therefore, <m>C\inv\textcolor{seq-green}x = \textcolor{seq-green}{[x]_\cC} = {-1/2\choose -1}.</m>
+            <m>\textcolor{seq-green}x = -\frac 12\textcolor{seq-violet}{v_1} - \textcolor{seq-blue}{v_2}</m>.  Therefore, <m>C\inv\textcolor{seq-green}x = \textcolor{seq-green}{{}_\cC[x]} = {-1/2\choose -1}.</m>
           </li>
           <li>
-            Multiplying by <m>B</m> rotates by <m>90^\circ</m>: <m>\textcolor{seq-red}{B[x]_\cC} = {1\choose -1/2}</m>.
+            Multiplying by <m>B</m> rotates by <m>90^\circ</m>: <m>\textcolor{seq-red}{B{}_\cC[x]} = {1\choose -1/2}</m>.
           </li>
           <li>
             Interpreting <m>{1\choose -1/2}</m> as a <m>\cC</m>-coordinate vector, we multiply by <m>C</m> to get
@@ -905,7 +905,7 @@ the license is included in gfdl.xml.
         </latex-code>
       </p>
       <figure>
-        <caption>The geometric relationship between the similar matrices <m>A</m> and <m>B</m> acting on <m>\R^2</m>.  Click and drag the heads of <m>x</m> and <m>[x]_\cC</m>.</caption>
+        <caption>The geometric relationship between the similar matrices <m>A</m> and <m>B</m> acting on <m>\R^2</m>.  Click and drag the heads of <m>x</m> and <m>{}_\cC[x]</m>.</caption>
         <mathbox source="demos/similarity.html?B=0,-1:1,0&amp;C=2,-1/2:1,1/2&amp;snap=off" height="600px"/>
       </figure>
     </example>

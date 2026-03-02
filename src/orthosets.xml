@@ -423,7 +423,7 @@ the license is included in gfdl.xml.
       <p>
         Let <m>W</m> be a subspace of <m>\R^n</m> with orthogonal basis <m>\cB=\{u_1,u_2,\ldots,u_m\}</m> and let <m>x</m> be a vector in <m>W</m>.  Then
         <me>
-          [x]_\cB = \left( \frac{x\cdot u_1}{u_1\cdot u_1},\;
+          {}_\cB[x] = \left( \frac{x\cdot u_1}{u_1\cdot u_1},\;
           \frac{x\cdot u_2}{u_2\cdot u_2},\;
           \ldots,\;
           \frac{x\cdot u_m}{u_m\cdot u_m}
@@ -434,7 +434,7 @@ the license is included in gfdl.xml.
 
     <p>
       As with orthogonal projections, if <m>\{u_1,u_2,\ldots,u_m\}</m> is an ortho<em>normal</em> basis of <m>W</m>, then the formula is even simpler:
-      <me>[x]_\cB = \bigl(x\cdot u_1,\; x\cdot u_2,\; \ldots,\; x\cdot u_m\bigr).</me>
+      <me>{}_\cB[x] = \bigl(x\cdot u_1,\; x\cdot u_2,\; \ldots,\; x\cdot u_m\bigr).</me>
     </p>
 
     <example>
@@ -456,7 +456,7 @@ the license is included in gfdl.xml.
           </me>
           form an <em>orthogonal</em> basis of <m>\R^2</m>, we have
           <me>
-            [x]_\cB = \left(\frac{x\cdot u_1}{u_1\cdot u_1},\;
+            {}_\cB[x] = \left(\frac{x\cdot u_1}{u_1\cdot u_1},\;
               \frac{x\cdot u_2}{u_2\cdot u_2} \right)
             = \left(\frac{3\cdot 2}{1^2+2^2},\;
               \frac{3\cdot 2}{(-4)^2+2^2} \right)

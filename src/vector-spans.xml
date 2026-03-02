@@ -241,7 +241,7 @@ the license is included in gfdl.xml.
 	<me> \vec{3 1 0} = x_1\vec{1 0 0} + x_2\vec{1 1 1} </me>
 	hold? We can rearrange this to give
 	<me> \vec{3 1 0} = \vec{x_1+x_2 0+x_2 0+x_2},</me>
-	which we can rewrite this vector equation as three ordinary equations
+	which we can rewrite as three ordinary equations
 	<me> \syseq{x_1+x_2=3; x_2=1; x_2=0\rlap.}</me>
 	The last two equations here contradict each other. They cannot both be true at the same time. This shows that
 	 <m>\vec{3 1 0}</m> is not in <m>\Span\left\{ \vec{1 0 0}, \vec{1 1 1} \right\}</m>.
