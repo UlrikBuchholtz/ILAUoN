@@ -1,0 +1,1443 @@
+{
+  "schema_version": 1,
+  "created_at": "2026-09-05T17:52:53.081317+00:00",
+  "root": "/tmp/opencode/ila-phase0-output",
+  "viewports": {
+    "desktop": {
+      "width": 1440,
+      "height": 1000
+    },
+    "mobile": {
+      "width": 390,
+      "height": 844
+    }
+  },
+  "limitations": [
+    "Chromium only; mobile is a viewport, not device/touch emulation. No PDF or fragment-link audit.",
+    "No request interception, dependency substitution, source edits, or custom WebGL flags; Playwright/system defaults are recorded.",
+    "DOMContentLoaded navigation capped at 15s, then bounded settling; external failures and pending requests retained.",
+    "Canvas activity is a 128x128 color sample, not proof of mathematical or visual correctness.",
+    "Viewport screenshots only; selected chapter portions, not exhaustive page coverage.",
+    "Keyboard smoke checks are not a full accessibility audit; animations and network can vary.",
+    "Generated manifest.json is a web-app manifest, not a page inventory; chapter names use actual output files."
+  ],
+  "browser": {
+    "version": "150.0.7871.100",
+    "executable": "/usr/bin/chromium",
+    "headless": true,
+    "launch_timeout_ms": 30000,
+    "custom_flags": [],
+    "command_line": "/usr/lib/chromium/chromium --show-component-extension-options --enable-gpu-rasterization --no-default-browser-check --disable-pings --media-router=0 --disable-dev-shm-usage --enable-remote-extensions --load-extension --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-edgeupdater --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,BoundaryEventDispatchTracksNodeRemoval,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,BlockOriginHeaderModificationOnRedirect,Translate,AutoDeElevate,OptimizationHints,msForceBrowserSignIn,msEdgeUpdateLaunchServicesPreferredVersion --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --disable-updater-scheduler --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --user-data-dir=/tmp/playwright_chromiumdev_profile-HPQwS3 --remote-debugging-pipe --no-startup-window --noerrdialogs --ozone-platform=headless --ozone-override-screen-size=800,600 --use-angle=swiftshader-webgl --flag-switches-begin --flag-switches-end --enable-unsafe-swiftshader",
+    "webgl": true,
+    "LD_PRELOAD": "/usr/lib/x86_64-linux-gnu/libstdc++.so.6",
+    "settle_ms": 1800
+  },
+  "summary": {
+    "pass": 21,
+    "fail": 10
+  },
+  "results": [
+    {
+      "test": "vectors-desktop-layout",
+      "status": "pass",
+      "evidence": {
+        "url": "http://127.0.0.1:33479/vectors.html",
+        "scrollWidth": 1440,
+        "innerWidth": 1440,
+        "scrollY": 6774,
+        "iframes": 1,
+        "canvases": 0
+      }
+    },
+    {
+      "test": "knowl-disclosure-desktop",
+      "status": "pass",
+      "evidence": {
+        "url": "http://127.0.0.1:33479/vectors.html",
+        "knowl": "./knowl/example-1-hidden.html?vers=f7fbb5",
+        "tabIndex": 0,
+        "text_length": 89
+      }
+    },
+    {
+      "test": "knowl-collapse-desktop",
+      "status": "pass",
+      "evidence": {
+        "url": "http://127.0.0.1:33479/vectors.html"
+      }
+    },
+    {
+      "test": "vector-spans-desktop-layout",
+      "status": "pass",
+      "evidence": {
+        "url": "http://127.0.0.1:33479/vector-spans.html",
+        "scrollWidth": 1440,
+        "innerWidth": 1440,
+        "scrollY": 2071,
+        "iframes": 2,
+        "canvases": 0
+      }
+    },
+    {
+      "test": "row-reduction-desktop-layout",
+      "status": "pass",
+      "evidence": {
+        "url": "http://127.0.0.1:33479/row-reduction.html",
+        "scrollWidth": 1440,
+        "innerWidth": 1440,
+        "scrollY": 83,
+        "iframes": 0,
+        "canvases": 0
+      }
+    },
+    {
+      "test": "matrix-multiplication-desktop-layout",
+      "status": "pass",
+      "evidence": {
+        "url": "http://127.0.0.1:33479/matrix-multiplication.html",
+        "scrollWidth": 1440,
+        "innerWidth": 1440,
+        "scrollY": 83,
+        "iframes": 0,
+        "canvases": 0
+      }
+    },
+    {
+      "test": "determinants-cofactors-desktop-layout",
+      "status": "pass",
+      "evidence": {
+        "url": "http://127.0.0.1:33479/determinants-cofactors.html",
+        "scrollWidth": 1440,
+        "innerWidth": 1440,
+        "scrollY": 83,
+        "iframes": 0,
+        "canvases": 0
+      }
+    },
+    {
+      "test": "dds-desktop-layout",
+      "status": "pass",
+      "evidence": {
+        "url": "http://127.0.0.1:33479/dds.html",
+        "scrollWidth": 1440,
+        "innerWidth": 1440,
+        "scrollY": 9028,
+        "iframes": 1,
+        "canvases": 0
+      }
+    },
+    {
+      "test": "least-squares-desktop-layout",
+      "status": "pass",
+      "evidence": {
+        "url": "http://127.0.0.1:33479/least-squares.html",
+        "scrollWidth": 1440,
+        "innerWidth": 1440,
+        "scrollY": 2122,
+        "iframes": 1,
+        "canvases": 0
+      }
+    },
+    {
+      "test": "vectors-mobile-layout",
+      "status": "fail",
+      "evidence": {
+        "url": "http://127.0.0.1:33479/vectors.html",
+        "scrollWidth": 573,
+        "innerWidth": 390,
+        "scrollY": 8310,
+        "iframes": 1,
+        "canvases": 0
+      }
+    },
+    {
+      "test": "knowl-disclosure-mobile",
+      "status": "pass",
+      "evidence": {
+        "url": "http://127.0.0.1:33479/vectors.html",
+        "knowl": "./knowl/example-1-hidden.html?vers=f7fbb5",
+        "tabIndex": 0,
+        "text_length": 89
+      }
+    },
+    {
+      "test": "knowl-collapse-mobile",
+      "status": "pass",
+      "evidence": {
+        "url": "http://127.0.0.1:33479/vectors.html"
+      }
+    },
+    {
+      "test": "mobile-menu-tab-reachable",
+      "status": "pass",
+      "evidence": {
+        "url": "http://127.0.0.1:33479/vectors.html"
+      }
+    },
+    {
+      "test": "mobile-menu-enter-opens",
+      "status": "pass",
+      "evidence": {
+        "url": "http://127.0.0.1:33479/vectors.html"
+      }
+    },
+    {
+      "test": "mobile-menu-expanded-semantics",
+      "status": "fail",
+      "evidence": {
+        "url": "http://127.0.0.1:33479/vectors.html",
+        "aria_expanded": null
+      }
+    },
+    {
+      "test": "mobile-menu-escape-closes",
+      "status": "fail",
+      "evidence": {
+        "url": "http://127.0.0.1:33479/vectors.html"
+      }
+    },
+    {
+      "test": "vector-spans-mobile-layout",
+      "status": "fail",
+      "evidence": {
+        "url": "http://127.0.0.1:33479/vector-spans.html",
+        "scrollWidth": 543,
+        "innerWidth": 390,
+        "scrollY": 2856,
+        "iframes": 2,
+        "canvases": 0
+      }
+    },
+    {
+      "test": "row-reduction-mobile-layout",
+      "status": "fail",
+      "evidence": {
+        "url": "http://127.0.0.1:33479/row-reduction.html",
+        "scrollWidth": 575,
+        "innerWidth": 390,
+        "scrollY": 158,
+        "iframes": 0,
+        "canvases": 0
+      }
+    },
+    {
+      "test": "matrix-multiplication-mobile-layout",
+      "status": "fail",
+      "evidence": {
+        "url": "http://127.0.0.1:33479/matrix-multiplication.html",
+        "scrollWidth": 647,
+        "innerWidth": 390,
+        "scrollY": 158,
+        "iframes": 0,
+        "canvases": 0
+      }
+    },
+    {
+      "test": "determinants-cofactors-mobile-layout",
+      "status": "fail",
+      "evidence": {
+        "url": "http://127.0.0.1:33479/determinants-cofactors.html",
+        "scrollWidth": 647,
+        "innerWidth": 390,
+        "scrollY": 158,
+        "iframes": 0,
+        "canvases": 0
+      }
+    },
+    {
+      "test": "dds-mobile-layout",
+      "status": "fail",
+      "evidence": {
+        "url": "http://127.0.0.1:33479/dds.html",
+        "scrollWidth": 565,
+        "innerWidth": 390,
+        "scrollY": 11811,
+        "iframes": 1,
+        "canvases": 0
+      }
+    },
+    {
+      "test": "least-squares-mobile-layout",
+      "status": "fail",
+      "evidence": {
+        "url": "http://127.0.0.1:33479/least-squares.html",
+        "scrollWidth": 601,
+        "innerWidth": 390,
+        "scrollY": 2794,
+        "iframes": 1,
+        "canvases": 0
+      }
+    },
+    {
+      "test": "vector-canvas-active",
+      "status": "pass",
+      "evidence": {
+        "url": "http://127.0.0.1:33479/demos/vector.html",
+        "pixels": [
+          {
+            "width": 1440,
+            "height": 1000,
+            "colors": 91,
+            "nonwhite": 316
+          }
+        ]
+      }
+    },
+    {
+      "test": "vector-coordinate-slider",
+      "status": "pass",
+      "evidence": {
+        "url": "http://127.0.0.1:33479/demos/vector.html",
+        "before": "\ud835\udc63\n=\n[\n5.00\n\n\n3.00\n\n\n4.00\n]\nv=\n\u23a3\n\u23a2\n\u23a1\n\t\u200b\n\n5.00\n3.00\n4.00\n\t\u200b\n\n\u23a6\n\u23a5\n\u23a4\n\t\u200b\n",
+        "after": "\ud835\udc63\n=\n[\n\u2212\n3.50\n\n\n3.00\n\n\n4.00\n]\nv=\n\u23a3\n\u23a2\n\u23a1\n\t\u200b\n\n\u22123.50\n3.00\n4.00\n\t\u200b\n\n\u23a6\n\u23a5\n\u23a4\n\t\u200b\n",
+        "input_before": "5",
+        "input_after": "-3.5"
+      }
+    },
+    {
+      "test": "rowred1-next",
+      "status": "pass",
+      "evidence": {
+        "url": "http://127.0.0.1:33479/demos/rowred1.html",
+        "caption": "We want these two entries to be zero."
+      }
+    },
+    {
+      "test": "rowred1-handoff-state",
+      "status": "pass",
+      "evidence": {
+        "url": "http://127.0.0.1:33479/demos/rrinter.html?mat=1,2,3,6:2,-3,2,14:3,1,-1,-2&ops=r0:-2:1,r0:-3:2&cur=2&augment=2",
+        "query": {
+          "mat": [
+            "1,2,3,6:2,-3,2,14:3,1,-1,-2"
+          ],
+          "ops": [
+            "r0:-2:1,r0:-3:2"
+          ],
+          "cur": [
+            "2"
+          ],
+          "augment": [
+            "2"
+          ]
+        },
+        "expected_matrix": [
+          [
+            1,
+            2,
+            3,
+            6
+          ],
+          [
+            0,
+            -7,
+            -4,
+            2
+          ],
+          [
+            0,
+            -5,
+            -10,
+            -20
+          ]
+        ],
+        "actual_matrix": [
+          [
+            1,
+            2,
+            3,
+            6
+          ],
+          [
+            0,
+            -7,
+            -4,
+            2
+          ],
+          [
+            0,
+            -5,
+            -10,
+            -20
+          ]
+        ]
+      }
+    },
+    {
+      "test": "rrinter-multiply-row",
+      "status": "pass",
+      "evidence": {
+        "url": "http://127.0.0.1:33479/demos/rrinter.html?mat=1,2,3:4,5,6&ops=m0:2&cur=1&augment=1",
+        "before": [
+          [
+            1,
+            2,
+            3
+          ],
+          [
+            4,
+            5,
+            6
+          ]
+        ],
+        "after": [
+          [
+            2,
+            4,
+            6
+          ],
+          [
+            4,
+            5,
+            6
+          ]
+        ],
+        "previous_url": "http://127.0.0.1:33479/demos/rrinter.html?mat=1,2,3:4,5,6&augment=1"
+      }
+    },
+    {
+      "test": "dynamics3-scene",
+      "status": "pass",
+      "evidence": {
+        "url": "http://127.0.0.1:33479/demos/dynamics3.html?mat=0.7,0.1:-0.5,1.3&v1=1,0&v2=0,1&vec=true&size=20&y=7,9&flow=false",
+        "pixels": [
+          {
+            "width": 1000,
+            "height": 1000,
+            "colors": 1385,
+            "nonwhite": 2632
+          }
+        ]
+      }
+    },
+    {
+      "test": "dynamics3-multiply-gui",
+      "status": "fail",
+      "evidence": {
+        "url": "http://127.0.0.1:33479/demos/dynamics3.html?mat=0.7,0.1:-0.5,1.3&v1=1,0&v2=0,1&vec=true&size=20&y=7,9&flow=false",
+        "visible_function_controls": 0,
+        "gui_container_children": 0,
+        "source_observation": "autoPlace:false GUI is created but never appended to gui-container"
+      }
+    },
+    {
+      "test": "compose-linked-scenes",
+      "status": "pass",
+      "evidence": {
+        "url": "http://127.0.0.1:33479/demos/compose3d.html?mat1=2,0,0:0,1,0:0,0,1&mat2=1,0,0:0,3,0:0,0,1&x=1,2,3",
+        "vectors": [
+          [
+            1,
+            2,
+            3
+          ],
+          [
+            2,
+            2,
+            3
+          ],
+          [
+            2,
+            6,
+            3
+          ]
+        ],
+        "pixels": [
+          {
+            "width": 480,
+            "height": 480,
+            "colors": 122,
+            "nonwhite": 1049
+          },
+          {
+            "width": 480,
+            "height": 480,
+            "colors": 392,
+            "nonwhite": 6331
+          },
+          {
+            "width": 480,
+            "height": 480,
+            "colors": 210,
+            "nonwhite": 6332
+          }
+        ]
+      }
+    },
+    {
+      "test": "compose-linked-axes-control",
+      "status": "pass",
+      "evidence": {
+        "url": "http://127.0.0.1:33479/demos/compose3d.html?mat1=2,0,0:0,1,0:0,0,1&mat2=1,0,0:0,3,0:0,0,1&x=1,2,3",
+        "axes_visible": [
+          false,
+          false,
+          false
+        ]
+      }
+    }
+  ],
+  "visits": [
+    {
+      "name": "vectors-desktop",
+      "requested_url": "http://127.0.0.1:33479/vectors.html",
+      "events": [
+        {
+          "kind": "console",
+          "url": "http://127.0.0.1:33479/demos/js/demo.js?vers=98567d",
+          "message": "Canvas2D: Multiple readback operations using getImageData are faster with the willReadFrequently attribute set to true. See: https://html.spec.whatwg.org/multipage/canvas.html#concept-canvas-will-read-frequently",
+          "level": "warning",
+          "count": 4
+        },
+        {
+          "kind": "console",
+          "url": "http://127.0.0.1:33479/demos/spans.html?v1=1,2&v2=1,0&range=5&captions=combo&vers=f7fbb5",
+          "message": "[.WebGL-0x1544013af000]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels",
+          "level": "warning",
+          "count": 3
+        },
+        {
+          "kind": "console",
+          "url": "http://127.0.0.1:33479/demos/spans.html?v1=1,2&v2=1,0&range=5&captions=combo&vers=f7fbb5",
+          "message": "[.WebGL-0x1544013af000]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels (this message will no longer repeat)",
+          "level": "warning",
+          "count": 1
+        }
+      ],
+      "http_status": 200,
+      "portion": {
+        "tag": "IFRAME",
+        "id": "",
+        "src": "demos/spans.html?v1=1,2&v2=1,0&range=5&captions=combo&vers=f7fbb5"
+      },
+      "captures": [
+        {
+          "path": "migration/artifacts/browser/vectors-desktop.png",
+          "url": "http://127.0.0.1:33479/vectors.html",
+          "pending_requests": [],
+          "layout": {
+            "scrollWidth": 1440,
+            "innerWidth": 1440,
+            "scrollY": 6774,
+            "iframes": 1,
+            "canvases": 0
+          },
+          "frames": [
+            {
+              "url": "http://127.0.0.1:33479/vectors.html",
+              "scrollWidth": 1440,
+              "innerWidth": 1440,
+              "scrollY": 6774,
+              "iframes": 1,
+              "canvases": 0
+            },
+            {
+              "url": "http://127.0.0.1:33479/demos/spans.html?v1=1,2&v2=1,0&range=5&captions=combo&vers=f7fbb5",
+              "scrollWidth": 675,
+              "innerWidth": 675,
+              "scrollY": 0,
+              "iframes": 0,
+              "canvases": 1
+            }
+          ]
+        },
+        {
+          "path": "migration/artifacts/browser/vectors-desktop-knowl.png",
+          "url": "http://127.0.0.1:33479/vectors.html",
+          "pending_requests": [],
+          "layout": {
+            "scrollWidth": 1440,
+            "innerWidth": 1440,
+            "scrollY": 1657,
+            "iframes": 2,
+            "canvases": 0
+          },
+          "frames": [
+            {
+              "url": "http://127.0.0.1:33479/vectors.html",
+              "scrollWidth": 1440,
+              "innerWidth": 1440,
+              "scrollY": 1657,
+              "iframes": 2,
+              "canvases": 0
+            },
+            {
+              "url": "http://127.0.0.1:33479/demos/spans.html?v1=1,2&v2=1,0&range=5&captions=combo&vers=f7fbb5",
+              "scrollWidth": 675,
+              "innerWidth": 675,
+              "scrollY": 0,
+              "iframes": 0,
+              "canvases": 1
+            },
+            {
+              "url": "http://127.0.0.1:33479/demos/point.html?vers=f7fbb5",
+              "scrollWidth": 622,
+              "innerWidth": 622,
+              "scrollY": 0,
+              "iframes": 0,
+              "canvases": 1
+            }
+          ]
+        }
+      ],
+      "pending_after_close": []
+    },
+    {
+      "name": "vector-spans-desktop",
+      "requested_url": "http://127.0.0.1:33479/vector-spans.html",
+      "events": [
+        {
+          "kind": "console",
+          "url": "http://127.0.0.1:33479/demos/js/demo.js?vers=98567d",
+          "message": "Canvas2D: Multiple readback operations using getImageData are faster with the willReadFrequently attribute set to true. See: https://html.spec.whatwg.org/multipage/canvas.html#concept-canvas-will-read-frequently",
+          "level": "warning",
+          "count": 4
+        }
+      ],
+      "http_status": 200,
+      "portion": {
+        "tag": "IFRAME",
+        "id": "",
+        "src": "demos/spans.html?v1=1,2,6&v2=-1,-2,-1&target=8,16,3&range=20&camera=3,.5,1.5&vers=f7fbb5"
+      },
+      "captures": [
+        {
+          "path": "migration/artifacts/browser/vector-spans-desktop.png",
+          "url": "http://127.0.0.1:33479/vector-spans.html",
+          "pending_requests": [],
+          "layout": {
+            "scrollWidth": 1440,
+            "innerWidth": 1440,
+            "scrollY": 2071,
+            "iframes": 2,
+            "canvases": 0
+          },
+          "frames": [
+            {
+              "url": "http://127.0.0.1:33479/vector-spans.html",
+              "scrollWidth": 1440,
+              "innerWidth": 1440,
+              "scrollY": 2071,
+              "iframes": 2,
+              "canvases": 0
+            },
+            {
+              "url": "http://127.0.0.1:33479/demos/spans.html?v1=1,2,6&v2=-1,-2,-1&target=8,16,3&range=20&camera=3,.5,1.5&vers=f7fbb5",
+              "scrollWidth": 675,
+              "innerWidth": 675,
+              "scrollY": 0,
+              "iframes": 0,
+              "canvases": 1
+            },
+            {
+              "url": "http://127.0.0.1:33479/demos/spans.html?v1=1,2,6&v2=-1,-2,-1&target=2,-2,0&range=8&camera=3,.5,1.5&vers=f7fbb5",
+              "scrollWidth": 675,
+              "innerWidth": 675,
+              "scrollY": 0,
+              "iframes": 0,
+              "canvases": 1
+            }
+          ]
+        }
+      ],
+      "pending_after_close": []
+    },
+    {
+      "name": "row-reduction-desktop",
+      "requested_url": "http://127.0.0.1:33479/row-reduction.html",
+      "events": [],
+      "http_status": 200,
+      "portion": {
+        "tag": "SECTION",
+        "id": "row-reduction",
+        "src": null
+      },
+      "captures": [
+        {
+          "path": "migration/artifacts/browser/row-reduction-desktop.png",
+          "url": "http://127.0.0.1:33479/row-reduction.html",
+          "pending_requests": [],
+          "layout": {
+            "scrollWidth": 1440,
+            "innerWidth": 1440,
+            "scrollY": 83,
+            "iframes": 0,
+            "canvases": 0
+          },
+          "frames": [
+            {
+              "url": "http://127.0.0.1:33479/row-reduction.html",
+              "scrollWidth": 1440,
+              "innerWidth": 1440,
+              "scrollY": 83,
+              "iframes": 0,
+              "canvases": 0
+            }
+          ]
+        }
+      ],
+      "pending_after_close": []
+    },
+    {
+      "name": "matrix-multiplication-desktop",
+      "requested_url": "http://127.0.0.1:33479/matrix-multiplication.html",
+      "events": [],
+      "http_status": 200,
+      "portion": {
+        "tag": "SECTION",
+        "id": "matrix-multiplication",
+        "src": null
+      },
+      "captures": [
+        {
+          "path": "migration/artifacts/browser/matrix-multiplication-desktop.png",
+          "url": "http://127.0.0.1:33479/matrix-multiplication.html",
+          "pending_requests": [],
+          "layout": {
+            "scrollWidth": 1440,
+            "innerWidth": 1440,
+            "scrollY": 83,
+            "iframes": 0,
+            "canvases": 0
+          },
+          "frames": [
+            {
+              "url": "http://127.0.0.1:33479/matrix-multiplication.html",
+              "scrollWidth": 1440,
+              "innerWidth": 1440,
+              "scrollY": 83,
+              "iframes": 0,
+              "canvases": 0
+            }
+          ]
+        }
+      ],
+      "pending_after_close": []
+    },
+    {
+      "name": "determinants-cofactors-desktop",
+      "requested_url": "http://127.0.0.1:33479/determinants-cofactors.html",
+      "events": [],
+      "http_status": 200,
+      "portion": {
+        "tag": "SECTION",
+        "id": "determinants-cofactors",
+        "src": null
+      },
+      "captures": [
+        {
+          "path": "migration/artifacts/browser/determinants-cofactors-desktop.png",
+          "url": "http://127.0.0.1:33479/determinants-cofactors.html",
+          "pending_requests": [],
+          "layout": {
+            "scrollWidth": 1440,
+            "innerWidth": 1440,
+            "scrollY": 83,
+            "iframes": 0,
+            "canvases": 0
+          },
+          "frames": [
+            {
+              "url": "http://127.0.0.1:33479/determinants-cofactors.html",
+              "scrollWidth": 1440,
+              "innerWidth": 1440,
+              "scrollY": 83,
+              "iframes": 0,
+              "canvases": 0
+            }
+          ]
+        }
+      ],
+      "pending_after_close": []
+    },
+    {
+      "name": "dds-desktop",
+      "requested_url": "http://127.0.0.1:33479/dds.html",
+      "events": [
+        {
+          "kind": "console",
+          "url": "http://127.0.0.1:33479/demos/js/demo.js?vers=98567d",
+          "message": "Canvas2D: Multiple readback operations using getImageData are faster with the willReadFrequently attribute set to true. See: https://html.spec.whatwg.org/multipage/canvas.html#concept-canvas-will-read-frequently",
+          "level": "warning",
+          "count": 2
+        }
+      ],
+      "http_status": 200,
+      "portion": {
+        "tag": "IFRAME",
+        "id": "",
+        "src": "demos/dynamics3.html?mat=0.7,0.1:-0.5,1.3&v1=1,0&v2=0,1&vec=true&size=20&y=7,9&flow=false&matname=A&vecname=v&vers=f7fbb5"
+      },
+      "captures": [
+        {
+          "path": "migration/artifacts/browser/dds-desktop.png",
+          "url": "http://127.0.0.1:33479/dds.html",
+          "pending_requests": [],
+          "layout": {
+            "scrollWidth": 1440,
+            "innerWidth": 1440,
+            "scrollY": 9028,
+            "iframes": 1,
+            "canvases": 0
+          },
+          "frames": [
+            {
+              "url": "http://127.0.0.1:33479/dds.html",
+              "scrollWidth": 1440,
+              "innerWidth": 1440,
+              "scrollY": 9028,
+              "iframes": 1,
+              "canvases": 0
+            },
+            {
+              "url": "http://127.0.0.1:33479/demos/dynamics3.html?mat=0.7,0.1:-0.5,1.3&v1=1,0&v2=0,1&vec=true&size=20&y=7,9&flow=false&matname=A&vecname=v&vers=f7fbb5",
+              "scrollWidth": 667,
+              "innerWidth": 667,
+              "scrollY": 0,
+              "iframes": 0,
+              "canvases": 1
+            }
+          ]
+        }
+      ],
+      "pending_after_close": []
+    },
+    {
+      "name": "least-squares-desktop",
+      "requested_url": "http://127.0.0.1:33479/least-squares.html",
+      "events": [
+        {
+          "kind": "console",
+          "url": "http://127.0.0.1:33479/demos/js/demo.js?vers=98567d",
+          "message": "Canvas2D: Multiple readback operations using getImageData are faster with the willReadFrequently attribute set to true. See: https://html.spec.whatwg.org/multipage/canvas.html#concept-canvas-will-read-frequently",
+          "level": "warning",
+          "count": 2
+        }
+      ],
+      "http_status": 200,
+      "portion": {
+        "tag": "IFRAME",
+        "id": "",
+        "src": "demos/leastsquares.html?v1=0,1,0&v2=1.1,0,-.2&range=2&vec=1.4,-1.1,1.45&vers=f7fbb5"
+      },
+      "captures": [
+        {
+          "path": "migration/artifacts/browser/least-squares-desktop.png",
+          "url": "http://127.0.0.1:33479/least-squares.html",
+          "pending_requests": [],
+          "layout": {
+            "scrollWidth": 1440,
+            "innerWidth": 1440,
+            "scrollY": 2122,
+            "iframes": 1,
+            "canvases": 0
+          },
+          "frames": [
+            {
+              "url": "http://127.0.0.1:33479/least-squares.html",
+              "scrollWidth": 1440,
+              "innerWidth": 1440,
+              "scrollY": 2122,
+              "iframes": 1,
+              "canvases": 0
+            },
+            {
+              "url": "http://127.0.0.1:33479/demos/leastsquares.html?v1=0,1,0&v2=1.1,0,-.2&range=2&vec=1.4,-1.1,1.45&vers=f7fbb5",
+              "scrollWidth": 675,
+              "innerWidth": 675,
+              "scrollY": 0,
+              "iframes": 0,
+              "canvases": 1
+            }
+          ]
+        }
+      ],
+      "pending_after_close": []
+    },
+    {
+      "name": "vectors-mobile",
+      "requested_url": "http://127.0.0.1:33479/vectors.html",
+      "events": [
+        {
+          "kind": "console",
+          "url": "http://127.0.0.1:33479/demos/js/demo.js?vers=98567d",
+          "message": "Canvas2D: Multiple readback operations using getImageData are faster with the willReadFrequently attribute set to true. See: https://html.spec.whatwg.org/multipage/canvas.html#concept-canvas-will-read-frequently",
+          "level": "warning",
+          "count": 6
+        }
+      ],
+      "http_status": 200,
+      "portion": {
+        "tag": "IFRAME",
+        "id": "",
+        "src": "demos/spans.html?v1=1,2&v2=1,0&range=5&captions=combo&vers=f7fbb5"
+      },
+      "captures": [
+        {
+          "path": "migration/artifacts/browser/vectors-mobile.png",
+          "url": "http://127.0.0.1:33479/vectors.html",
+          "pending_requests": [],
+          "layout": {
+            "scrollWidth": 573,
+            "innerWidth": 390,
+            "scrollY": 8310,
+            "iframes": 1,
+            "canvases": 0
+          },
+          "frames": [
+            {
+              "url": "http://127.0.0.1:33479/vectors.html",
+              "scrollWidth": 573,
+              "innerWidth": 390,
+              "scrollY": 8310,
+              "iframes": 1,
+              "canvases": 0
+            },
+            {
+              "url": "http://127.0.0.1:33479/demos/spans.html?v1=1,2&v2=1,0&range=5&captions=combo&vers=f7fbb5",
+              "scrollWidth": 370,
+              "innerWidth": 370,
+              "scrollY": 0,
+              "iframes": 0,
+              "canvases": 1
+            }
+          ]
+        },
+        {
+          "path": "migration/artifacts/browser/vectors-mobile-knowl.png",
+          "url": "http://127.0.0.1:33479/vectors.html",
+          "pending_requests": [],
+          "layout": {
+            "scrollWidth": 573,
+            "innerWidth": 390,
+            "scrollY": 2238,
+            "iframes": 2,
+            "canvases": 0
+          },
+          "frames": [
+            {
+              "url": "http://127.0.0.1:33479/vectors.html",
+              "scrollWidth": 573,
+              "innerWidth": 390,
+              "scrollY": 2238,
+              "iframes": 2,
+              "canvases": 0
+            },
+            {
+              "url": "http://127.0.0.1:33479/demos/spans.html?v1=1,2&v2=1,0&range=5&captions=combo&vers=f7fbb5",
+              "scrollWidth": 370,
+              "innerWidth": 370,
+              "scrollY": 0,
+              "iframes": 0,
+              "canvases": 1
+            },
+            {
+              "url": "http://127.0.0.1:33479/demos/point.html?vers=f7fbb5",
+              "scrollWidth": 317,
+              "innerWidth": 317,
+              "scrollY": 0,
+              "iframes": 0,
+              "canvases": 1
+            }
+          ]
+        },
+        {
+          "path": "migration/artifacts/browser/vectors-mobile-menu.png",
+          "url": "http://127.0.0.1:33479/vectors.html",
+          "pending_requests": [],
+          "layout": {
+            "scrollWidth": 390,
+            "innerWidth": 390,
+            "scrollY": 0,
+            "iframes": 1,
+            "canvases": 0
+          },
+          "frames": [
+            {
+              "url": "http://127.0.0.1:33479/vectors.html",
+              "scrollWidth": 390,
+              "innerWidth": 390,
+              "scrollY": 0,
+              "iframes": 1,
+              "canvases": 0
+            },
+            {
+              "url": "http://127.0.0.1:33479/demos/spans.html?v1=1,2&v2=1,0&range=5&captions=combo&vers=f7fbb5",
+              "scrollWidth": 370,
+              "innerWidth": 370,
+              "scrollY": 0,
+              "iframes": 0,
+              "canvases": 1
+            }
+          ]
+        }
+      ],
+      "pending_after_close": []
+    },
+    {
+      "name": "vector-spans-mobile",
+      "requested_url": "http://127.0.0.1:33479/vector-spans.html",
+      "events": [
+        {
+          "kind": "console",
+          "url": "http://127.0.0.1:33479/demos/js/demo.js?vers=98567d",
+          "message": "Canvas2D: Multiple readback operations using getImageData are faster with the willReadFrequently attribute set to true. See: https://html.spec.whatwg.org/multipage/canvas.html#concept-canvas-will-read-frequently",
+          "level": "warning",
+          "count": 4
+        }
+      ],
+      "http_status": 200,
+      "portion": {
+        "tag": "IFRAME",
+        "id": "",
+        "src": "demos/spans.html?v1=1,2,6&v2=-1,-2,-1&target=8,16,3&range=20&camera=3,.5,1.5&vers=f7fbb5"
+      },
+      "captures": [
+        {
+          "path": "migration/artifacts/browser/vector-spans-mobile.png",
+          "url": "http://127.0.0.1:33479/vector-spans.html",
+          "pending_requests": [],
+          "layout": {
+            "scrollWidth": 543,
+            "innerWidth": 390,
+            "scrollY": 2856,
+            "iframes": 2,
+            "canvases": 0
+          },
+          "frames": [
+            {
+              "url": "http://127.0.0.1:33479/vector-spans.html",
+              "scrollWidth": 543,
+              "innerWidth": 390,
+              "scrollY": 2856,
+              "iframes": 2,
+              "canvases": 0
+            },
+            {
+              "url": "http://127.0.0.1:33479/demos/spans.html?v1=1,2,6&v2=-1,-2,-1&target=8,16,3&range=20&camera=3,.5,1.5&vers=f7fbb5",
+              "scrollWidth": 370,
+              "innerWidth": 370,
+              "scrollY": 0,
+              "iframes": 0,
+              "canvases": 1
+            },
+            {
+              "url": "http://127.0.0.1:33479/demos/spans.html?v1=1,2,6&v2=-1,-2,-1&target=2,-2,0&range=8&camera=3,.5,1.5&vers=f7fbb5",
+              "scrollWidth": 370,
+              "innerWidth": 370,
+              "scrollY": 0,
+              "iframes": 0,
+              "canvases": 1
+            }
+          ]
+        }
+      ],
+      "pending_after_close": []
+    },
+    {
+      "name": "row-reduction-mobile",
+      "requested_url": "http://127.0.0.1:33479/row-reduction.html",
+      "events": [],
+      "http_status": 200,
+      "portion": {
+        "tag": "SECTION",
+        "id": "row-reduction",
+        "src": null
+      },
+      "captures": [
+        {
+          "path": "migration/artifacts/browser/row-reduction-mobile.png",
+          "url": "http://127.0.0.1:33479/row-reduction.html",
+          "pending_requests": [],
+          "layout": {
+            "scrollWidth": 575,
+            "innerWidth": 390,
+            "scrollY": 158,
+            "iframes": 0,
+            "canvases": 0
+          },
+          "frames": [
+            {
+              "url": "http://127.0.0.1:33479/row-reduction.html",
+              "scrollWidth": 575,
+              "innerWidth": 390,
+              "scrollY": 158,
+              "iframes": 0,
+              "canvases": 0
+            }
+          ]
+        }
+      ],
+      "pending_after_close": []
+    },
+    {
+      "name": "matrix-multiplication-mobile",
+      "requested_url": "http://127.0.0.1:33479/matrix-multiplication.html",
+      "events": [],
+      "http_status": 200,
+      "portion": {
+        "tag": "SECTION",
+        "id": "matrix-multiplication",
+        "src": null
+      },
+      "captures": [
+        {
+          "path": "migration/artifacts/browser/matrix-multiplication-mobile.png",
+          "url": "http://127.0.0.1:33479/matrix-multiplication.html",
+          "pending_requests": [],
+          "layout": {
+            "scrollWidth": 647,
+            "innerWidth": 390,
+            "scrollY": 158,
+            "iframes": 0,
+            "canvases": 0
+          },
+          "frames": [
+            {
+              "url": "http://127.0.0.1:33479/matrix-multiplication.html",
+              "scrollWidth": 647,
+              "innerWidth": 390,
+              "scrollY": 158,
+              "iframes": 0,
+              "canvases": 0
+            }
+          ]
+        }
+      ],
+      "pending_after_close": []
+    },
+    {
+      "name": "determinants-cofactors-mobile",
+      "requested_url": "http://127.0.0.1:33479/determinants-cofactors.html",
+      "events": [],
+      "http_status": 200,
+      "portion": {
+        "tag": "SECTION",
+        "id": "determinants-cofactors",
+        "src": null
+      },
+      "captures": [
+        {
+          "path": "migration/artifacts/browser/determinants-cofactors-mobile.png",
+          "url": "http://127.0.0.1:33479/determinants-cofactors.html",
+          "pending_requests": [],
+          "layout": {
+            "scrollWidth": 647,
+            "innerWidth": 390,
+            "scrollY": 158,
+            "iframes": 0,
+            "canvases": 0
+          },
+          "frames": [
+            {
+              "url": "http://127.0.0.1:33479/determinants-cofactors.html",
+              "scrollWidth": 647,
+              "innerWidth": 390,
+              "scrollY": 158,
+              "iframes": 0,
+              "canvases": 0
+            }
+          ]
+        }
+      ],
+      "pending_after_close": []
+    },
+    {
+      "name": "dds-mobile",
+      "requested_url": "http://127.0.0.1:33479/dds.html",
+      "events": [
+        {
+          "kind": "console",
+          "url": "http://127.0.0.1:33479/demos/js/demo.js?vers=98567d",
+          "message": "Canvas2D: Multiple readback operations using getImageData are faster with the willReadFrequently attribute set to true. See: https://html.spec.whatwg.org/multipage/canvas.html#concept-canvas-will-read-frequently",
+          "level": "warning",
+          "count": 2
+        }
+      ],
+      "http_status": 200,
+      "portion": {
+        "tag": "IFRAME",
+        "id": "",
+        "src": "demos/dynamics3.html?mat=0.7,0.1:-0.5,1.3&v1=1,0&v2=0,1&vec=true&size=20&y=7,9&flow=false&matname=A&vecname=v&vers=f7fbb5"
+      },
+      "captures": [
+        {
+          "path": "migration/artifacts/browser/dds-mobile.png",
+          "url": "http://127.0.0.1:33479/dds.html",
+          "pending_requests": [],
+          "layout": {
+            "scrollWidth": 565,
+            "innerWidth": 390,
+            "scrollY": 11811,
+            "iframes": 1,
+            "canvases": 0
+          },
+          "frames": [
+            {
+              "url": "http://127.0.0.1:33479/dds.html",
+              "scrollWidth": 565,
+              "innerWidth": 390,
+              "scrollY": 11811,
+              "iframes": 1,
+              "canvases": 0
+            },
+            {
+              "url": "http://127.0.0.1:33479/demos/dynamics3.html?mat=0.7,0.1:-0.5,1.3&v1=1,0&v2=0,1&vec=true&size=20&y=7,9&flow=false&matname=A&vecname=v&vers=f7fbb5",
+              "scrollWidth": 362,
+              "innerWidth": 362,
+              "scrollY": 0,
+              "iframes": 0,
+              "canvases": 1
+            }
+          ]
+        }
+      ],
+      "pending_after_close": []
+    },
+    {
+      "name": "least-squares-mobile",
+      "requested_url": "http://127.0.0.1:33479/least-squares.html",
+      "events": [
+        {
+          "kind": "console",
+          "url": "http://127.0.0.1:33479/demos/js/demo.js?vers=98567d",
+          "message": "Canvas2D: Multiple readback operations using getImageData are faster with the willReadFrequently attribute set to true. See: https://html.spec.whatwg.org/multipage/canvas.html#concept-canvas-will-read-frequently",
+          "level": "warning",
+          "count": 2
+        }
+      ],
+      "http_status": 200,
+      "portion": {
+        "tag": "IFRAME",
+        "id": "",
+        "src": "demos/leastsquares.html?v1=0,1,0&v2=1.1,0,-.2&range=2&vec=1.4,-1.1,1.45&vers=f7fbb5"
+      },
+      "captures": [
+        {
+          "path": "migration/artifacts/browser/least-squares-mobile.png",
+          "url": "http://127.0.0.1:33479/least-squares.html",
+          "pending_requests": [],
+          "layout": {
+            "scrollWidth": 601,
+            "innerWidth": 390,
+            "scrollY": 2794,
+            "iframes": 1,
+            "canvases": 0
+          },
+          "frames": [
+            {
+              "url": "http://127.0.0.1:33479/least-squares.html",
+              "scrollWidth": 601,
+              "innerWidth": 390,
+              "scrollY": 2794,
+              "iframes": 1,
+              "canvases": 0
+            },
+            {
+              "url": "http://127.0.0.1:33479/demos/leastsquares.html?v1=0,1,0&v2=1.1,0,-.2&range=2&vec=1.4,-1.1,1.45&vers=f7fbb5",
+              "scrollWidth": 370,
+              "innerWidth": 370,
+              "scrollY": 0,
+              "iframes": 0,
+              "canvases": 1
+            }
+          ]
+        }
+      ],
+      "pending_after_close": []
+    },
+    {
+      "name": "vector-demo",
+      "requested_url": "http://127.0.0.1:33479/demos/vector.html",
+      "events": [
+        {
+          "kind": "console",
+          "url": "http://127.0.0.1:33479/demos/js/demo.js?vers=98567d",
+          "message": "Canvas2D: Multiple readback operations using getImageData are faster with the willReadFrequently attribute set to true. See: https://html.spec.whatwg.org/multipage/canvas.html#concept-canvas-will-read-frequently",
+          "level": "warning",
+          "count": 2
+        }
+      ],
+      "http_status": 200,
+      "captures": [
+        {
+          "path": "migration/artifacts/browser/vector-demo.png",
+          "url": "http://127.0.0.1:33479/demos/vector.html",
+          "pending_requests": [],
+          "layout": {
+            "scrollWidth": 1440,
+            "innerWidth": 1440,
+            "scrollY": 0,
+            "iframes": 0,
+            "canvases": 1
+          },
+          "frames": [
+            {
+              "url": "http://127.0.0.1:33479/demos/vector.html",
+              "scrollWidth": 1440,
+              "innerWidth": 1440,
+              "scrollY": 0,
+              "iframes": 0,
+              "canvases": 1
+            }
+          ]
+        }
+      ],
+      "pending_after_close": []
+    },
+    {
+      "name": "rowred1",
+      "requested_url": "http://127.0.0.1:33479/demos/rowred1.html",
+      "events": [],
+      "http_status": 200,
+      "captures": [
+        {
+          "path": "migration/artifacts/browser/rowred1.png",
+          "url": "http://127.0.0.1:33479/demos/rowred1.html",
+          "pending_requests": [],
+          "layout": {
+            "scrollWidth": 1440,
+            "innerWidth": 1440,
+            "scrollY": 0,
+            "iframes": 0,
+            "canvases": 1
+          },
+          "frames": [
+            {
+              "url": "http://127.0.0.1:33479/demos/rowred1.html",
+              "scrollWidth": 1440,
+              "innerWidth": 1440,
+              "scrollY": 0,
+              "iframes": 0,
+              "canvases": 1
+            }
+          ]
+        },
+        {
+          "path": "migration/artifacts/browser/rowred1-handoff.png",
+          "url": "http://127.0.0.1:33479/demos/rrinter.html?mat=1,2,3,6:2,-3,2,14:3,1,-1,-2&ops=r0:-2:1,r0:-3:2&cur=2&augment=2",
+          "pending_requests": [],
+          "layout": {
+            "scrollWidth": 1440,
+            "innerWidth": 1440,
+            "scrollY": 0,
+            "iframes": 0,
+            "canvases": 1
+          },
+          "frames": [
+            {
+              "url": "http://127.0.0.1:33479/demos/rrinter.html?mat=1,2,3,6:2,-3,2,14:3,1,-1,-2&ops=r0:-2:1,r0:-3:2&cur=2&augment=2",
+              "scrollWidth": 1440,
+              "innerWidth": 1440,
+              "scrollY": 0,
+              "iframes": 0,
+              "canvases": 1
+            }
+          ]
+        }
+      ],
+      "pending_after_close": []
+    },
+    {
+      "name": "rrinter",
+      "requested_url": "http://127.0.0.1:33479/demos/rrinter.html?mat=1,2,3:4,5,6&augment=1",
+      "events": [],
+      "http_status": 200,
+      "captures": [
+        {
+          "path": "migration/artifacts/browser/rrinter.png",
+          "url": "http://127.0.0.1:33479/demos/rrinter.html?mat=1,2,3:4,5,6&ops=m0:2&cur=1&augment=1",
+          "pending_requests": [],
+          "layout": {
+            "scrollWidth": 1440,
+            "innerWidth": 1440,
+            "scrollY": 0,
+            "iframes": 0,
+            "canvases": 1
+          },
+          "frames": [
+            {
+              "url": "http://127.0.0.1:33479/demos/rrinter.html?mat=1,2,3:4,5,6&ops=m0:2&cur=1&augment=1",
+              "scrollWidth": 1440,
+              "innerWidth": 1440,
+              "scrollY": 0,
+              "iframes": 0,
+              "canvases": 1
+            }
+          ]
+        }
+      ],
+      "pending_after_close": []
+    },
+    {
+      "name": "dynamics3",
+      "requested_url": "http://127.0.0.1:33479/demos/dynamics3.html?mat=0.7,0.1:-0.5,1.3&v1=1,0&v2=0,1&vec=true&size=20&y=7,9&flow=false",
+      "events": [
+        {
+          "kind": "console",
+          "url": "http://127.0.0.1:33479/demos/js/demo.js?vers=98567d",
+          "message": "Canvas2D: Multiple readback operations using getImageData are faster with the willReadFrequently attribute set to true. See: https://html.spec.whatwg.org/multipage/canvas.html#concept-canvas-will-read-frequently",
+          "level": "warning",
+          "count": 2
+        }
+      ],
+      "http_status": 200,
+      "captures": [
+        {
+          "path": "migration/artifacts/browser/dynamics3.png",
+          "url": "http://127.0.0.1:33479/demos/dynamics3.html?mat=0.7,0.1:-0.5,1.3&v1=1,0&v2=0,1&vec=true&size=20&y=7,9&flow=false",
+          "pending_requests": [],
+          "layout": {
+            "scrollWidth": 1440,
+            "innerWidth": 1440,
+            "scrollY": 0,
+            "iframes": 0,
+            "canvases": 1
+          },
+          "frames": [
+            {
+              "url": "http://127.0.0.1:33479/demos/dynamics3.html?mat=0.7,0.1:-0.5,1.3&v1=1,0&v2=0,1&vec=true&size=20&y=7,9&flow=false",
+              "scrollWidth": 1440,
+              "innerWidth": 1440,
+              "scrollY": 0,
+              "iframes": 0,
+              "canvases": 1
+            }
+          ]
+        }
+      ],
+      "pending_after_close": []
+    },
+    {
+      "name": "compose3d",
+      "requested_url": "http://127.0.0.1:33479/demos/compose3d.html?mat1=2,0,0:0,1,0:0,0,1&mat2=1,0,0:0,3,0:0,0,1&x=1,2,3",
+      "events": [],
+      "http_status": 200,
+      "captures": [
+        {
+          "path": "migration/artifacts/browser/compose3d.png",
+          "url": "http://127.0.0.1:33479/demos/compose3d.html?mat1=2,0,0:0,1,0:0,0,1&mat2=1,0,0:0,3,0:0,0,1&x=1,2,3",
+          "pending_requests": [],
+          "layout": {
+            "scrollWidth": 1442,
+            "innerWidth": 1440,
+            "scrollY": 0,
+            "iframes": 0,
+            "canvases": 3
+          },
+          "frames": [
+            {
+              "url": "http://127.0.0.1:33479/demos/compose3d.html?mat1=2,0,0:0,1,0:0,0,1&mat2=1,0,0:0,3,0:0,0,1&x=1,2,3",
+              "scrollWidth": 1442,
+              "innerWidth": 1440,
+              "scrollY": 0,
+              "iframes": 0,
+              "canvases": 3
+            }
+          ]
+        }
+      ],
+      "pending_after_close": []
+    }
+  ]
+}

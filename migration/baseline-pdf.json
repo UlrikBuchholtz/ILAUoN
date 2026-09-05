@@ -1,0 +1,68 @@
+{
+  "pdf_sha256": "9c9773096b7e6206840e313c769576c47ee958debb318c282ce08c7a485eca0d",
+  "pdfinfo": "Title:           Interactive Linear Algebra\nSubject:         \nKeywords:        \nAuthor:          \nCreator:         LaTeX with hyperref\nProducer:        pdfTeX-1.40.22\nCreationDate:    Sat Sep  5 14:08:19 2026 BST\nModDate:         Sat Sep  5 14:08:19 2026 BST\nCustom Metadata: yes\nMetadata Stream: no\nTagged:          no\nUserProperties:  no\nSuspects:        no\nForm:            none\nJavaScript:      no\nPages:           501\nEncrypted:       no\nPage size:       612 x 792 pts (letter)\nPage rot:        0\nFile size:       4680426 bytes\nOptimized:       no\nPDF version:     1.5\n",
+  "poppler_version": "pdftoppm version 25.03.0\nCopyright 2005-2025 The Poppler Developers - http://poppler.freedesktop.org\nCopyright 1996-2011, 2022 Glyph & Cog, LLC\n",
+  "limitations": [
+    "Physical PDF page numbers, not printed page labels.",
+    "Selected pages only; text extraction is not semantic math validation.",
+    "No PDF/UA or assistive-technology test."
+  ],
+  "captures": [
+    {
+      "physical_page": 1,
+      "image": "migration/artifacts/pdf/physical-page-001.png",
+      "sha256": "b1305f01a02c2021add4ce60a2dd4191a77cb4609f9acbc23f0e69366348c683",
+      "text_characters": 49,
+      "diagnostics": ""
+    },
+    {
+      "physical_page": 30,
+      "image": "migration/artifacts/pdf/physical-page-030.png",
+      "sha256": "a91530218c67ab7c89b2422d0071e2af0b7de8bd94c609b2ad5de342a919566f",
+      "text_characters": 1652,
+      "diagnostics": ""
+    },
+    {
+      "physical_page": 50,
+      "image": "migration/artifacts/pdf/physical-page-050.png",
+      "sha256": "536ce5ce24894fba8de03edd9ff73a4d50d2ceb842e7ab33f76fb8829615d630",
+      "text_characters": 4112,
+      "diagnostics": ""
+    },
+    {
+      "physical_page": 180,
+      "image": "migration/artifacts/pdf/physical-page-180.png",
+      "sha256": "84cec438fd116fab3b21d34de2979d0d62cb11cf45aeeb9631af1f349c1dd570",
+      "text_characters": 1985,
+      "diagnostics": ""
+    },
+    {
+      "physical_page": 245,
+      "image": "migration/artifacts/pdf/physical-page-245.png",
+      "sha256": "d768bfbb706b5bf4fb64dea864597be9d0689d61049a5c2d2cd570a3732e1b8f",
+      "text_characters": 2609,
+      "diagnostics": ""
+    },
+    {
+      "physical_page": 296,
+      "image": "migration/artifacts/pdf/physical-page-296.png",
+      "sha256": "f903b2332e534aa35ccb570960ae96154f2bf39fc252d0ec99273b00383a9457",
+      "text_characters": 1939,
+      "diagnostics": ""
+    },
+    {
+      "physical_page": 426,
+      "image": "migration/artifacts/pdf/physical-page-426.png",
+      "sha256": "5a0f51fbc1734ca66560d244d6b27cd4758942a7cfef494dda94f40eb7220353",
+      "text_characters": 3345,
+      "diagnostics": ""
+    },
+    {
+      "physical_page": 458,
+      "image": "migration/artifacts/pdf/physical-page-458.png",
+      "sha256": "146de216debde7dea6a9b3c79461bbecc65ab2c0108538df70135e5f0eb238af",
+      "text_characters": 3097,
+      "diagnostics": ""
+    }
+  ]
+}
