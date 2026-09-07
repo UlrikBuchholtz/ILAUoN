@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'unsafe-eval' https://cdn.jsdelivr.net/pyodide/v0.29.3/full/; style-src 'self'; connect-src https://cdn.jsdelivr.net/pyodide/v0.29.3/full/; worker-src blob:; base-uri 'none'; form-action 'none'">
+  <meta name="referrer" content="no-referrer">
+  <title>Python computation pilot</title>
+  <link rel="stylesheet" href="python.css">
+  <script src="python-frame.js" defer></script>
+</head>
+<body>
+  <main>
+    <h2>Try the computation</h2>
+    <p>Phase 1 pilot. Python and SymPy load only on Run, in a fresh worker each time. Input is unsupported. Stop discards the worker.</p>
+    <label for="code">Python source</label>
+    <textarea id="code" spellcheck="false" autocapitalize="off" autocomplete="off" disabled></textarea>
+    <div class="controls">
+      <button id="run" disabled>Run</button>
+      <button id="stop" disabled>Stop</button>
+      <button id="reset" disabled>Reset</button>
+    </div>
+    <p id="status" role="status">Waiting for the book listing.</p>
+    <p id="versions">Pinned runtime: Pyodide 0.29.3; bundled SymPy 1.13.3.</p>
+    <h3 id="output-label">Output</h3>
+    <pre id="output" aria-labelledby="output-label" tabindex="0"></pre>
+    <p class="limits">The opaque iframe isolates the book's origin; the worker is not a security boundary. Code can contact the allowlisted CDN. This is not offline or exfiltration-proof. Runs are limited to 30 seconds, loading to 120 seconds, and displayed output to 20,000 characters.</p>
+  </main>
+</body>
+</html>

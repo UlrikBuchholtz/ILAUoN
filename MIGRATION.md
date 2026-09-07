@@ -21,12 +21,15 @@ Accepted direction:
 - Preserve content, teaching semantics, IDs, published URLs, and demo parameters.
 - Do not merge the aborted port wholesale.
 
-Phase 0 now has two successful isolated legacy HTML/PDF builds, source/output
-inventories, a static fragment-link audit, Chromium interaction checks,
-desktop/mobile-viewport screenshots, and selected PDF page captures. This is a
-usable migration reference with documented limitations, not accessibility
-approval or bit-for-bit reproducibility. Firefox/WebGL coverage and author
-review remain incomplete; see the follow-up list below.
+**Phase 0 is complete as of 2026-09-06 under the documented-limitations exit
+gate. Phase 1 (hard-case pilot) is in progress.** Two successful
+isolated legacy HTML/PDF builds, source/output inventories, a static fragment-link
+audit, Chromium interaction checks, desktop/mobile-viewport screenshots, and
+selected PDF page captures form the reference. Its archived evidence was
+recovered and reverified after the environment restart. This is not accessibility
+approval or bit-for-bit reproducibility. Firefox/WebGL coverage and author review
+remain open. The author owns snapshots and backups; no backup completion is
+asserted by this log. See the carry-forward list and Phase 1 checkpoint below.
 
 ## Assessment
 
@@ -186,7 +189,26 @@ retrying with a longer timeout succeeded without changing the flake or lock.
 
 ### Local Artifacts and Commands
 
-The detached worktree and raw outputs are temporary, not deployment paths:
+The current persistent reference is `/home/ulrik/tmp/ila/phase0`, verified on
+2026-09-06 to reside on NVMe-backed Btrfs, not tmpfs:
+
+- `output/`: complete historical site and PDF (4,662 files).
+- `evidence/baseline/`: retained first-build logs, PDF/index diagnostics, and npm
+  lockfiles, preserving their original archive-relative paths.
+- `evidence/checks/`: supplemental screenshots, reports, repeat-build logs, and
+  repeat output inventory, preserving their original archive-relative paths.
+- `archives/`: checksum-verified copies of both original archives.
+- `verification/`: regenerated output inventory and link audit, both identical
+  to the committed baseline reports.
+
+Use this reference rather than `/tmp` for future comparisons. Treat `output/`
+and historical evidence as immutable; write new captures/reports elsewhere.
+The original checkout archives and recovered `/tmp` copy were left untouched.
+Disk-backed storage avoids `/tmp` loss but is not managed backup or a guarantee
+against manual cleanup; preserve this directory when cleaning `~/tmp`.
+
+The original detached worktree and raw output locations were temporary, not
+deployment paths (see recovery status below):
 
 - Source worktree: `/tmp/opencode/ila-phase0`
 - Built site and PDF: `/tmp/opencode/ila-phase0-output`
@@ -212,6 +234,34 @@ c19b70470841fd65849473e5c9273b42f161fa47603fc88f5555d8b208bdcc5b
 This archive survives `/tmp` cleanup but is only a local copy. Copy it into
 managed backup/artifact storage before retiring this checkout. The manifests
 are intended for version control; the large binary archive is not.
+
+Recovery status on 2026-09-06: the environment restarted and `/tmp/opencode`
+was empty. Both archives survived in this checkout with the exact checksums
+recorded here. The baseline archive was extracted back into `/tmp/opencode`,
+restoring the complete output and retained logs/lockfiles, **not** the source
+worktree, installed dependencies, or full math cache. Git still lists the two
+missing detached worktrees as prunable; their registrations were left untouched.
+Do not run the original build commands against these partial recovered paths.
+The recovered output and all archived evidence were subsequently copied to the
+persistent reference above and independently verified there.
+
+To recover and verify output again, use a new empty directory (commands below
+assume `$HOME/tmp/ila` exists and `phase0-recovery` does not):
+
+```bash
+sha256sum "$HOME/tmp/ila/phase0/archives/"*.tar.gz
+gzip -t "$HOME/tmp/ila/phase0/archives/"*.tar.gz
+mkdir "$HOME/tmp/ila/phase0-recovery"
+tar -xzf "$HOME/tmp/ila/phase0/archives/uon-f7fbb5e-baseline.tar.gz" -C "$HOME/tmp/ila/phase0-recovery"
+python3 scripts/phase0_output_inventory.py --root "$HOME/tmp/ila/phase0-recovery/ila-phase0-output" --output "$HOME/tmp/ila/phase0-recovery/output.json"
+cmp migration/baseline-output.json "$HOME/tmp/ila/phase0-recovery/output.json"
+python3 scripts/phase0_links.py --root "$HOME/tmp/ila/phase0-recovery/ila-phase0-output" --output "$HOME/tmp/ila/phase0-recovery/links.json"
+cmp migration/baseline-links.json "$HOME/tmp/ila/phase0-recovery/links.json"
+```
+
+Compare both printed SHA-256 values with those recorded in this document before
+extracting. The inventory and link comparisons passed byte-for-byte during
+recovery; this checks the saved baseline, not a third build.
 
 Commands run from the main checkout to prepare isolation:
 
@@ -240,8 +290,9 @@ equivalently locked; this and generated dates prevent a claim of complete
 reproducibility. No audit-fix command was run. The reference worktree's tracked
 files remained unchanged after the build.
 
-Regenerate the inventories with a standard-library Python 3 interpreter from
-the main checkout (for example inside the legacy Nix development environment):
+The original inventory-generation commands used a standard-library Python 3
+interpreter from the main checkout (for example inside the legacy Nix
+development environment). These are historical commands, not recovery steps:
 
 ```bash
 python3 scripts/phase0_inventory.py --root /tmp/opencode/ila-phase0 --output migration/baseline-source.json
@@ -311,7 +362,9 @@ The existing `.venv` has Playwright, but its native Python extension needs
 `LD_PRELOAD=/usr/lib/x86_64-linux-gnu/libstdc++.so.6` in this environment.
 This is a per-command workaround; no global environment or legacy flake edits
 were made. Setting the entire system `LD_LIBRARY_PATH` instead stalled the
-initial attempt and is not the tested invocation.
+initial attempt and is not the tested invocation. The following commands record
+the original run; new runs should use the persistent output root above and
+fresh report/capture destinations, not overwrite the historical evidence.
 
 ```bash
 env LD_PRELOAD=/usr/lib/x86_64-linux-gnu/libstdc++.so.6 .venv/bin/python scripts/phase0_browser.py --root /tmp/opencode/ila-phase0-output
@@ -324,6 +377,10 @@ browser contexts. The report records actual launch flags, network/console
 events, viewports, and evidence for assertions. The runner does not intercept
 or substitute dependencies. Baseline assertion failures are recorded, not
 treated as process failures: this is a measurement tool, not yet a CI gate.
+For future browser runs, pass fresh `--output` and `--artifacts` destinations rather
+than the historical defaults. An infrastructure exception can leave an old
+report alongside partially overwritten screenshots; process success alone
+also does not establish complete test coverage or clean browser events.
 
 Chromium results (`migration/baseline-browser.json`): **21 passes, 10 failures**.
 Twenty-three viewport screenshots are in `migration/artifacts/browser/`.
@@ -362,8 +419,9 @@ Browser follow-up confirmed failures for these direct URLs:
 The three example links did not instantiate a target or scroll on startup.
 Clicking their knowl controls loaded content successfully, but still did not
 create the semantic fragment ID. `knowl-id` attributes and generated numeric
-`kuid-*` IDs are not the promised anchors. The remaining 1,365 knowl targets
-were not browser-tested. Preserve this distinction when planning link fixes.
+`kuid-*` IDs are not the promised anchors. The other knowl references were not
+systematically browser-tested; audit counts are reference occurrences, not
+distinct targets. Preserve this distinction when planning link fixes.
 
 Poppler confirms the original PDF is 501 pages, Letter size, and untagged.
 Physical pages 1, 30, 50, 180, 245, 296, 426, and 458 were rendered and their
@@ -415,7 +473,16 @@ verified with `gzip -t`. SHA-256:
 e383b95c9b709a0d29056975e8e51afcd314015b7566a66697df0fe995c6cbdc
 ```
 
-### Phase 0 Follow-Up
+### Phase 0 Exit and Carry-Forward
+
+The Phase 0 gate is satisfied: pinned legacy revisions were built in isolation,
+the source and generated publication were inventoried, warnings and known
+defects were recorded, representative visual/interaction evidence was retained,
+and archived output survived recovery with exact manifest agreement. No legacy
+content or publisher changes were needed. This closes baseline collection, not
+mathematical, accessibility, security, or release approval.
+
+Carry these items into subsequent phases; they do not block the hard-case pilot:
 
 - Author review of representative screenshots/PDFs and difficult mathematical
   content against intended teaching behavior.
@@ -423,7 +490,42 @@ e383b95c9b709a0d29056975e8e51afcd314015b7566a66697df0fe995c6cbdc
   assistive-technology checks remain outside the completed Chromium sample.
 - Reconcile duplicate source IDs and broken fragment targets in separately
   reviewed changes, not by altering the historical baseline.
-- Back up both local artifact archives in managed storage before checkout cleanup.
+- Snapshots and managed backups are author-owned as of 2026-09-06. Preserve both
+  local artifact archives and the persistent reference until the author decides
+  cleanup is safe; engineering verification does not attest to backup completion.
+- Before using the measurement tools as migration CI gates, add explicit expected
+  test coverage and failure policy, bind browser evidence to input/output hashes,
+  and make the original ad hoc build-completeness checks reusable. Inventory
+  regeneration alone does not repeat the intermediate-output or warning audits.
+
+## Phase 1 Checkpoint
+
+The isolated project is `migration/phase1/`; setup and commands are in its
+`README.md`, excerpt mappings in `coverage.md`, and evidence/checksums/open gates
+in `initial-results.md`. This is a hand-authored pilot, not a converter or a
+replacement for the root build.
+
+- Pinned PreTeXt 2.52.3 and core `2c8806b9988f855e94d185fb145226bf6c0a5b20`
+  in a fresh environment, with Python dependencies locked in `uv.lock`.
+- Added nested matrix products, full row-operation steps, self-contained
+  dimension-color notation, provisional essential/bluebox/specialcase mappings,
+  hidden remarks, TikZ, a six-column table, a synthetic footnote, three verified
+  legacy demo embeds, and the inactive floating-point SymPy listing.
+- Seven source/algebra/SymPy tests pass. Explicit upstream development-schema
+  validation passes, with three experimental iframe constructs.
+- Run `~/tmp/ila/phase1/run-005` generates HTML and a four-page untagged print
+  PDF. Browser evidence has 96 passing assertions, zero network errors, and ten
+  disclosure JavaScript errors; therefore the browser command fails overall.
+- Mobile content clipping, duplicate footnote IDs, hidden insight blocks, print
+  table overflow, overlapping demo previews, and relative QR-code URLs remain
+  unresolved. A successful build is not an exit-gate pass.
+- The PDF-FO attempt stopped at missing MathJax/SRE npm dependencies before FOP.
+  Requested Debian `nodejs npm default-jre-headless fop`; isolated, locked npm
+  provisioning via `NODE_PATH` is the next tooling step, not an installed-core
+  patch. No accessible PDF or feasibility decision exists yet.
+- Pyodide browser execution, harder stateful TikZ and per-element visibility
+  cases, author review, and accessibility evaluation remain to do. No mass
+  conversion or Phase 2 work has started.
 
 ## Migration Log
 
@@ -448,7 +550,8 @@ e383b95c9b709a0d29056975e8e51afcd314015b7566a66697df0fe995c6cbdc
 - Archived outputs/logs/npm resolutions outside `/tmp`, verified archive contents,
   and recorded its checksum. Re-ran both inventories using the pinned legacy
   Python environment and verified identical generated manifests.
-- No migration changes have been committed or `uon2` pushed yet.
+- At this initial checkpoint, migration changes had not yet been committed or
+  `uon2` pushed; see the recovery entry for the subsequently verified state.
 
 ### 2026-09-05: Browser Tools and Baseline Verification
 
@@ -464,6 +567,66 @@ e383b95c9b709a0d29056975e8e51afcd314015b7566a66697df0fe995c6cbdc
 - Completed the repeat build and documented nondeterministic output sources.
 - Preserved supplemental evidence in a checksum-recorded local archive.
 - Firefox automation/WebGL coverage remains limited as described above.
+
+### 2026-09-06: Interruption Recovery and Phase 0 Closure
+
+- Found the full Phase 0 baseline committed as `e6cd9f0` on 2026-09-05 at
+  19:57 BST. Confirmed `origin`'s `uon2` points to that same commit; this is the
+  local bare remote, not evidence of a GitHub push or binary-artifact backup.
+- Tracked files were clean on resumption. Existing untracked caches, outputs,
+  and settings were left untouched. No surviving old build/browser processes
+  were present; `/tmp/opencode` had been emptied across an environment restart.
+- The accessible previous-boot journal ends with user-session shutdown at
+  20:28 BST; the current boot is dated 2026-09-06. Kernel/system logs require
+  unavailable elevated access. The cause of the reported harness interruption
+  is therefore undetermined; no OOM, browser crash, or build failure is inferred.
+- Verified both archive SHA-256 values and gzip integrity, then recovered the
+  baseline output without rebuilding or changing historical manifests.
+- Regenerated output inventory and link audit matched their committed JSON
+  byte-for-byte: 4,662 files, no missing file targets, 1,372 missing static
+  fragment reference occurrences. The current source inventory matched in full
+  except for the expected Git revision change from `f7fbb5e` to `e6cd9f0`.
+- Compared all 44 supplemental archived reports/captures with the checkout
+  byte-for-byte. Verified the PDF and all eight PDF capture hashes against the
+  PDF report; Poppler reconfirmed 501 pages, Letter size, and no tagging.
+- Accepted the Phase 0 documented-limitations exit. Browser interactions and
+  builds were not rerun during recovery; their original evidence is preserved.
+  Author review, Firefox/WebGL coverage, managed backup, and future regression
+  gate hardening remain explicit carry-forward work. Phase 1 was not started.
+
+### 2026-09-06: Persistent Baseline Storage
+
+- Established `/home/ulrik/tmp/ila/phase0` on NVMe-backed Btrfs and copied the
+  recovered site/PDF there as `output/`, without deleting the temporary copy.
+- Copied both archives into `archives/` and extracted retained build evidence
+  into `evidence/baseline/` and supplemental evidence into `evidence/checks/`.
+  Archive-relative paths and historical reports were preserved unchanged.
+- Verified both copied archive SHA-256 values against this log; `tar --diff`
+  passed for both extracted evidence sets. Regenerated the relocated output
+  inventory and link audit into `verification/`; both match the committed
+  manifests byte-for-byte.
+- Updated the reference and recovery locations. Original build commands remain
+  historical records; no source worktrees or full build caches were restored.
+  The persistent local copies do not satisfy the managed-backup follow-up.
+
+### 2026-09-06: Phase 1 Commencement
+
+- Author accepted responsibility for snapshots and backups and authorized the
+  hard-case pilot. Baseline references remain immutable; no backup operation
+  was performed or claimed by the assistant.
+- Added the isolated upstream project, lockfile, source regression tests, fresh
+  run staging/build runner, and Chromium measurement tool. Existing root `.venv`,
+  untracked outputs, legacy build files, and book sources were left untouched.
+- Verified staged demos and their logo against the historical output manifest.
+  Built HTML and conventional PDF, captured twelve browser screenshots and all
+  four PDF pages, and retained failed-run diagnostics outside tmpfs.
+- Corrected pilot source for current `md` syntax, paragraph-contained lists,
+  and table titles. Adapted process launch to keep legacy Python paths and
+  Debian library preloads from contaminating Nix child executables, without
+  changing upstream installed files.
+- Recorded partial success and concrete blockers in the Phase 1 checkpoint.
+  Phase 1 is in progress, not finalized; tagged-PDF feasibility and browser
+  computation remain unestablished.
 
 ## Upstream References
 

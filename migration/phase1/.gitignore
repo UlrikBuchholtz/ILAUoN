@@ -1,0 +1,6 @@
+/.venv/
+/.cache/
+/logs/
+/output/
+/source/generated/
+__pycache__/

@@ -1,0 +1,29 @@
+/* Keep scrolling local; never scale or flatten the source's nested matrices. */
+.ptx-content .displaymath {
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  overflow: auto;
+}
+
+/* Center short displays inside a full-width inner box. Wide displays instead
+   size that box to their content, so centering cannot lose the start edge. */
+.ptx-content .displaymath mjx-container[display="true"] {
+  box-sizing: border-box;
+  width: max-content;
+  min-width: 100%;
+  max-width: none;
+}
+
+.ptx-content .displaymath[tabindex="0"]:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}
+
+/* Override the theme's iframe minimum, not the embedded document's overflow.
+   Legacy demos retain their own internal scrolling at narrow viewports. */
+.ptx-content .interactive-iframe-container > iframe {
+  min-width: 0;
+  max-width: 100%;
+}

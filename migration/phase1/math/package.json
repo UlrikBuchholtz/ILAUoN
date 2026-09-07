@@ -1,0 +1,12 @@
+{
+  "name": "ila-phase1-math",
+  "version": "0.0.0",
+  "private": true,
+  "engines": { "node": ">=20" },
+  "dependencies": {
+    "@mathjax/src": "4.1.3",
+    "@mathjax/mathjax-newcm-font": "4.1.3",
+    "speech-rule-engine": "5.0.0-rc.4",
+    "yargs": "17.7.2"
+  }
+}

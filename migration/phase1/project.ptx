@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project ptx-version="2">
+  <targets>
+    <target name="html" format="html" publication="publication.ptx" xsl="html.xsl"/>
+    <target name="print" format="pdf" pdf-method="pdflatex" publication="publication.ptx"/>
+    <target name="accessible" format="pdf" pdf-method="pdf-fo" publication="publication.ptx"/>
+  </targets>
+</project>
