@@ -74,6 +74,7 @@ def main():
             'pages': len(reader.pages), 'language': str(catalog.get('/Lang', '')),
             'has_structure_tree': bool(structure), 'structure_roles': dict(counts),
             'figures': figures, 'figures_missing_alt': sum(not item['alt'] for item in figures),
+            'figures_placeholder_alt': sum(item['alt'] == 'No alternate text specified' for item in figures),
             'fo_external_graphics': graphics,
             'fo_graphics_missing_alt': sum(item['alt'] is None or not item['alt'].strip() for item in graphics),
             'fop_warnings': warnings, 'overflow': overflow,
@@ -81,8 +82,9 @@ def main():
         json.dump(result, destination, indent=2)
         destination.write('\n')
     print(json.dumps({key: result[key] for key in ['pages', 'has_structure_tree', 'structure_roles',
-                                                   'figures_missing_alt', 'fo_graphics_missing_alt']}))
-    return int(bool(result['figures_missing_alt'] or result['fo_graphics_missing_alt'] or overflow))
+                                                   'figures_missing_alt', 'figures_placeholder_alt', 'fo_graphics_missing_alt']}))
+    return int(bool(result['figures_missing_alt'] or result['figures_placeholder_alt'] or
+                    result['fo_graphics_missing_alt'] or overflow or counts['/TH'] < 6))
 
 
 if __name__ == '__main__':

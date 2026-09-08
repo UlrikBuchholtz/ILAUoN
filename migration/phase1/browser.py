@@ -22,6 +22,7 @@ FLAGS = ["--use-gl=angle", "--use-angle=swiftshader", "--enable-unsafe-swiftshad
 COMPOSE = ("external/demos/compose3d.html?mat2=1,1,0:0,1,1&mat1=1,0:0,1:1,0"
            "&rangeT=off&rangeU=off&rangeTU=off&range=5&closed=true")
 PAGES = {"pilot-products": COMPOSE,
+         "pilot-reflection-projection": None,
          "pilot-row-reduction": "external/demos/rowred1.html",
          "pilot-bases-vectors": "external/demos/vector.html",
          "pilot-subspaces-computation": "external/pilot/python.html",
@@ -217,6 +218,12 @@ def measure(browser, base, artifacts, report):
             attempt(name + ":contracts", contracts)
 
             def disclosures():
+                if section == "pilot-reflection-projection":
+                    for ident in ("pilot-reflection-e1", "pilot-reflection-e2", "pilot-reflection-e3"):
+                        image = page.locator('img[src="generated/latex-image/' + ident + '.svg"]')
+                        data = image.evaluate("e => ({complete:e.complete,width:e.naturalWidth,height:e.naturalHeight,alt:e.alt})")
+                        check(name + ":diagram:" + ident, data["complete"] and data["width"] > 0 and
+                              data["height"] > 0 and bool(data["alt"]), **data)
                 for ident in VISIBLE.get(section, []):
                     item = page.locator('[id="' + ident + '"]')
                     check(name + ":visible:" + ident, item.count() == 1 and item.is_visible() and
@@ -236,6 +243,7 @@ def measure(browser, base, artifacts, report):
                     data = image.evaluate("e => ({src:e.currentSrc,complete:e.complete,width:e.naturalWidth,height:e.naturalHeight})")
                     check(name + ":numberline-image", data["complete"] and data["width"] > 0 and data["height"] > 0, **data)
                 if section == "pilot-subspaces-computation":
+                    check(name + ":table-headers", page.locator('#pilot-four-subspaces th').count() == 6)
                     targets = page.locator('[id="pilot-synthetic-footnote"]')
                     check(name + ":footnote-target", targets.count() == 1, count=targets.count(),
                            text=targets.first.text_content() if targets.count() else None)

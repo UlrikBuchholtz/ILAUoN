@@ -74,7 +74,20 @@
           Thus <m>(1,0)</m> goes first to <m>(1,0,1)</m> and then to <m>(1,1)</m>. The matrices of <m>T</m> and <m>U</m> are the two factors in <xref ref="matrix-mult-eg-mult1"/>.</p>
         <interactive xml:id="pilot-compose3d" iframe="demos/compose3d.html?mat2=1,1,0:0,1,1&amp;mat1=1,0:0,1:1,0&amp;rangeT=off&amp;rangeU=off&amp;rangeTU=off&amp;range=5&amp;closed=true" width="100%" aspect="8:5">
           <shortdescription>Composition from two dimensions to three dimensions and back to two.</shortdescription>
+          <static><image xml:id="pilot-compose-static" width="90%">
+            <shortdescription>U sends (-1,2) to (-1,2,-1); T sends that vector to (1,1). The spaces have two, three, and two dimensions.</shortdescription>
+            <latex-image><![CDATA[
+\begin{tikzpicture}
+  \node[draw,align=center] (a) at (0,0) {$\mathbb{R}^2$\\$(-1,2)$};
+  \node[draw,align=center] (b) at (3,0) {$\mathbb{R}^3$\\$(-1,2,-1)$};
+  \node[draw,align=center] (c) at (6,0) {$\mathbb{R}^2$\\$(1,1)$};
+  \draw[->] (a) -- node[above] {$U$} (b);
+  \draw[->] (b) -- node[above] {$T$} (c);
+\end{tikzpicture}
+            ]]></latex-image>
+          </image></static>
         </interactive>
+        <p>The static diagram traces one input; the formulas above describe every input. <url href="https://ulrikbuchholtz.dk/ila/demos/compose3d.html?mat2=1,1,0:0,1,1&amp;mat1=1,0:0,1:1,0&amp;rangeT=off&amp;rangeU=off&amp;rangeTU=off&amp;range=5&amp;closed=true" visual="">Open the composition demo</url>.</p>
       </paragraphs>
     </section>
     <section xml:id="pilot-reflection-projection">
@@ -159,7 +172,18 @@
         <p>The local demo starts with the exact system in <xref ref="systems-eqns-example1b"/>. That worked example provides a static alternative, recording every operation and the resulting solution <m>(x,y,z)=(1,-2,3)</m>.</p>
         <interactive xml:id="pilot-rowred1" iframe="demos/rowred1.html" width="100%" aspect="2:1">
           <shortdescription>An interactive row-reduction exercise.</shortdescription>
+          <static><image xml:id="pilot-row-static" width="90%">
+            <shortdescription>Row reduction sends the given augmented matrix to the identity augmented by (1,-2,3); all steps are worked above.</shortdescription>
+            <latex-image><![CDATA[
+\begin{tikzpicture}
+  \node (a) at (0,0) {$\left(\begin{array}{ccc|c}1&2&3&6\\2&-3&2&14\\3&1&-1&-2\end{array}\right)$};
+  \node (b) at (5,0) {$\left(\begin{array}{ccc|c}1&0&0&1\\0&1&0&-2\\0&0&1&3\end{array}\right)$};
+  \draw[->] (a) -- node[above,align=center] {row\\operations} (b);
+\end{tikzpicture}
+            ]]></latex-image>
+          </image></static>
         </interactive>
+        <p><url href="https://ulrikbuchholtz.dk/ila/demos/rowred1.html" visual="">Open the row-reduction demo</url>.</p>
       </paragraphs>
     </section>
     <section xml:id="pilot-bases-vectors">
@@ -212,7 +236,21 @@
         <p>The local demo starts with the vector <m>v=(5,3,4)</m> in <m>\mathbb{R}^3</m>. As a static alternative, this is a displacement of five units in the positive <m>x</m> direction, three in the positive <m>y</m> direction, and four in the positive <m>z</m> direction. Drawn from the origin, the arrow ends at <m>(5,3,4)</m>; its double is <m>2v=(10,6,8)</m>.</p>
         <interactive xml:id="pilot-vector" iframe="demos/vector.html" width="100%" aspect="2:1">
           <shortdescription>A three-dimensional vector, initially (5,3,4), displayed geometrically as an arrow.</shortdescription>
+          <static><image xml:id="pilot-vector-static" width="65%">
+            <shortdescription>Vector from the origin to (5,3,4), with dashed steps of 5 along x, 3 along y, and 4 along z.</shortdescription>
+            <latex-image><![CDATA[
+\begin{tikzpicture}[x={(.7cm,0cm)},y={(-.3cm,.3cm)},z={(0cm,.7cm)}]
+  \draw[->] (0,0,0) -- (6,0,0) node[right] {$x$};
+  \draw[->] (0,0,0) -- (0,4,0) node[above] {$y$};
+  \draw[->] (0,0,0) -- (0,0,5) node[above] {$z$};
+  \draw[dashed] (0,0,0) -- (5,0,0) node[midway,below] {$5$}
+    -- (5,3,0) node[midway,below] {$3$} -- (5,3,4) node[midway,right] {$4$};
+  \draw[very thick,->] (0,0,0) -- (5,3,4) node[above] {$(5,3,4)$};
+\end{tikzpicture}
+            ]]></latex-image>
+          </image></static>
         </interactive>
+        <p><url href="https://ulrikbuchholtz.dk/ila/demos/vector.html" visual="">Open the vector demo</url>.</p>
       </paragraphs>
     </section>
     <section xml:id="pilot-subspaces-computation">
@@ -222,12 +260,12 @@
       <table xml:id="pilot-four-subspaces">
         <title>The Four Subspaces</title>
         <tabular>
-          <col width="23%"/><col width="10%"/><col width="14%" halign="center"/><col width="12%"/><col width="23%"/><col width="18%" halign="center"/>
-          <row bottom="minor"><cell><alert>Subspace</alert></cell><cell><alert>of</alert></cell><cell><alert>row/col</alert></cell><cell><alert>dim</alert></cell><cell><alert>basis</alert></cell><cell><line><alert>changed</alert></line> <line><alert>by row ops?</alert></line></cell></row>
-          <row><cell><m>\operatorname{Col}(A)</m></cell><cell><m>\mathbb{R}^m</m></cell><cell>col</cell><cell><m>r</m></cell><cell><line>pivot cols</line> <line>of <m>A</m></line></cell><cell>yes</cell></row>
-          <row><cell><m>\operatorname{Nul}(A)</m></cell><cell><m>\mathbb{R}^n</m></cell><cell>row</cell><cell><m>n-r</m></cell><cell><line>vectors</line> <line>in PVF</line></cell><cell>no</cell></row>
-          <row><cell><m>\operatorname{Row}(A)</m></cell><cell><m>\mathbb{R}^n</m></cell><cell>row</cell><cell><m>r</m></cell><cell><line>nonzero rows</line> <line>of REF</line></cell><cell>no</cell></row>
-          <row><cell><m>\operatorname{Nul}(A^T)</m></cell><cell><m>\mathbb{R}^m</m></cell><cell>col</cell><cell><m>m-r</m></cell><cell><line>last <m>m-r</m></line> <line>rows of <m>E</m></line></cell><cell>yes</cell></row>
+          <col width="16%"/><col width="8%"/><col width="10%" halign="center"/><col width="10%"/><col width="18%"/><col width="16%" halign="center"/>
+          <row header="yes" bottom="minor"><cell><p>Subspace</p></cell><cell><p>of</p></cell><cell><p>row/col</p></cell><cell><p>dim</p></cell><cell><p>basis</p></cell><cell><p>changed by row ops?</p></cell></row>
+          <row><cell><p><m>\operatorname{Col}(A)</m></p></cell><cell><p><m>\mathbb{R}^m</m></p></cell><cell><p>col</p></cell><cell><p><m>r</m></p></cell><cell><p>pivot cols of <m>A</m></p></cell><cell><p>yes</p></cell></row>
+          <row><cell><p><m>\operatorname{Nul}(A)</m></p></cell><cell><p><m>\mathbb{R}^n</m></p></cell><cell><p>row</p></cell><cell><p><m>n-r</m></p></cell><cell><p>vectors in PVF</p></cell><cell><p>no</p></cell></row>
+          <row><cell><p><m>\operatorname{Row}(A)</m></p></cell><cell><p><m>\mathbb{R}^n</m></p></cell><cell><p>row</p></cell><cell><p><m>r</m></p></cell><cell><p>nonzero rows of REF</p></cell><cell><p>no</p></cell></row>
+          <row><cell><p><m>\operatorname{Nul}(A^T)</m></p></cell><cell><p><m>\mathbb{R}^m</m></p></cell><cell><p>col</p></cell><cell><p><m>m-r</m></p></cell><cell><p>last <m>m-r</m> rows of <m>E</m></p></cell><cell><p>yes</p></cell></row>
         </tabular>
       </table>
       <p>The row-picture subspaces <m>\operatorname{Nul}(A)</m> and <m>\operatorname{Row}(A)</m> are unchanged by row operations. The column-picture subspaces <m>\operatorname{Col}(A)</m> and <m>\operatorname{Nul}(A^T)</m> can change.</p>
@@ -245,7 +283,7 @@ pprint(A)
 # Now do Jordan substitution
 pprint(A.rref(pivots=False))
         ]]></code></program>
-        <p>The original recorded output showed a second augmented row <m>(0,-10^{17},-10^{17})</m>, followed by reduced rows <m>(1,0,0)</m> and <m>(0,1,1.0)</m>, suggesting <m>(x_1,x_2)=(0,1)</m>. This output has been verified by native execution with Python 3.12 and SymPy 1.14.0; browser execution has not yet been tested. The listing here is static. The exact solution is <m>x_1=1/(1-10^{-17})</m>, <m>x_2=1+1/(1-10^{17})</m>, close to <m>(1,1)</m>.</p>
+        <p>The original recorded output showed a second augmented row <m>(0,-10^{17},-10^{17})</m>, followed by reduced rows <m>(1,0,0)</m> and <m>(0,1,1.0)</m>, suggesting <m>(x_1,x_2)=(0,1)</m>. This output has been verified in native Python 3.12 with SymPy 1.14.0 and in the browser with Pyodide 0.29.3, Python 3.13.2, and bundled SymPy 1.13.3. The listing and results remain available without JavaScript and in PDF; the browser adds an optional executable cell. The exact solution is <m>x_1=1/(1-10^{-17})</m>, <m>x_2=1+1/(1-10^{17})</m>, close to <m>(1,1)</m>.</p>
       </example>
     </section>
     <section xml:id="pilot-determinants">

@@ -80,9 +80,10 @@ class FixtureTests(unittest.TestCase):
         table = self.by_id["pilot-four-subspaces"].find("tabular")
         self.assertEqual(len(table.findall("col")), 6)
         self.assertEqual([col.get("width") for col in table.findall("col")],
-                         ["23%", "10%", "14%", "12%", "23%", "18%"])
-        self.assertEqual(len(table.findall("row/cell/line")), 10)
+                         ["16%", "8%", "10%", "10%", "18%", "16%"])
+        self.assertEqual(len(table.findall("row/cell/p")), 30)
         rows = table.findall("row")
+        self.assertEqual(rows[0].get("header"), "yes")
         expected = [
             ["Subspace", "of", "row/col", "dim", "basis", "changed by row ops?"],
             [r"\operatorname{Col}(A)", r"\mathbb{R}^m", "col", "r", "pivot cols of A", "yes"],
@@ -96,6 +97,20 @@ class FixtureTests(unittest.TestCase):
                 cells = row.findall("cell")
                 self.assertEqual(len(cells), 6, "Each row must have six cells")
                 self.assertEqual([" ".join("".join(cell.itertext()).split()) for cell in cells], values)
+
+    def test_static_demo_alternatives(self):
+        for interactive in self.root.findall('.//interactive'):
+            image = interactive.find('static/image')
+            self.assertIsNotNone(image, 'Each demo requires an authored PDF alternative')
+            self.assertTrue(image.findtext('shortdescription', '').strip())
+            self.assertLessEqual(len(image.findtext('shortdescription').strip()), 125)
+            self.assertTrue(image.findtext('latex-image', '').strip())
+            expected = 'https://ulrikbuchholtz.dk/ila/' + interactive.get('iframe')
+            self.assertEqual(len([url for url in self.root.findall('.//url') if url.get('href') == expected]), 1)
+
+    def test_publication_base_url(self):
+        publication = ET.parse(SOURCE.parents[1] / 'publication/publication.ptx')
+        self.assertEqual(publication.find('html/baseurl').get('href'), 'https://ulrikbuchholtz.dk/ila/')
 
     def test_disclosure_source_contract(self):
         self.assertEqual(self.by_id["pilot-multilinearity"].tag, "paragraphs")
