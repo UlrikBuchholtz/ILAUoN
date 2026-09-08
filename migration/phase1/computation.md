@@ -2,7 +2,7 @@
 
 ## Integration
 
-Load `external/pilot/python-adapter.js` on book pages through the parent XSL's
+The project loads `external/pilot/python-adapter.js` on book pages through its XSL's
 `html.js.extra`. Copy the four `source/external/pilot/python*` assets into the
 built `external/pilot/` directory, preserving their relative paths. No runtime
 binaries or environment changes are needed. Serve over HTTP(S), not `file:`.
@@ -14,9 +14,8 @@ The adapter does nothing on pages without `code#rs-pilot-floating-point-program`
 This is the actual ID rendered in run-005 for source program
 `pilot-floating-point-program`. It reads the rendered code's `textContent` and
 inserts the iframe after its `.code-box`; the static listing stays intact.
-Neither `main.ptx`, the previous build, nor the compat assets are changed.
-The old source paragraph saying browser execution is untested remains unchanged
-by design; this report and the new component describe the newer evidence.
+The static source paragraph now records the verified native and browser
+versions. The adapter does not replace the listing or its static explanation.
 
 ## Pins
 
@@ -34,7 +33,7 @@ All runtime requests use the fixed prefix
 Release `pyodide-lock.json` was checked using webfetch, with package fields
 also extracted using curl and the existing external Python environment.
 The checked 0.27.7, 0.28.3, 0.29.0, 0.29.2, and 0.29.3 bundles contain SymPy
-1.13.3. **The requested SymPy 1.14.0 parity is not met by this bundled runtime.**
+1.13.3. **The bundled runtime differs from the native SymPy 1.14.0 reference.**
 No unreviewed wheel source or second CDN has been added to conceal that gap.
 The floating-point listing nevertheless produces byte-for-byte identical output
 to the native 1.14.0 fixture, including Unicode pretty-printing.
@@ -51,10 +50,12 @@ mpmath 75c33edefd4b92311926ddbfa7aac6731a61b3b5ac0562bc8f8d420e23328d46
 
 ## Execution And Limits
 
-- First Run constructs a dedicated Blob worker and loads Python plus SymPy.
-- Only one execution can be active. Each execution gets a new globals dictionary.
-- Successful runs reuse the runtime. Imported modules and interpreter state are
-  not reset by fresh globals; this is not a fresh interpreter per execution.
+- Each Run constructs a new dedicated Blob worker and loads Python plus SymPy
+  lazily, using the browser's network cache when available.
+- Only one execution can be active. Each execution gets a new interpreter and
+  globals dictionary; completion also terminates the worker. Tests verify that
+  mutations to builtins, imported modules, `sys.path`, worker JavaScript, and
+  the virtual filesystem do not survive into the next Run.
 - Stop terminates the worker, including infinite Python loops. Errors and timeouts
   also discard it. Reset additionally restores the rendered source and clears
   output and version results. A discarded worker is recreated on the next Run,
@@ -128,8 +129,17 @@ certification.
 External reports `computation-001.json` and `computation-002.json` preserve the
 initial failures (package progress mixed with output; stdin error wording).
 `/home/ulrik/tmp/ila/phase1/computation-003.json` records 22 passes, zero failures.
-The final report `/home/ulrik/tmp/ila/phase1/computation-004.json` records
+The earlier report `/home/ulrik/tmp/ila/phase1/computation-004.json` records
 **23 passes, zero failures** on Chromium 150.0.7871.100, including the explicit
-version-pin assertion. Both successful runs used the unchanged run-005 HTML
-with the component overlay. Rerun without `--overlay` to verify final-build
-integration; that integration has not been changed or tested here.
+version-pin assertion. Those runs used unchanged run-005 HTML with the component
+overlay and the initial runtime-reuse implementation.
+
+The current integrated report is
+`~/tmp/ila/phase1/run-011/computation-report.json`: **27 passes, zero failures**,
+without an overlay. It includes keyboard Run/Stop/Reset, the fresh-runtime
+mutation test, sandbox and off-allowlist network enforcement, and byte-for-byte
+comparison to native output. The checker captures the served component/page
+bytes and their hashes, reserves a fresh external report, bounds native Python
+execution, and closes the browser and server threads on failure. System
+Chromium's process sandbox is enabled for this test. This does not remove the
+hostile-code and resource-exhaustion limitations above.

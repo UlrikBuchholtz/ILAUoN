@@ -19,6 +19,7 @@ Accepted direction:
 - Pilot accessible PDF on representative difficult content before promising
   whole-book conformance.
 - Preserve content, teaching semantics, IDs, published URLs, and demo parameters.
+- The hosted book base URL remains `https://ulrikbuchholtz.dk/ila/`.
 - Do not merge the aborted port wholesale.
 
 **Phase 0 is complete as of 2026-09-06 under the documented-limitations exit
@@ -502,30 +503,44 @@ Carry these items into subsequent phases; they do not block the hard-case pilot:
 
 The isolated project is `migration/phase1/`; setup and commands are in its
 `README.md`, excerpt mappings in `coverage.md`, and evidence/checksums/open gates
-in `initial-results.md`. This is a hand-authored pilot, not a converter or a
-replacement for the root build.
+in `checkpoint.md`. `initial-results.md` preserves the earlier run-005 checkpoint.
+This is a hand-authored pilot, not a converter or a replacement for the root
+build. **The technical pilot is implemented; Phase 1 review gates remain open.**
 
 - Pinned PreTeXt 2.52.3 and core `2c8806b9988f855e94d185fb145226bf6c0a5b20`
   in a fresh environment, with Python dependencies locked in `uv.lock`.
-- Added nested matrix products, full row-operation steps, self-contained
-  dimension-color notation, provisional essential/bluebox/specialcase mappings,
-  hidden remarks, TikZ, a six-column table, a synthetic footnote, three verified
-  legacy demo embeds, and the inactive floating-point SymPy listing.
-- Seven source/algebra/SymPy tests pass. Explicit upstream development-schema
-  validation passes, with three experimental iframe constructs.
-- Run `~/tmp/ila/phase1/run-005` generates HTML and a four-page untagged print
-  PDF. Browser evidence has 96 passing assertions, zero network errors, and ten
-  disclosure JavaScript errors; therefore the browser command fails overall.
-- Mobile content clipping, duplicate footnote IDs, hidden insight blocks, print
-  table overflow, overlapping demo previews, and relative QR-code URLs remain
-  unresolved. A successful build is not an exit-gate pass.
-- The PDF-FO attempt stopped at missing MathJax/SRE npm dependencies before FOP.
-  Requested Debian `nodejs npm default-jre-headless fop`; isolated, locked npm
-  provisioning via `NODE_PATH` is the next tooling step, not an installed-core
-  patch. No accessible PDF or feasibility decision exists yet.
-- Pyodide browser execution, harder stateful TikZ and per-element visibility
-  cases, author review, and accessibility evaluation remain to do. No mass
-  conversion or Phase 2 work has started.
+- The six sections cover nested matrix products, all row-operation steps,
+  self-contained color notation, shared-helper TikZ diagrams, provisional custom
+  blocks, hidden paragraphs/nested proofs and a visible-proof exception, an
+  explicit Warning, a semantic-header table, footnote, three preserved demo
+  contracts and their authored static alternatives, and browser SymPy.
+- Fourteen source/algebra/SymPy tests pass. Development-schema validation,
+  validation-plus, and independent Jing pass, with three experimental iframe
+  constructs. No general notation converter has been implemented.
+- Current run: `~/tmp/ila/phase1/run-011`. HTML browser checks have 311 passes,
+  zero failures, zero JavaScript/network errors, and seven warnings: four legacy
+  demo-interior overflow observations and three MathJax-focused Escape cases.
+  All six sections were checked in desktop/mobile viewports; 18 captures retained.
+- The sandboxed Pyodide component passes 27 integrated checks, including lazy
+  worker execution, Stop/Reset, fresh runtime state, keyboard controls, and
+  opaque-origin isolation. Its bundled SymPy 1.13.3 differs from native 1.14.0;
+  the selected float example nevertheless produces identical output. Security
+  and CDN limitations are explicit in `computation.md`.
+- Conventional and FOP PDFs both build to seven Letter pages. The FOP PDF is
+  tagged, has six table-header cells, and has no missing/placeholder image alt
+  text or FO overflow diagnostics. Both PDFs' full page sets were captured.
+- veraPDF 1.30.2 reports a PDF/UA-1 profile pass: 106 rules and 34,388 checks
+  passed, no failures. This establishes machine-check feasibility for the sample,
+  not usable mathematical navigation or whole-book conformance. Mathematics is
+  represented as figures with spoken alternatives, not a navigable math tree.
+- FOP's unsupported font coverage-table warning and veraPDF's ToUnicode parser
+  warnings remain review blockers; they were not suppressed. The full runner
+  deliberately exits nonzero on the unsupported diagnostic. Author and actual
+  reader/screen-reader review, Firefox/WebGL and real-device checks remain open.
+- Math and CSS dependency resolutions are now locked. Each run has its own
+  extracted core/resource HOME to contain upstream automatic npm installs;
+  Runestone's `latest` resolution remains unpinned. No upstream source patches,
+  legacy source changes, mass conversion, Phase 2 work, or deployment occurred.
 
 ## Migration Log
 
@@ -628,6 +643,28 @@ replacement for the root build.
   Phase 1 is in progress, not finalized; tagged-PDF feasibility and browser
   computation remain unestablished.
 
+### 2026-09-08: Phase 1 Integrated Pilot and PDF Validation
+
+- Confirmed the retained publication base `https://ulrikbuchholtz.dk/ila/` and
+  newly installed Debian Node 20.19.2, npm 9.2.0, OpenJDK 21.0.11 and FOP 2.10.
+- Provisioned locked MathJax/SRE packages outside installed core via `NODE_PATH`.
+  Discovered upstream's automatic CSS npm install in run-007; subsequent builds
+  use private resource HOME directories and a retained CSS npm lock. No installed
+  upstream source was patched and no audit-fix command was run.
+- Extended the source fixtures and tests; introduced project-owned HTML
+  visibility/footnote/keyboard fixes, reachable local math scrolling, and a
+  sandboxed lazy Pyodide worker component with tested Stop/Reset and fresh state.
+- Replaced deficient PDF previews/QR graphics with authored static diagrams and
+  preserved online demo links. Corrected table header markup and paragraph widths
+  to remove PDF overlap and supply six tagged header cells.
+- Installed signed veraPDF 1.30.2 locally without system changes. Verified its
+  release signature against the official published key fingerprint, then ran
+  the explicit PDF/UA-1 profile. Recorded the pass and separate parser warnings.
+- Retained all intermediate/failed runs, raw logs, screenshots, PDFs and hashed
+  reports under persistent Phase 1 storage. `checkpoint.md` records a viable
+  FOP candidate with remaining diagnostic and human-review gates, not release
+  accessibility approval. Snapshots and backups remain author-owned.
+
 ## Upstream References
 
 - [PreTeXt PDF via XSL-FO](https://pretextbook.org/doc/guide/html/pdf-xsl-fo.html)
@@ -637,3 +674,4 @@ replacement for the root build.
 - [PreTeXt program capabilities](https://pretextbook.org/doc/guide/html/topic-program.html#interactive-program-capabilities)
 - [SageCell design](https://pretextbook.org/doc/guide/html/topic-sage.html#sage-cell-design)
 - [Pyodide packages](https://pyodide.org/en/stable/usage/packages-in-pyodide.html)
+- [veraPDF installation and signing key](https://docs.verapdf.org/install/)

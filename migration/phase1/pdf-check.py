@@ -7,6 +7,7 @@ import hashlib
 import json
 from pathlib import Path
 import re
+import subprocess
 import xml.etree.ElementTree as ET
 
 from PyPDF2 import PdfReader
@@ -18,6 +19,7 @@ def main():
     parser.add_argument('--fo', type=Path, required=True)
     parser.add_argument('--log', type=Path, required=True)
     parser.add_argument('--report', type=Path, required=True)
+    parser.add_argument('--verapdf', type=Path, help='optional pinned veraPDF CLI executable')
     args = parser.parse_args()
     report_path = args.report.resolve()
     repo = Path(__file__).resolve().parents[2]
@@ -79,12 +81,24 @@ def main():
             'fo_graphics_missing_alt': sum(item['alt'] is None or not item['alt'].strip() for item in graphics),
             'fop_warnings': warnings, 'overflow': overflow,
         }
+        if args.verapdf:
+            validation = subprocess.run([str(args.verapdf), '--format', 'json', '--flavour', 'ua1', str(args.pdf)],
+                                        capture_output=True, text=True, timeout=120)
+            validation_report = json.loads(validation.stdout)
+            jobs = validation_report['report']['jobs']
+            checks = [check for job in jobs for check in job.get('validationResult', [])]
+            result['verapdf'] = {'executable': str(args.verapdf.resolve()),
+                                 'returncode': validation.returncode, 'stderr': validation.stderr,
+                                 'report': validation_report,
+                                 'passed': validation.returncode == 0 and len(jobs) == 1 and len(checks) == 1
+                                 and checks[0].get('compliant') is True and checks[0].get('jobEndStatus') == 'normal'}
         json.dump(result, destination, indent=2)
         destination.write('\n')
     print(json.dumps({key: result[key] for key in ['pages', 'has_structure_tree', 'structure_roles',
                                                    'figures_missing_alt', 'figures_placeholder_alt', 'fo_graphics_missing_alt']}))
     return int(bool(result['figures_missing_alt'] or result['figures_placeholder_alt'] or
-                    result['fo_graphics_missing_alt'] or overflow or counts['/TH'] < 6))
+                    result['fo_graphics_missing_alt'] or overflow or counts['/TH'] < 6 or
+                    (args.verapdf and not result['verapdf']['passed'])))
 
 
 if __name__ == '__main__':

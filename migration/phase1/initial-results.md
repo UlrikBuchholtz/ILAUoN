@@ -1,5 +1,8 @@
 # Initial Phase 1 Results
 
+Historical run-005 checkpoint. See `checkpoint.md` for the current state;
+findings below describe the earlier evidence and were not overwritten.
+
 Date: 2026-09-06. Reference run: `~/tmp/ila/phase1/run-005`.
 **Phase 1 remains open; there is no accessible-PDF feasibility decision yet.**
 
