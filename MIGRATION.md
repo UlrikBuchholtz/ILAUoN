@@ -23,7 +23,7 @@ Accepted direction:
 - Do not merge the aborted port wholesale.
 
 **Phase 0 is complete as of 2026-09-06 under the documented-limitations exit
-gate. Phase 1 (hard-case pilot) is in progress.** Two successful
+gate. Phase 1 is accepted as of 2026-09-09; Phase 2 (modern build) is in progress.** Two successful
 isolated legacy HTML/PDF builds, source/output inventories, a static fragment-link
 audit, Chromium interaction checks, desktop/mobile-viewport screenshots, and
 selected PDF page captures form the reference. Its archived evidence was
@@ -505,7 +505,8 @@ The isolated project is `migration/phase1/`; setup and commands are in its
 `README.md`, excerpt mappings in `coverage.md`, and evidence/checksums/open gates
 in `checkpoint.md`. `initial-results.md` preserves the earlier run-005 checkpoint.
 This is a hand-authored pilot, not a converter or a replacement for the root
-build. **The technical pilot is implemented; Phase 1 review gates remain open.**
+build. **The author accepted the pilot in `migration/phase1/author-notes.md`.
+HTML is the accessibility target; accessible PDF is optional and deferred.**
 
 - Pinned PreTeXt 2.52.3 and core `2c8806b9988f855e94d185fb145226bf6c0a5b20`
   in a fresh environment, with Python dependencies locked in `uv.lock`.
@@ -543,6 +544,20 @@ build. **The technical pilot is implemented; Phase 1 review gates remain open.**
   legacy source changes, mass conversion, Phase 2 work, or deployment occurred.
 
 ## Migration Log
+
+### 2026-09-09: Author Acceptance and Modern Build Commencement
+
+- Accepted the Phase 1 checkpoint and authorization to clean the working directory
+  and proceed to Phase 2. The historical results above remain unchanged.
+- Author confirms keyboard/mobile behavior, Pyodide, Firefox/WebGL and touch
+  behavior. Browser speech varies; these observations are not conformance claims.
+- FOP's known coverage-table diagnostic is accepted for now; glyph-mapping
+  warnings remain visible. Accessible PDF is not a required build/release gate.
+- Corrected HTML equation scrolling, stable desktop menu layout, and consistent
+  Charter typography, with regression assertions. PDF end markers and print/FO
+  typography differences remain follow-up work, not Phase 2 blockers.
+- Whole-book proofreading remains required after conversion. No legacy source,
+  baseline evidence, published URL, or deployed site was changed.
 
 ### 2026-09-05: Assessment and Phase 0 Commencement
 

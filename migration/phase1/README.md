@@ -1,6 +1,8 @@
 # Phase 1 Hard-Case Pilot
 
-Status on 2026-09-08: **technical pilot implemented; review gates remain open**.
+Status on 2026-09-09: **pilot accepted by the author; Phase 2 underway**.
+See `author-notes.md`: HTML is the accessibility target; accessible PDF is
+optional and deferred. Historical checkpoint results below are retained.
 This nested project neither replaces the legacy publisher nor converts whole
 chapters. The publication base remains **https://ulrikbuchholtz.dk/ila/**.
 Nothing has been deployed. Pilot page names are not promised public URLs.

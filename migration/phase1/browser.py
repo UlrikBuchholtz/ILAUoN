@@ -80,6 +80,24 @@ def measure(browser, base, artifacts, report):
                 scroll:e.scrollWidth, tab:e.getAttribute('tabindex'),
                 label:e.getAttribute('aria-label') || e.getAttribute('aria-labelledby')})""")
             test = name + ":math-scroll:" + (data["id"] or str(i))
+            vertical = box.evaluate("""e => {
+                const r=e.getBoundingClientRect();
+                return {height:e.clientHeight, scrollHeight:e.scrollHeight,
+                    overflowX:getComputedStyle(e).overflowX,
+                    overflowY:getComputedStyle(e).overflowY,
+                    containers:[...e.querySelectorAll('mjx-container, mjx-math')].map(m => {
+                        const b=m.getBoundingClientRect(), s=getComputedStyle(m);
+                        return {tag:m.tagName, top:b.top-r.top, bottom:b.bottom-r.top,
+                            overflowY:s.overflowY, height:m.clientHeight, scrollHeight:m.scrollHeight};
+                    })};
+            }""")
+            check(test + ":horizontal-only", vertical["overflowX"] == "auto" and
+                  vertical["overflowY"] == "hidden" and
+                  all(c["overflowY"] not in ("auto", "scroll") or
+                      c["scrollHeight"] <= c["height"] for c in vertical["containers"]), **vertical)
+            check(test + ":unclipped-height", vertical["scrollHeight"] <= vertical["height"] + 1 and
+                  all(c["top"] >= -1 and c["bottom"] <= vertical["height"] + 1
+                      for c in vertical["containers"]), **vertical)
             overflow = data["scroll"] > data["width"] + 1
             check(test + ":tab-stop", data["tab"] == "0" and bool(data["label"]) if overflow
                   else data["tab"] is None, **data)
@@ -176,6 +194,52 @@ def measure(browser, base, artifacts, report):
                 check(name + ":matrix-containers", data["matrix_containers"] > 0 if section in
                       ("pilot-products", "pilot-row-reduction") else True, **data)
             attempt(name + ":math", math)
+
+            def typography():
+                fonts = page.locator('body, .ptx-banner .title, main .heading, main .para, '
+                                     'main summary, main th, main td, #ptx-toc .title, '
+                                     '#ptx-navbar .name').evaluate_all("""es => es.map(e => ({
+                    tag:e.tagName, class:e.className, family:getComputedStyle(e).fontFamily
+                }))""")
+                loaded = page.evaluate("""async () => {
+                    const styles=['normal 400','italic 400','normal 700','italic 700'];
+                    return Promise.all(styles.map(async s => ({style:s,
+                        count:(await document.fonts.load(s + ' 16px CharterBT')).length,
+                        loaded:document.fonts.check(s + ' 16px CharterBT')})));
+                }""")
+                check(name + ":charter-text", bool(fonts) and all(
+                    f["family"].split(",")[0].strip(' "') == "CharterBT" for f in fonts), fonts=fonts)
+                check(name + ":charter-faces-loaded", all(
+                    f["count"] == 1 and f["loaded"] for f in loaded), faces=loaded)
+                icon = page.locator('#ptx-toc-toggle .icon').evaluate("e => getComputedStyle(e).fontFamily")
+                check(name + ":icon-font-preserved", "Material Symbols" in icon, family=icon)
+            attempt(name + ":typography", typography)
+
+            def menu_layout():
+                button = page.locator('#ptx-toc-toggle')
+                sidebar = page.locator('#ptx-sidebar')
+                text = page.locator('main .para').first
+                before = text.bounding_box()
+                initially_open = button.get_attribute('aria-expanded') == 'true'
+                check(name + ":menu-initial", initially_open == (page.viewport_size["width"] > 936))
+                for opened in (not initially_open, initially_open):
+                    button.click()
+                    page.wait_for_timeout(100)
+                    after = text.bounding_box()
+                    check(name + ":menu-state:" + str(opened), sidebar.is_visible() == opened and
+                          button.get_attribute('aria-expanded') == str(opened).lower())
+                    # At 801-936px the upstream menu is an in-flow tablet panel,
+                    # not the persistent desktop slot or fixed mobile overlay.
+                    width = page.viewport_size["width"]
+                    if width > 936 or width <= 800:
+                        check(name + ":menu-text-stable:" + str(width) + ":" + str(opened), all(
+                            abs(before[k] - after[k]) <= 1 for k in ('x', 'width', 'height')),
+                            before=before, after=after)
+                    if not opened:
+                        sidebar.locator('a').first.evaluate('e => e.focus()')
+                        check(name + ":hidden-menu-unfocusable", sidebar.evaluate(
+                            'e => !e.contains(document.activeElement)'))
+            attempt(name + ":menu-layout", menu_layout)
 
             def contracts():
                 if demo:
@@ -283,6 +347,23 @@ def measure(browser, base, artifacts, report):
             attempt(name + ":disclosures", disclosures)
             attempt(name + ":scroll-math", lambda: scroll_math(page, name))
 
+            if section == "pilot-products" and device == "desktop":
+                def resize_layout():
+                    for width in (937, 936, 800, 390, 1440):
+                        page.set_viewport_size({"width": width, "height": viewport["height"]})
+                        # Restore the theme's default state before testing its breakpoint.
+                        page.locator('#ptx-sidebar').evaluate(
+                            "e => e.classList.remove('hidden', 'visible')")
+                        page.locator('#ptx-toc-toggle').evaluate("""e => e.setAttribute(
+                            'aria-expanded', getComputedStyle(document.querySelector('#ptx-sidebar')).display !== 'none')""")
+                        page.wait_for_timeout(200)
+                        menu_layout()
+                        scroll_math(page, name + ":resize:" + str(width))
+                        check(name + ":resize-overflow:" + str(width), page.evaluate(
+                            'document.documentElement.scrollWidth <= innerWidth'))
+                attempt(name + ":resize-layout", resize_layout)
+                page.set_viewport_size(viewport)
+
             def xrefs():
                 links = page.locator("main a[data-knowl]")
                 for i in range(links.count()):
@@ -298,6 +379,7 @@ def measure(browser, base, artifacts, report):
                           output.locator(".knowl-output__error").count() == 0,
                           target=link.get_attribute("data-knowl"))
                     unique_ids(page, test + ":open")
+                    typography()
                     attempt(test + ":scroll-math", lambda: scroll_math(page, test + ":open"))
                     # Focus a real descendant when available, to distinguish
                     # retained trigger focus from actual focus restoration.

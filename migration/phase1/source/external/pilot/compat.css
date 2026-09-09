@@ -1,10 +1,32 @@
+@import url("charter.css");
+
+:root {
+  --font-body: "CharterBT", Charter, "Bitstream Charter", serif;
+  --font-headings: var(--font-body);
+}
+
+body.pretext :is(button, input, select, textarea) {
+  font-family: inherit;
+}
+
+/* Match default-modern's 936px sidebar breakpoint and 240px sidebar slot.
+   Keep display:none (and thus hidden links out of keyboard navigation). */
+@media screen and (min-width: 936.02px) {
+  .ptx-page:has(> .ptx-sidebar.hidden) > .ptx-main {
+    margin-left: 240px;
+  }
+}
+
 /* Keep scrolling local; never scale or flatten the source's nested matrices. */
 .ptx-content .displaymath {
   box-sizing: border-box;
   width: 100%;
   min-width: 0;
   max-width: 100%;
-  overflow: auto;
+  /* MathJax glyph/strut extents can exceed its reported line box. */
+  padding-block: 0.6em;
+  overflow-x: auto;
+  overflow-y: hidden;
 }
 
 /* Center short displays inside a full-width inner box. Wide displays instead
