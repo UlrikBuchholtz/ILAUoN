@@ -1,0 +1,81 @@
+name: Modern Fixture Build
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+    inputs:
+      accessible:
+        description: Also attempt experimental FOP PDF (not accessibility approval)
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          persist-credentials: false
+      - uses: astral-sh/setup-uv@v6
+        with:
+          version: '0.12.5'
+          python-version: '3.12.14'
+          enable-cache: true
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20.19.2'
+      - name: System typesetting and validation tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends jing default-jre-headless fop \
+            texlive-latex-extra texlive-fonts-extra texlive-science texlive-luatex \
+            texlive-plain-generic ghostscript pdf2svg librsvg2-bin
+      - name: Locked dependencies
+        run: |
+          uv sync --locked --python 3.12.14
+          npm ci --prefix migration/phase2/demos --ignore-scripts --engine-strict --no-audit --no-fund
+      - name: Runner and source tests
+        run: |
+          uv run --locked python -B -m unittest discover -s migration/phase2/tests -v
+          uv run --locked python -B -m unittest discover -s migration/phase1/tests -v
+      - name: Independent demo integration tests
+        run: uv run --locked python -B -m unittest discover -s migration/phase2/demos -v
+      - name: Fresh HTML and print with strict gates
+        env:
+          ACCESSIBLE: ${{ inputs.accessible }}
+        run: |
+          extra=()
+          if [ "$ACCESSIBLE" = true ]; then extra+=(--accessible); fi
+          uv run --locked python scripts/build.py --run "$RUNNER_TEMP/ila-modern" "${extra[@]}"
+      - name: Browser regression gates
+        run: |
+          uv run --locked playwright install --with-deps chromium
+          uv run --locked python migration/phase1/browser.py --chromium playwright \
+            --root "$RUNNER_TEMP/ila-modern/output/html" \
+            --output "$RUNNER_TEMP/ila-modern/browser/report.json" \
+            --artifacts "$RUNNER_TEMP/ila-modern/browser/screenshots"
+          uv run --locked python migration/phase1/computation-check.py --chromium playwright \
+            "$RUNNER_TEMP/ila-modern/output/html" "$RUNNER_TEMP/ila-modern/computation.json"
+      - name: Verify tracked sources remain unchanged
+        run: |
+          git diff --exit-code
+          git diff --cached --exit-code
+      - name: Preserve outputs and diagnostics, including failures
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: modern-fixture-build
+          if-no-files-found: warn
+          retention-days: 14
+          path: |
+            ${{ runner.temp }}/ila-modern/report.json
+            ${{ runner.temp }}/ila-modern/logs/
+            ${{ runner.temp }}/ila-modern/output/
+            ${{ runner.temp }}/ila-modern/browser/
+            ${{ runner.temp }}/ila-modern/computation.json

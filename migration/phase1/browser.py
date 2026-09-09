@@ -486,6 +486,8 @@ def main():
     parser.add_argument("--root", type=Path, required=True)
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--artifacts", type=Path, required=True)
+    parser.add_argument("--chromium", default="/usr/bin/chromium",
+                        help="Browser executable; use 'playwright' for the locked bundled browser")
     args = parser.parse_args()
     root = args.root.resolve(strict=True)
     output, artifacts = args.output.resolve(), args.artifacts.resolve()
@@ -522,9 +524,12 @@ def main():
     thread.start()
     try:
         with sync_playwright() as playwright:
-            browser = playwright.chromium.launch(executable_path="/usr/bin/chromium", headless=True, args=FLAGS)
+            browser = playwright.chromium.launch(
+                executable_path=None if args.chromium == "playwright" else args.chromium,
+                headless=True, args=FLAGS)
             try:
-                report["browser"] = {"version": browser.version, "executable": "/usr/bin/chromium",
+                report["browser"] = {"version": browser.version, "executable": (
+                    playwright.chromium.executable_path if args.chromium == "playwright" else args.chromium),
                                      "flags": FLAGS, "LD_PRELOAD": os.environ.get("LD_PRELOAD")}
                 measure(browser, f"http://127.0.0.1:{server.server_port}/", artifacts, report)
             finally:

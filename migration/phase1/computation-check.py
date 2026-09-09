@@ -85,7 +85,9 @@ def main():
         server_thread = Thread(target=server.serve_forever, name="computation-http")
         server_thread.start()
         with sync_playwright() as p, ExitStack() as cleanup:
-            browser = p.chromium.launch(executable_path=args.chromium, headless=True, chromium_sandbox=True)
+            browser = p.chromium.launch(
+                executable_path=None if args.chromium == "playwright" else args.chromium,
+                headless=True, chromium_sandbox=True)
             cleanup.callback(browser.close)
             report["chromium_sandbox"] = True
             report["chromium"] = browser.version

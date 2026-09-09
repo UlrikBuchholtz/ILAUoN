@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project ptx-version="2" source="migration/phase1/source" xsl="migration/phase1/xsl">
+  <targets>
+    <target name="html" format="html" publication="publication.ptx" xsl="html.xsl">
+      <stringparams debug.rs.version="8.2.10"/>
+    </target>
+    <target name="print" format="pdf" pdf-method="pdflatex" publication="publication.ptx"/>
+    <target name="accessible" format="pdf" pdf-method="pdf-fo" publication="publication.ptx"/>
+  </targets>
+</project>
