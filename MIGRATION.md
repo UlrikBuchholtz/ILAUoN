@@ -558,6 +558,24 @@ HTML is the accessibility target; accessible PDF is optional and deferred.**
   typography differences remain follow-up work, not Phase 2 blockers.
 - Whole-book proofreading remains required after conversion. No legacy source,
   baseline evidence, published URL, or deployed site was changed.
+- Committed HTML acceptance/fixes as `48f1dc9`, the independent source-built
+  35-demo pipeline as `921b9e1`, and modern root project/runner/CI as `ce41543`.
+- The runner pins CLI/core, Python and npm resolutions and Runestone version;
+  fails on schema, command, generated-image, missing/empty-asset and diagnostic
+  failures; and isolates upstream mutable caches without patching installed code.
+- Strict HTML/print builds passed in `~/tmp/ila/phase2/run-001` and from a fresh
+  clone in `~/tmp/ila/phase2/clean-run-001`. The fresh checkout passed 26 Python
+  tests, 669 HTML browser assertions, and 27 sandboxed system-Chromium computation
+  checks; both worktrees remained clean. Seven known HTML warnings remain.
+- Downloaded Chromium's sandbox launch failed locally for the computation suite;
+  its failed report is retained separately from the successful system-browser run.
+  CI configures user namespaces on its ephemeral runner, not the author's host.
+- Preserved pre-existing untracked checkout files under
+  `~/tmp/ila/phase2/checkout-leftovers/`, rather than deleting them. New build
+  evidence uses disk-backed storage after an earlier run filled `/tmp`.
+- Phase 2 remains in progress pending hosted CI verification and stronger
+  system-tool/Runestone content locking. See `migration/phase2/README.md` for
+  commands, evidence, security limitations and explicit remaining gates.
 
 ### 2026-09-05: Assessment and Phase 0 Commencement
 

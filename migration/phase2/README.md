@@ -132,6 +132,9 @@ FOP. Locked Playwright Chromium runs the HTML and computation regression gates;
 tracked files must remain unchanged. Outputs, reports, and logs are uploaded even on failure; no deployment or
 write permission is configured. The workflow has not been executed on GitHub
 from this workspace. Its apt/TeX package selection still needs a hosted run.
+On the ephemeral Ubuntu runner the workflow permits unprivileged user namespaces
+for downloaded Chromium, while the computation test keeps Chromium sandboxing
+enabled. No host sandbox policy was changed during local verification.
 
 ## Observed Results
 
@@ -191,3 +194,28 @@ were moved, not deleted, to `~/tmp/ila/phase2/checkout-leftovers/` with their
 relative paths preserved. Existing ignored environments, legacy npm installs,
 and historical evidence were left alone. This is local preservation, not a
 managed-backup claim. These leftovers are not inputs to the modern build.
+
+## Clean-Checkout Checkpoint
+
+A fresh local clone of `ce41543` at `~/tmp/ila/phase2/clean-checkout` initialized
+MathBox and its two nested submodules from their upstream GitHub repositories.
+`uv sync --locked --python 3.12.14` created a new Python environment; `npm ci`
+created a new demo dependency installation. No local prebuilt files or Phase 0
+output were copied. Download caches and the host Nix store were shared, so this
+is clean-checkout verification, not an air-gapped or hermetic build.
+
+- `~/tmp/ila/phase2/clean-run-001/report.json`: strict HTML and print pass.
+- All 6 runner, 6 demo integration, and 14 source tests pass in the new checkout.
+- `browser/report.json`: locked Playwright Chromium, 669 passes, zero failures,
+  zero network/runtime errors, 7 known warnings, and 18 screenshots.
+- `computation-system.json`: sandboxed system Chromium, all 27 checks pass.
+- `computation.json`: downloaded Chromium could not launch with its sandbox under
+  the host policy. Retained as a failed infrastructure attempt, not a site failure
+  or a pass. The subsequent system-browser run did not disable sandboxing.
+- `git status --short` in both checkouts was empty after building and testing.
+
+The strict build command was the mixed Nix/Debian invocation above, using the
+fresh clone's `.venv/bin/python` and a fresh persistent run directory. The modern
+CI workflow is implemented but has not run on GitHub; full system-tool closure
+and immutable Runestone asset hashes remain open Phase 2 reproducibility gates.
+Do not mark Phase 2 fully closed on the strength of a local build alone.

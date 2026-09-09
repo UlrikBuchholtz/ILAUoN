@@ -56,6 +56,10 @@ jobs:
       - name: Browser regression gates
         run: |
           uv run --locked playwright install --with-deps chromium
+          # Ubuntu 24.04 restricts user namespaces for downloaded browsers.
+          # Only this ephemeral runner is changed; keep Chromium sandboxing on
+          # for the computation test rather than accepting a --no-sandbox pass.
+          sudo sysctl -w kernel.apparmor_restrict_unprivileged_userns=0
           uv run --locked python migration/phase1/browser.py --chromium playwright \
             --root "$RUNNER_TEMP/ila-modern/output/html" \
             --output "$RUNNER_TEMP/ila-modern/browser/report.json" \
