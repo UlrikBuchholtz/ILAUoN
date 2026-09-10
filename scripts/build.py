@@ -21,7 +21,12 @@ PILOT = Path('migration/phase1')
 VERSION = '2.52.3'
 CORE = '2c8806b9988f855e94d185fb145226bf6c0a5b20'
 RUNESTONE = '8.2.10'
+RUNESTONE_ASSETS = Path('migration/phase2/runestone-assets.json')
 ACCEPTED_FOP_WARNING = '[WARN] GlyphClassTable$CoverageSetClassTable - coverage set class table not yet supported'
+# Upstream's preview server prefers port 8888 and its own earlier target still
+# holds it; it retries on a random port and continues, so this exact line is
+# recovered rather than failed.  Any other port diagnostic stays blocking.
+ACCEPTED_PORT_COLLISION = 'debug: http.server error: port 8888 in use; (error [Errno 98] Address already in use)'
 
 
 def hashes(directory):
@@ -87,6 +92,40 @@ def check_assets(root):
     return checked
 
 
+def check_runestone(output, manifest, record=False):
+    """Compare the fetched Runestone assets against recorded content hashes.
+
+    The version selector alone does not make remote content immutable, so the
+    extracted tarball is pinned by content here.  `_static/pretext` is excluded:
+    those resources come from the pinned CLI, not from Runestone.
+    """
+    found = {name: digest for name, digest in hashes(output / '_static').items()
+             if not name.startswith('pretext/')}
+    if not found:
+        raise ValueError('No Runestone assets found to verify')
+    if record:
+        manifest.write_text(json.dumps(
+            {'version': RUNESTONE, 'files': found}, indent=2, sort_keys=True) + '\n')
+        return {'recorded': len(found), 'gate': 'not verified in this run'}
+    if not manifest.is_file():
+        raise ValueError(f'Missing Runestone manifest {manifest}; record it with --record-runestone')
+    expected = json.loads(manifest.read_text())
+    if expected.get('version') != RUNESTONE:
+        raise ValueError(f'Runestone manifest records {expected.get("version")}, not {RUNESTONE}')
+    expected = expected['files']
+    differences = {
+        'added': sorted(set(found) - set(expected)),
+        'removed': sorted(set(expected) - set(found)),
+        'changed': sorted(name for name in set(expected) & set(found)
+                          if expected[name] != found[name]),
+    }
+    if any(differences.values()):
+        raise ValueError('Runestone assets differ from recorded hashes; upstream content '
+                         f'changed under version {RUNESTONE}: '
+                         + '; '.join(f'{kind} {names[:5]}' for kind, names in differences.items() if names))
+    return {'verified': len(found)}
+
+
 def build(args):
     import pretext
 
@@ -111,6 +150,13 @@ def build(args):
                "import os; os.environ.pop('LD_PRELOAD', None); from pretext.cli import main; main()",
                '-v', 'debug', '--save-tmp-dirs']
 
+        def accepted(step_name, line):
+            """Two exact upstream diagnostics, each documented; never a widened pattern."""
+            line = line.strip()
+            if step_name == 'accessible':
+                return line == ACCEPTED_FOP_WARNING
+            return step_name.startswith('generate-') and line == ACCEPTED_PORT_COLLISION
+
         def command(name, argv, python=False):
             step = {'name': name, 'command': list(map(str, argv))}
             report['steps'].append(step)
@@ -133,8 +179,7 @@ def build(args):
                     process.wait()
             diagnostics = blocking_diagnostics(log_path.read_text(errors='replace'))
             # The author accepted this one known FOP limitation, not arbitrary warnings.
-            step['accepted_diagnostics'] = [line for line in diagnostics
-                                            if name == 'accessible' and line.strip() == ACCEPTED_FOP_WARNING]
+            step['accepted_diagnostics'] = [line for line in diagnostics if accepted(name, line)]
             step['blocking_diagnostics'] = [line for line in diagnostics
                                             if line not in step['accepted_diagnostics']]
             if step['returncode'] or step['blocking_diagnostics']:
@@ -204,6 +249,8 @@ def build(args):
                 services = ET.parse(output / '_static/_runestone-services.xml')
                 if services.findtext('version') != RUNESTONE:
                     raise ValueError('Runestone version mismatch in generated services manifest')
+                report['runestone_assets'] = check_runestone(
+                    output, ROOT / RUNESTONE_ASSETS, args.record_runestone)
                 report['html_asset_references'] = check_assets(output)
                 for name, digest in hashes(external).items():
                     if hashlib.sha256((output / 'external' / name).read_bytes()).hexdigest() != digest:
@@ -225,6 +272,8 @@ def main():
     parser.add_argument('--run', type=Path, required=True, help='New directory outside repository')
     parser.add_argument('--demo-dependencies', type=Path, default=ROOT / 'migration/phase2/demos')
     parser.add_argument('--accessible', action='store_true', help='Also attempt experimental FOP PDF')
+    parser.add_argument('--record-runestone', action='store_true',
+                        help='Rewrite the Runestone asset hashes from this run instead of verifying them')
     parser.add_argument('--timeout', type=int, default=600, help='Per-command timeout in seconds')
     args = parser.parse_args()
     try:

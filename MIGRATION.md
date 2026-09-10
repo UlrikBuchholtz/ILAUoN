@@ -545,6 +545,62 @@ HTML is the accessibility target; accessible PDF is optional and deferred.**
 
 ## Migration Log
 
+### 2026-09-10: Phase 2 Scope Decisions, Action Pinning and FOP Evidence
+
+- Pinned every GitHub Action to a commit SHA with its release tag in a trailing
+  comment: `checkout@3d3c42e`, `setup-uv@20cfd1b`, `setup-node@8207627` and
+  `upload-artifact@043fb46`. No Action content can now change under a moving tag.
+- **Accepted: system-tool drift.** The distribution's TeX, Java, Node, browser
+  and Jing packages are not pinned by digest and differ between the author's
+  workstation and the CI runner. Keeping tooling current is an objective of this
+  migration, so this is a decision rather than an unmet gate. The CLI/core,
+  Python, npm, Runestone and Action pins still bound what may change, and a
+  build that breaks because a system package moved remains a real signal.
+- **Accepted: byte-for-byte reproducible output is out of scope.** The print PDF
+  embeds creation/modification timestamps, PreTeXt emits the build date through
+  `<today/>`, and external assets are fetched at build time. No gate compares one
+  run's output hashes with another's. Input-side determinism is what is checked:
+  per-run input/implementation/lock/demo hashes, the demo builder's byte-identical
+  repeat-build test, and external-asset hash matching between staging and output.
+  Both decisions are recorded in `migration/phase2/README.md`.
+- Drafted a Runestone content gate. `scripts/build.py` now hashes every file
+  under `output/html/_static` except `_static/pretext`, which comes from the
+  pinned CLI, and compares them with `migration/phase2/runestone-assets.json`.
+  Added, removed or changed files fail the build. `--record-runestone` rewrites
+  the manifest and marks the run as not gate-verified, so recording cannot be
+  mistaken for passing. This addresses the version selector's inability to make
+  remote content immutable.
+- The recorded manifest holds 451 files from `run-003` and verifies clean against
+  `run-004`, an independent fetch of the same tarball: identical file set, zero
+  content differences. Eight runner tests pass, including tamper cases for each
+  difference kind, the `_static/pretext` exclusion, a version mismatch and a
+  missing manifest.
+- The optional accessible target failed its gate in `run-004`, `run-005` and
+  `run-006` for a reason unrelated to FOP. `generate-print` starts upstream's
+  preview server on port 8888; the immediately following `generate-accessible`
+  finds it still bound, logs `debug: http.server error: port 8888 in use`, falls
+  back to a random port and completes with return code 0. The runner's pattern
+  matches `error:` in that recovered debug line and blocked the build.
+- Waiting for the port was implemented first and then reverted. In `run-006` the
+  wait timed out after thirty seconds, and an isolated reproduction of upstream's
+  server pattern showed the port is bindable immediately after that process ends,
+  so no socket-reuse window is involved. Sampling `ss` during a build showed
+  upstream's own live `python3` process holding `127.0.0.1:8888` in `LISTEN`, so
+  a wait inside the same run cannot succeed.
+- Accepted instead: that one exact line, only in a `generate-` step, alongside the
+  existing FOP warning. Both are matched by exact string, kept in the logs and
+  listed in `accepted_diagnostics`. The diagnostic pattern itself is unchanged, so
+  every other port or server error remains blocking.
+- Building the accessible target directly in `run-005`, after its generation had
+  already completed, produced a tagged seven-page PDF from Apache FOP 2.10 whose
+  only diagnostic is the accepted coverage-table warning. That was a labelled
+  diagnostic continuation; `run-008` then passed all three targets through the
+  ordinary gated runner: twelve steps at return code 0, no blocking diagnostics,
+  451 Runestone assets verified, 657 output artifacts, and exactly one accepted
+  diagnostic in each of the two steps that can raise one. Its accessible PDF is
+  again tagged and seven pages. This is a local gate pass, not accessibility
+  approval; no PDF/UA or screen-reader review was repeated.
+
 ### 2026-09-10: Hosted CI Pass and Action Runtime Update
 
 - The modern build workflow completed successfully on GitHub Actions in

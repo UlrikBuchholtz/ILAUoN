@@ -73,10 +73,16 @@ The sequence fails immediately on a failed gate:
 
 Nonzero commands, timeout/interruption, missing/empty assets, escaping asset
 paths, missing alt text, overfull/overflow diagnostics, unsupported features,
-and explicit failure diagnostics are blocking. The one exact FOP coverage-table
-warning accepted in `phase1/author-notes.md` is retained in logs and listed in
-`accepted_diagnostics` for the optional accessible target, not suppressed or
-generalized to other warnings. Process groups are killed
+and explicit failure diagnostics are blocking. Exactly two upstream lines are
+accepted, each by exact string and only for the steps where it can arise, and
+both are retained in logs and listed in `accepted_diagnostics` rather than
+suppressed or generalized to other warnings. The first is the FOP coverage-table
+warning accepted in `phase1/author-notes.md`, for the optional accessible target.
+The second is upstream's preview-server line `port 8888 in use` in a `generate-`
+step: its own earlier target still holds that port, and upstream retries on a
+random port and continues, so the condition is recovered rather than failed.
+Waiting for the port was tried first and rejected: the holder is upstream's own
+live server, so the wait cannot succeed within a run. Process groups are killed
 and reaped on timeout or interruption. Ordinary informational warnings remain
 in logs. In particular, the CLI's production-schema warning about three
 experimental fixture constructs is not conflated with development-schema
@@ -120,11 +126,39 @@ It is the available version-selection interface in this pinned release, not a
 claim of upstream-supported production reproducibility. The manifest/tarball
 have no retained expected content hashes; output hashes record what was fetched
 but do not make remote content immutable. Browser Pyodide/fonts and other
-external resources remain network dependencies. Ubuntu apt packages and GitHub
-Action major tags are not content-locked, except `astral-sh/setup-uv`, which is
-pinned to an exact release because upstream publishes no floating major tag
-after v7. This is not a hermetic or security-approved publication pipeline.
-CI uses Node's bundled npm; local npm was 9.2.0.
+external resources remain network dependencies. Every GitHub Action is pinned to
+a commit SHA with its release tag in a trailing comment, so no Action content
+changes under a moving tag. Ubuntu apt packages and the surrounding system
+toolchain are deliberately not content-locked; see Accepted Scope Limits below.
+This is not a hermetic or security-approved publication pipeline. CI uses Node's
+bundled npm; local npm was 9.2.0.
+
+## Accepted Scope Limits
+
+These are decisions, not unmet gates. They bound what this build promises.
+
+**System-tool drift is accepted.** The build depends on the distribution's TeX,
+Java, Node, browser and Jing packages, which are not pinned by digest and differ
+between the author's Debian workstation and the CI runner. Escaping tooling that
+had aged past maintainability is a motivation for this migration, so tracking
+current system packages is intended rather than tolerated. What must not drift is
+covered by the pins above: the PreTeXt CLI and core commit, Python and its
+`uv.lock`, the demo/math/theme npm locks, the Runestone version, and the Action
+SHAs. A build that fails because a system package changed is a real signal to
+investigate, not an accepted outcome.
+
+**Byte-for-byte reproducible output is out of scope.** Two runs of the same
+commit are not expected to produce identical bytes. The conventional PDF embeds
+its creation and modification timestamps, PreTeXt emits the build date into HTML
+through `<today/>`, and Runestone and other external assets are fetched at build
+time. Nothing here sets `SOURCE_DATE_EPOCH` or otherwise normalizes those, and
+no gate compares one run's output hashes to another's. What is verified instead
+is input-side determinism and self-consistency: staged input, implementation,
+lock and demo hashes are recorded per run, `build_demos.py` is covered by a
+byte-identical repeat-build test, every copied external asset is hash-matched
+between staging and published output, and each run's own output hashes are
+retained in `report.json` for later comparison or diagnosis. Normalizing
+timestamps later would be a change of scope, not a bug fix.
 
 ## CI
 
@@ -191,8 +225,10 @@ The seven known browser warnings remain visible. Eighteen screenshots and
 input-bound reports are retained beside the outputs. `/tmp` filled during an
 earlier strict run; new evidence uses disk-backed storage instead.
 
-Accessible PDF was not rerun here. It remains optional/experimental; phase1
-records FOP limitations and separate PDF/UA evidence. No new screen-reader,
+Accessible PDF was not rerun in that session. It has since passed the gated
+runner locally in `~/tmp/ila/phase2/run-008`, producing a tagged seven-page FOP
+2.10 PDF; it remains optional/experimental, and phase1 records FOP limitations
+and separate PDF/UA evidence. No new screen-reader,
 PDF/UA, or human review was performed for this root integration. PDF end-marker
 placement and print/FO differences from the author notes remain follow-up work.
 
@@ -227,6 +263,7 @@ is clean-checkout verification, not an air-gapped or hermetic build.
 The strict build command was the mixed Nix/Debian invocation above, using the
 fresh clone's `.venv/bin/python` and a fresh persistent run directory. The modern
 CI workflow has since completed successfully on GitHub twice, recorded in the
-CI section above; full system-tool closure and immutable Runestone asset hashes
-remain open Phase 2 reproducibility gates.
+CI section above. System-tool closure is now an accepted scope limit rather than
+a gate; immutable Runestone asset content hashes remain the open Phase 2
+reproducibility gate.
 Do not mark Phase 2 fully closed on the strength of a local build alone.

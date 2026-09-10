@@ -84,6 +84,57 @@ class BuildTests(unittest.TestCase):
             self.assertEqual([step['name'] for step in report['steps']], ['demos'])
             self.assertFalse((run / 'output').exists())
 
+    def test_runestone_asset_gate(self):
+        import json
+        with tempfile.TemporaryDirectory() as temp:
+            output = Path(temp) / 'html'
+            static = output / '_static'
+            (static / 'pretext').mkdir(parents=True)
+            (static / 'runestone.js').write_text('bundle;')
+            (static / '_runestone-services.xml').write_text('<all/>')
+            # Resources from the pinned CLI are not Runestone content.
+            (static / 'pretext' / 'theme.css').write_text('p {}')
+            manifest = Path(temp) / 'runestone-assets.json'
+
+            recorded = BUILD.check_runestone(output, manifest, record=True)
+            self.assertEqual(recorded['recorded'], 2)
+            self.assertEqual(BUILD.check_runestone(output, manifest), {'verified': 2})
+
+            (static / 'pretext' / 'theme.css').write_text('p { color: red }')
+            self.assertEqual(BUILD.check_runestone(output, manifest), {'verified': 2})
+
+            (static / 'runestone.js').write_text('tampered;')
+            with self.assertRaisesRegex(ValueError, 'changed'):
+                BUILD.check_runestone(output, manifest)
+            (static / 'runestone.js').write_text('bundle;')
+            (static / 'extra.js').write_text('surprise;')
+            with self.assertRaisesRegex(ValueError, 'added'):
+                BUILD.check_runestone(output, manifest)
+            (static / 'extra.js').unlink()
+            (static / '_runestone-services.xml').unlink()
+            with self.assertRaisesRegex(ValueError, 'removed'):
+                BUILD.check_runestone(output, manifest)
+
+            manifest.write_text(json.dumps({'version': '0.0.0', 'files': {}}))
+            with self.assertRaisesRegex(ValueError, '0.0.0'):
+                BUILD.check_runestone(output, manifest)
+            manifest.unlink()
+            with self.assertRaisesRegex(ValueError, 'record it'):
+                BUILD.check_runestone(output, manifest)
+
+    def test_accepted_diagnostics_are_exact(self):
+        # Both accepted lines are still recognised as diagnostics in the first place.
+        self.assertTrue(BUILD.blocking_diagnostics(BUILD.ACCEPTED_FOP_WARNING))
+        self.assertTrue(BUILD.blocking_diagnostics(BUILD.ACCEPTED_PORT_COLLISION))
+        self.assertIn('8888', BUILD.ACCEPTED_PORT_COLLISION)
+
+    def test_recorded_runestone_manifest(self):
+        import json
+        recorded = json.loads((ROOT / BUILD.RUNESTONE_ASSETS).read_text())
+        self.assertEqual(recorded['version'], BUILD.RUNESTONE)
+        self.assertTrue(recorded['files'])
+        self.assertTrue(all(len(digest) == 64 for digest in recorded['files'].values()))
+
 
 if __name__ == '__main__':
     unittest.main()
