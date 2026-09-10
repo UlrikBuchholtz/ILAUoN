@@ -547,11 +547,12 @@ HTML is the accessibility target; accessible PDF is optional and deferred.**
 
 ### 2026-09-10: Hosted CI Pass and Action Runtime Update
 
-- The author reports that the modern build workflow completed successfully on
-  GitHub Actions after `texlive-xetex` was added. This is the first hosted run
-  recorded here and it exercises the apt/TeX selection that Phase 2 listed as
-  unverified. The run's commit, run identifier and logs are not recorded in this
-  log; only the author's report and the warning quoted below.
+- The modern build workflow completed successfully on GitHub Actions in
+  `UlrikBuchholtz/ILAUoN`, run 1 of `Modern Fixture Build`, for commit `a6e66bc`
+  on `uon2`: <https://github.com/UlrikBuchholtz/ILAUoN/actions/runs/34470464637>,
+  conclusion `success` in about seven and a half minutes. This is the first
+  hosted run and it exercises the apt/TeX selection, including the added
+  `texlive-xetex`, that Phase 2 listed as unverified.
 - The hosted runner warned that `actions/checkout@v4`, `actions/setup-node@v4`,
   `actions/upload-artifact@v4` and `astral-sh/setup-uv@v6` target Node.js 20 and
   are being forced onto Node.js 24, per GitHub's 2025-09-19 deprecation notice.
@@ -572,9 +573,13 @@ HTML is the accessibility target; accessible PDF is optional and deferred.**
 - The workflow's `node-version: '20.19.2'` is deliberately unchanged. The
   deprecation concerns the runtime that Actions themselves execute on, not the
   pinned Node used to build the demos.
-- The updated workflow has not itself been run on GitHub. Hosted verification of
-  this revision, full system-tool closure and immutable Runestone asset hashes
-  remain open Phase 2 gates.
+- The updated workflow then completed successfully as run 2 for commit
+  `42f8d5e`: <https://github.com/UlrikBuchholtz/ILAUoN/actions/runs/34487715338>,
+  conclusion `success`, with the Node.js 20 deprecation warning gone. Two hosted
+  runs on an ephemeral `ubuntu-24.04` runner are now recorded.
+- Full system-tool closure, immutable Runestone asset hashes, and the optional
+  accessible target remain open Phase 2 gates. Hosted success does not establish
+  hermetic reproducibility or release approval.
 
 ### 2026-09-10: Debian-Native Phase 2 Verification
 

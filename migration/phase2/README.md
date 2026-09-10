@@ -1,7 +1,8 @@
 # Modern Root Build
 
-Status on 2026-09-09: root project, staged runner, tests, and CI implemented.
-**Strict HTML and print generation passes from source-built demos.**
+Status on 2026-09-10: root project, staged runner, tests, and CI implemented.
+**Strict HTML and print generation passes from source-built demos, locally and
+on GitHub Actions.**
 Nothing is deployed. Clean-checkout and hosted CI status are recorded below;
 this scaffold is not a whole-book conversion or release approval.
 
@@ -132,11 +133,15 @@ dispatch. It installs locked Python/demo dependencies, runs runner, source and
 demo tests, then requires fresh HTML and print. Manual dispatch can also request
 FOP. Locked Playwright Chromium runs the HTML and computation regression gates;
 tracked files must remain unchanged. Outputs, reports, and logs are uploaded even on failure; no deployment or
-write permission is configured. The author reports that the workflow has now
-completed successfully on GitHub, after `texlive-xetex` was added to its apt
-list; that run's commit and run identifiers are not recorded in this file. Its
-apt/TeX selection is therefore exercised by at least one hosted run, but the
-subsequent Action runtime update has not itself been verified hosted.
+write permission is configured. The workflow has now run successfully on GitHub
+in `UlrikBuchholtz/ILAUoN`, twice, on an ephemeral `ubuntu-24.04` runner in about
+seven and a half minutes each:
+
+| Run | Commit | Result |
+| --- | --- | --- |
+| [1](https://github.com/UlrikBuchholtz/ILAUoN/actions/runs/34470464637) | `a6e66bc` | success; apt/TeX selection exercised, Node.js 20 action deprecation warning |
+| [2](https://github.com/UlrikBuchholtz/ILAUoN/actions/runs/34487715338) | `42f8d5e` | success; node24 action runtimes, no deprecation warning |
+
 On the ephemeral Ubuntu runner the workflow permits unprivileged user namespaces
 for downloaded Chromium, while the computation test keeps Chromium sandboxing
 enabled. No host sandbox policy was changed during local verification.
@@ -221,7 +226,7 @@ is clean-checkout verification, not an air-gapped or hermetic build.
 
 The strict build command was the mixed Nix/Debian invocation above, using the
 fresh clone's `.venv/bin/python` and a fresh persistent run directory. The modern
-CI workflow has since completed successfully on GitHub as reported by the
-author; full system-tool closure and immutable Runestone asset hashes remain
-open Phase 2 reproducibility gates.
+CI workflow has since completed successfully on GitHub twice, recorded in the
+CI section above; full system-tool closure and immutable Runestone asset hashes
+remain open Phase 2 reproducibility gates.
 Do not mark Phase 2 fully closed on the strength of a local build alone.
