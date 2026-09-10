@@ -23,7 +23,8 @@ Accepted direction:
 - Do not merge the aborted port wholesale.
 
 **Phase 0 is complete as of 2026-09-06 under the documented-limitations exit
-gate. Phase 1 is accepted as of 2026-09-09; Phase 2 (modern build) is in progress.** Two successful
+gate. Phase 1 is accepted as of 2026-09-09. Phase 2 (modern build) is accepted as
+of 2026-09-10; Phase 3 (content conversion) has not started.** Two successful
 isolated legacy HTML/PDF builds, source/output inventories, a static fragment-link
 audit, Chromium interaction checks, desktop/mobile-viewport screenshots, and
 selected PDF page captures form the reference. Its archived evidence was
@@ -543,7 +544,75 @@ HTML is the accessibility target; accessible PDF is optional and deferred.**
   Runestone's `latest` resolution remains unpinned. No upstream source patches,
   legacy source changes, mass conversion, Phase 2 work, or deployment occurred.
 
+## Phase 2 Checkpoint
+
+The modern build is `project.ptx`, `publication/`, `scripts/build.py`,
+`scripts/build_demos.py` and `migration/phase2/`; commands, gates, pins and
+accepted scope limits are in `migration/phase2/README.md`. **The author accepted
+Phase 2 on 2026-09-10.** It builds the Phase 1 pilot fixture, not the book, and
+nothing is deployed.
+
+- Upstream tools are pinned: PreTeXt CLI 2.52.3 and core
+  `2c8806b9988f855e94d185fb145226bf6c0a5b20`, Python 3.12 with `uv.lock`, the
+  demo, math and theme npm locks, Runestone Services 8.2.10, and every GitHub
+  Action by commit SHA. No installed dependency is patched, and each run gets its
+  own `HOME`, `TMPDIR` and extracted core.
+- Runestone assets are pinned by content, not only by version selector: 451 files
+  hashed in `migration/phase2/runestone-assets.json` and verified on every build.
+- Demos build independently of SCons, PreTeXt and historical output, from a Git
+  index allowlist, with byte-identical repeated builds.
+- The runner fails on nonzero commands, timeouts, schema failures, missing or
+  empty assets, escaping asset paths, missing alt text, overflow, unsupported
+  features and explicit failure diagnostics. Exactly two upstream lines are
+  accepted, each by exact string and only where it can arise.
+- Verified locally on Debian without Nix in `~/tmp/ila/phase2/run-003` (HTML and
+  print) and `run-008` (all three targets), from a clean clone in
+  `clean-run-001`, and hosted on GitHub Actions in runs 1 through 3, the last on
+  commit `c516ecf` with the Action pins and the Runestone gate active.
+- Evidence per run: `report.json` with input, implementation, lock, demo and
+  output hashes, command lines, return codes and diagnostics, plus full logs.
+  669 browser assertions, 27 Pyodide computation checks and 29 Python tests pass.
+
+Accepted scope limits, recorded in `migration/phase2/README.md`: system-tool
+drift is intended rather than tolerated, and byte-for-byte reproducible output is
+out of scope. Neither is an unmet gate.
+
+Carry these into later phases:
+
+- The accessible FOP target stays optional and experimental. `run-008` produces a
+  tagged seven-page PDF, but no new PDF/UA, screen-reader or human review was
+  performed, and phase1's FOP limitations stand.
+- Legacy demo dependencies remain at their historical versions, including a
+  critical advisory in bundled Lodash 2.4.2. Deployment security review is still
+  required before release.
+- The two accepted diagnostics should be revisited if upstream fixes the
+  preview-server port collision or FOP's coverage-table support. The collision is
+  an upstream defect worth reporting.
+- Refreshing `runestone-assets.json` after an intentional upstream repackage is a
+  deliberate, reviewed act via `--record-runestone`, not a routine build step.
+- Phase 0 and Phase 1 carry-forward items are unchanged: author review of
+  mathematics, Firefox and real-device coverage, assistive-technology testing,
+  and reconciling duplicate source IDs and broken fragment targets.
+
 ## Migration Log
+
+### 2026-09-10: Phase 2 Acceptance
+
+- The author accepted Phase 2 after the pinned workflow passed on GitHub in
+  `UlrikBuchholtz/ILAUoN` run 3 for commit `c516ecf`:
+  <https://github.com/UlrikBuchholtz/ILAUoN/actions/runs/34504841576>,
+  conclusion `success`. That run exercised the Action SHA pins and the new
+  Runestone content gate on runner hardware, against an independent fetch of the
+  same tarball, so the recorded 451 hashes now hold across three machines.
+- The Phase 2 gate is met: upstream tools pinned, standard project and
+  publication files in place, demos built separately, the runner failing on
+  missing assets and errors, clean-checkout and hosted CI verified, and no
+  installed dependency mutated. See the Phase 2 Checkpoint above for evidence and
+  carry-forward items.
+- This closes the modern build scaffold. It is not a whole-book conversion,
+  accessibility approval, security review, or release authorization, and nothing
+  is deployed. The legacy publisher remains the live publication route.
+- Phase 3, content conversion, has not started.
 
 ### 2026-09-10: Phase 2 Scope Decisions, Action Pinning and FOP Evidence
 

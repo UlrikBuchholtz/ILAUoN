@@ -1,10 +1,11 @@
 # Modern Root Build
 
-Status on 2026-09-10: root project, staged runner, tests, and CI implemented.
-**Strict HTML and print generation passes from source-built demos, locally and
-on GitHub Actions.**
+**Phase 2 was accepted by the author on 2026-09-10.** Strict HTML and print
+generation passes from source-built demos, locally and on GitHub Actions, and
+the optional accessible target has passed the gated runner locally.
 Nothing is deployed. Clean-checkout and hosted CI status are recorded below;
-this scaffold is not a whole-book conversion or release approval.
+this scaffold is not a whole-book conversion or release approval. Accepted scope
+limits and carry-forward items are in `MIGRATION.md`'s Phase 2 Checkpoint.
 
 ## Scope
 
@@ -175,6 +176,7 @@ seven and a half minutes each:
 | --- | --- | --- |
 | [1](https://github.com/UlrikBuchholtz/ILAUoN/actions/runs/34470464637) | `a6e66bc` | success; apt/TeX selection exercised, Node.js 20 action deprecation warning |
 | [2](https://github.com/UlrikBuchholtz/ILAUoN/actions/runs/34487715338) | `42f8d5e` | success; node24 action runtimes, no deprecation warning |
+| [3](https://github.com/UlrikBuchholtz/ILAUoN/actions/runs/34504841576) | `c516ecf` | success; Action SHA pins and the Runestone content gate active |
 
 On the ephemeral Ubuntu runner the workflow permits unprivileged user namespaces
 for downloaded Chromium, while the computation test keeps Chromium sandboxing
@@ -262,8 +264,8 @@ is clean-checkout verification, not an air-gapped or hermetic build.
 
 The strict build command was the mixed Nix/Debian invocation above, using the
 fresh clone's `.venv/bin/python` and a fresh persistent run directory. The modern
-CI workflow has since completed successfully on GitHub twice, recorded in the
-CI section above. System-tool closure is now an accepted scope limit rather than
-a gate; immutable Runestone asset content hashes remain the open Phase 2
-reproducibility gate.
-Do not mark Phase 2 fully closed on the strength of a local build alone.
+CI workflow has since completed successfully on GitHub three times, recorded in
+the CI section above. System-tool closure is an accepted scope limit rather than
+a gate, and Runestone assets are now pinned by content, so both former
+reproducibility gates are settled. Phase 2 was accepted on that basis, which
+included hosted CI and a clean-checkout build, not a local build alone.
