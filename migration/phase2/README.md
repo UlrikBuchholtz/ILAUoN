@@ -120,8 +120,10 @@ claim of upstream-supported production reproducibility. The manifest/tarball
 have no retained expected content hashes; output hashes record what was fetched
 but do not make remote content immutable. Browser Pyodide/fonts and other
 external resources remain network dependencies. Ubuntu apt packages and GitHub
-Action major tags are not content-locked. This is not a hermetic or security-
-approved publication pipeline. CI uses Node's bundled npm; local npm was 9.2.0.
+Action major tags are not content-locked, except `astral-sh/setup-uv`, which is
+pinned to an exact release because upstream publishes no floating major tag
+after v7. This is not a hermetic or security-approved publication pipeline.
+CI uses Node's bundled npm; local npm was 9.2.0.
 
 ## CI
 
@@ -130,8 +132,11 @@ dispatch. It installs locked Python/demo dependencies, runs runner, source and
 demo tests, then requires fresh HTML and print. Manual dispatch can also request
 FOP. Locked Playwright Chromium runs the HTML and computation regression gates;
 tracked files must remain unchanged. Outputs, reports, and logs are uploaded even on failure; no deployment or
-write permission is configured. The workflow has not been executed on GitHub
-from this workspace. Its apt/TeX package selection still needs a hosted run.
+write permission is configured. The author reports that the workflow has now
+completed successfully on GitHub, after `texlive-xetex` was added to its apt
+list; that run's commit and run identifiers are not recorded in this file. Its
+apt/TeX selection is therefore exercised by at least one hosted run, but the
+subsequent Action runtime update has not itself been verified hosted.
 On the ephemeral Ubuntu runner the workflow permits unprivileged user namespaces
 for downloaded Chromium, while the computation test keeps Chromium sandboxing
 enabled. No host sandbox policy was changed during local verification.
@@ -216,6 +221,7 @@ is clean-checkout verification, not an air-gapped or hermetic build.
 
 The strict build command was the mixed Nix/Debian invocation above, using the
 fresh clone's `.venv/bin/python` and a fresh persistent run directory. The modern
-CI workflow is implemented but has not run on GitHub; full system-tool closure
-and immutable Runestone asset hashes remain open Phase 2 reproducibility gates.
+CI workflow has since completed successfully on GitHub as reported by the
+author; full system-tool closure and immutable Runestone asset hashes remain
+open Phase 2 reproducibility gates.
 Do not mark Phase 2 fully closed on the strength of a local build alone.

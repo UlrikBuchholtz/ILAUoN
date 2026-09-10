@@ -545,6 +545,37 @@ HTML is the accessibility target; accessible PDF is optional and deferred.**
 
 ## Migration Log
 
+### 2026-09-10: Hosted CI Pass and Action Runtime Update
+
+- The author reports that the modern build workflow completed successfully on
+  GitHub Actions after `texlive-xetex` was added. This is the first hosted run
+  recorded here and it exercises the apt/TeX selection that Phase 2 listed as
+  unverified. The run's commit, run identifier and logs are not recorded in this
+  log; only the author's report and the warning quoted below.
+- The hosted runner warned that `actions/checkout@v4`, `actions/setup-node@v4`,
+  `actions/upload-artifact@v4` and `astral-sh/setup-uv@v6` target Node.js 20 and
+  are being forced onto Node.js 24, per GitHub's 2025-09-19 deprecation notice.
+- Updated the workflow to `actions/checkout@v7`, `actions/setup-node@v7`,
+  `actions/upload-artifact@v7` and `astral-sh/setup-uv@v10.0.1`. Each was checked
+  at that ref for `runs.using: node24` and for the inputs this workflow passes.
+- `astral-sh/setup-uv` publishes no floating major tag after v7; the `v8`, `v9`
+  and `v10` refs do not exist. It is therefore pinned to an exact release, which
+  also removes one of the un-pinned Action major tags recorded as a
+  reproducibility gap. The other three remain floating major tags.
+- Reviewed the skipped majors rather than assuming compatibility: checkout v5
+  requires runner 2.327.1 or newer, satisfied by `ubuntu-24.04`; setup-node v5
+  added automatic caching keyed on a `packageManager` field that the root
+  `package.json` does not have, narrowed to npm in v6, and the workflow passes no
+  `cache` input; upload-artifact v5 and v6 were the Node.js 24 moves and v7 adds
+  an optional `archive` input defaulting to the existing zip behavior. This is a
+  static review of upstream metadata and release notes, not a hosted rerun.
+- The workflow's `node-version: '20.19.2'` is deliberately unchanged. The
+  deprecation concerns the runtime that Actions themselves execute on, not the
+  pinned Node used to build the demos.
+- The updated workflow has not itself been run on GitHub. Hosted verification of
+  this revision, full system-tool closure and immutable Runestone asset hashes
+  remain open Phase 2 gates.
+
 ### 2026-09-10: Debian-Native Phase 2 Verification
 
 - Reproduced the strict Phase 2 build on the author's primary Debian trixie
