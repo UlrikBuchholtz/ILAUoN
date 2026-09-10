@@ -35,7 +35,7 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y --no-install-recommends jing default-jre-headless fop \
             texlive-latex-extra texlive-fonts-extra texlive-science texlive-luatex \
-            texlive-plain-generic ghostscript pdf2svg librsvg2-bin
+            texlive-xetex texlive-plain-generic ghostscript pdf2svg librsvg2-bin
       - name: Locked dependencies
         run: |
           uv sync --locked --python 3.12.14

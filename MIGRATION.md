@@ -545,6 +545,51 @@ HTML is the accessibility target; accessible PDF is optional and deferred.**
 
 ## Migration Log
 
+### 2026-09-10: Debian-Native Phase 2 Verification
+
+- Reproduced the strict Phase 2 build on the author's primary Debian trixie
+  workstation using only system packages and the root lock, with **no Nix
+  development shell and no `LD_PRELOAD` workaround**. The mixed Nix/Debian
+  invocation recorded in `migration/phase2/README.md` is therefore one working
+  route, not a requirement. Observed tools: uv 0.12.12, Python 3.12.14,
+  Node 22.23.2, npm 10.9.8, Java 21.0.11, Jing 20241231, TeX Live 2025/dev
+  Debian, FOP 2.10, system Chromium 150.0.7871.100.
+- The recorded pins for uv (0.12.5) and Node (20.19.2) were not required here:
+  `uv sync --locked` accepted the lock unchanged under the newer uv, and the
+  demo builder still produced byte-identical repeated builds under Node 22.
+  This is an observation about these two tools, not a general pin relaxation.
+- `~/tmp/ila/phase2/run-002` failed `generate-html` because `xelatex` was absent:
+  `PTX:ERROR: cannot locate executable ... as command 'xelatex'`, followed by
+  LaTeX compilation failure for all seven authored latex-images. Upstream
+  `pretext/utils.py` requires `xelatex` for `latex-image`, while SVG conversion
+  goes through pyMuPDF, so `pdf2svg`/`librsvg2-bin` are not needed for it.
+  Previous runs borrowed TeX from the flake's `scheme-full`, which includes
+  XeTeX, so this gap had not been exercised. The failed run is retained.
+- Added `texlive-xetex` to the workflow's apt list. Debian's recursive
+  dependency closure for `texlive-latex-extra` does not include it and the
+  workflow installs with `--no-install-recommends`, so a hosted run would very
+  likely have failed identically. This removes one demonstrated blocker; the
+  remainder of the apt/TeX selection is still unverified on GitHub.
+- After the author installed `jing`, `texlive-xetex` and `fop`,
+  `~/tmp/ila/phase2/run-003` passed the strict HTML and print gates: ten steps
+  at return code 0 with no blocking diagnostics, independent Jing source and
+  publication schema validation, all seven generated latex-image SVGs, Runestone
+  8.2.10 verified in the emitted services manifest, 287 demo and 444 HTML local
+  asset references checked, 656 output artifacts, and every copied external
+  asset hash-matched to its staged input.
+- Gates against that output: 6 runner, 14 source and 6 demo integration tests;
+  669 browser assertions with zero failures, network errors and runtime errors,
+  the same seven known warnings, and 18 screenshots under system Chromium;
+  and 27 of 27 Pyodide computation checks. The browser and computation counts
+  match the `clean-run-001` evidence.
+- The seven warnings remain legacy-iframe interior overflow and the compat
+  shim's Escape-restoration limitation on MathJax containers, both previously
+  documented and accepted.
+- The optional `accessible` FOP target was not exercised in this run, and no new
+  PDF/UA, screen-reader or human review was performed. `git status` showed no
+  build-created files in the checkout. This is local verification on one machine,
+  not hosted CI verification, reproducibility closure, or release approval.
+
 ### 2026-09-09: Author Acceptance and Modern Build Commencement
 
 - Accepted the Phase 1 checkpoint and authorization to clean the working directory
