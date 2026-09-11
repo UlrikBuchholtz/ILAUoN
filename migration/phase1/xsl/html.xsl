@@ -52,4 +52,44 @@
       <script src="{.}"></script>
     </xsl:for-each>
   </xsl:template>
+
+  <!-- 2.52.3 loads MathJax 4 from the floating "mathjax@4" tag, so the book's
+       mathematics could change under a CDN release without any change here.
+       This is the upstream "mathjax" template with the version pinned; nothing
+       else differs, and a phase2 test hashes the upstream template so an
+       upstream change to it fails rather than being silently overridden. -->
+  <xsl:param name="mathjax.version" select="'4.1.3'"/>
+
+  <xsl:template name="mathjax">
+    <script type="module">
+      <xsl:text>import { startMathJax } from '</xsl:text>
+      <xsl:if test="$cdn-prefix = ''">
+        <xsl:text>./</xsl:text>
+      </xsl:if>
+      <xsl:value-of select="$html.js.dir"/>
+      <xsl:text>/mathjax_startup.js';&#xa;</xsl:text>
+      <xsl:text>startMathJax({&#xa;</xsl:text>
+      <xsl:text>hasWebworkReps: </xsl:text><xsl:value-of select="$b-has-webwork-reps"/><xsl:text>,&#xa;</xsl:text>
+      <xsl:text>hasSage: </xsl:text><xsl:value-of select="$b-has-sage"/><xsl:text>,&#xa;</xsl:text>
+      <xsl:text>isReact: </xsl:text><xsl:value-of select="$b-debug-react"/><xsl:text>,&#xa;</xsl:text>
+      <xsl:text>htmlPresentation: </xsl:text><xsl:value-of select="$b-html-presentation"/><xsl:text>,&#xa;</xsl:text>
+      <xsl:text>lang: "</xsl:text><xsl:value-of select="$document-language"/><xsl:text>",&#xa;</xsl:text>
+      <xsl:text>});&#xa;</xsl:text>
+    </script>
+    <script defer="true">
+      <xsl:attribute name="src">
+        <xsl:text>https://cdn.jsdelivr.net/npm/mathjax@</xsl:text>
+        <xsl:value-of select="$mathjax.version"/>
+        <xsl:text>/</xsl:text>
+        <xsl:choose>
+          <xsl:when test="$debug.mathjax.svg = 'yes'">
+            <xsl:text>tex-svg.js</xsl:text>
+          </xsl:when>
+          <xsl:otherwise>
+            <xsl:text>tex-mml-chtml.js</xsl:text>
+          </xsl:otherwise>
+        </xsl:choose>
+      </xsl:attribute>
+    </script>
+  </xsl:template>
 </xsl:stylesheet>

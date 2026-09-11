@@ -598,6 +598,52 @@ Carry these into later phases:
 
 ## Migration Log
 
+### 2026-09-11: Portable Notation Accepted and MathJax Pinned
+
+- The author reviewed a render of the portable form against the pdfTeX reference
+  and accepted `alignedat` for systems. Measured against print, heights and depths
+  are identical and `alignedat` tracks the original width within 16pt, slightly
+  tighter, because it has no inter-column space where `\halign` had 1pt of
+  `\spalignsystabspace`. The rejected `array` alternative ran 20 to 46pt wide on
+  every system. Matrices and vectors sit 6.67 to 10pt looser than print under
+  either, which the author accepted. `render_portable` also keeps spalign's `{}`
+  wrapping on the operator columns, so a lone `+` or `=` still sets as a binary or
+  relation rather than a unary sign.
+- The system padding keeps its short `\+`, `\=` and `\.` names, so converted cells
+  stay byte-identical to the legacy source. `\=` and `\.` are also the T1 macron
+  and dot accents, so `PORTABLE_MACROS` saves those as `\macron` and `\dotaccent`
+  before the padding takes the short names back; the `\let` lines must precede the
+  redefinitions and a test pins that order. Neither accent is used anywhere in the
+  book, so this reserves them rather than rescues them. The book uses `\+` 67 times
+  and `\.` 68 times; `\=` is defined by spalign but never used.
+- **Pinned MathJax.** Upstream 2.52.3 emits the floating `mathjax@4` tag, so the
+  book's mathematics could have changed under a CDN release with no change here.
+  Of the external scripts the pilot loads, this was the only unpinned one: upstream
+  already pins `lunr.js/2.3.9` and `prism/1.26.0`, and `mathjax_startup.js` is
+  served locally from `_static`.
+- Pinned it without patching upstream. `migration/phase1/xsl/html.xsl` overrides the
+  core `mathjax` template with the version from `scripts/build.py`'s `MATHJAX`,
+  currently `4.1.3`, which is what `mathjax@4` resolved to. The override is the
+  upstream template with only the version changed, so a phase2 test hashes the
+  upstream template and fails if it drifts, rather than letting the copy silently
+  diverge from its base.
+- Added `check_mathjax` to the runner: every page must reference exactly the pinned
+  version, any other `mathjax@` reference fails the build, and output that loads no
+  MathJax at all fails too. Six tests cover the drift hash, the override, and the
+  gate's accept and refuse paths, including `mathjax@4`, `mathjax@4.1.2` and
+  `mathjax@latest`.
+- Verified in `~/tmp/ila/phase3/mathjax-pin-001`: all ten HTML pages emit
+  `https://cdn.jsdelivr.net/npm/mathjax@4.1.3/tex-mml-chtml.js` and no floating tag
+  survives anywhere in the output.
+- This pins the version, not the bytes. The library and its fonts are still fetched
+  from jsdelivr at page load, so the published site is not self-contained; that is
+  the same gap Phase 0 recorded for the SageCell jQuery, and self-hosting MathJax
+  is now an open Phase 3 decision.
+- PreTeXt also has a `debug.mathjax.svg` stringparam that builds against
+  `tex-svg.js` instead of CHTML. It was considered while diagnosing delimiter
+  rendering and is not being used: the author confirms the pilot's delimiters
+  render correctly as built.
+
 ### 2026-09-11: Compact-Notation Verification and Recovered Regression Cases
 
 - The author accepted the proposed differential verification of the compact

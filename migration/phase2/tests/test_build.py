@@ -1,10 +1,14 @@
 """Fast fail-closed runner tests; no TeX, Node, or network required."""
 
 import argparse
+import hashlib
+import importlib.resources
 import importlib.util
+import re
 from pathlib import Path
 import tempfile
 import unittest
+import zipfile
 from unittest.mock import patch
 import xml.etree.ElementTree as ET
 
@@ -12,6 +16,62 @@ ROOT = Path(__file__).resolve().parents[3]
 SPEC = importlib.util.spec_from_file_location('build', ROOT / 'scripts/build.py')
 BUILD = importlib.util.module_from_spec(SPEC)
 SPEC.loader.exec_module(BUILD)
+
+
+# The override in migration/phase1/xsl/html.xsl is a copy of this upstream template
+# with the MathJax version pinned. If upstream changes the template, the copy stops
+# being a faithful base and this hash fails rather than the change being swallowed.
+UPSTREAM_MATHJAX_TEMPLATE = '62a72ffb1811506cc18613b13f8ba344955bfd16558d30ff9c135c2979b12bb7'
+
+
+def upstream_template(name):
+    import pretext
+    with importlib.resources.path('pretext.resources', 'core.zip') as archive:
+        with zipfile.ZipFile(archive) as bundle:
+            body = bundle.read(
+                f'pretext-{pretext.CORE_COMMIT}/xsl/pretext-html.xsl').decode()
+    match = re.search(f'<xsl:template name="{name}">.*?</xsl:template>', body, re.S)
+    assert match, f'No upstream template named {name}'
+    return match.group()
+
+
+class MathJaxPinTests(unittest.TestCase):
+    def test_upstream_template_has_not_drifted(self):
+        digest = hashlib.sha256(upstream_template('mathjax').encode()).hexdigest()
+        self.assertEqual(digest, UPSTREAM_MATHJAX_TEMPLATE,
+                         'Upstream changed its mathjax template; re-sync the override '
+                         'in migration/phase1/xsl/html.xsl before updating this hash.')
+
+    def test_upstream_is_the_floating_tag_the_override_replaces(self):
+        self.assertIn('mathjax@4/', upstream_template('mathjax'))
+
+    def test_override_pins_the_version(self):
+        stylesheet = (ROOT / 'migration/phase1/xsl/html.xsl').read_text()
+        self.assertIn('<xsl:template name="mathjax">', stylesheet)
+        self.assertIn(f'select="\'{BUILD.MATHJAX}\'"', stylesheet)
+        self.assertNotIn('mathjax@4/', stylesheet)
+
+    def test_gate_accepts_the_pinned_reference(self):
+        with tempfile.TemporaryDirectory() as directory:
+            page = Path(directory) / 'index.html'
+            page.write_text('<script defer="true" src="https://cdn.jsdelivr.net/npm/'
+                            f'mathjax@{BUILD.MATHJAX}/tex-mml-chtml.js"></script>')
+            self.assertEqual(BUILD.check_mathjax(Path(directory)), 1)
+
+    def test_gate_refuses_a_floating_tag(self):
+        for reference in ('mathjax@4', 'mathjax@4.1.2', 'mathjax@latest'):
+            with tempfile.TemporaryDirectory() as directory:
+                page = Path(directory) / 'index.html'
+                page.write_text('<script src="https://cdn.jsdelivr.net/npm/'
+                                f'{reference}/tex-mml-chtml.js"></script>')
+                with self.assertRaises(ValueError, msg=reference):
+                    BUILD.check_mathjax(Path(directory))
+
+    def test_gate_refuses_output_with_no_mathjax_at_all(self):
+        with tempfile.TemporaryDirectory() as directory:
+            (Path(directory) / 'index.html').write_text('<p>no mathematics here</p>')
+            with self.assertRaises(ValueError):
+                BUILD.check_mathjax(Path(directory))
 
 
 class BuildTests(unittest.TestCase):

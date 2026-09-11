@@ -72,6 +72,15 @@ The sequence fails immediately on a failed gate:
    verify the Runestone manifest version, audit HTML/CSS local assets, and verify
    every copied external asset's hash against its staged input.
 
+Every page must also load exactly the pinned MathJax. Upstream 2.52.3 emits the
+floating `mathjax@4` tag, so `migration/phase1/xsl/html.xsl` overrides its
+`mathjax` template with the version in `scripts/build.py`'s `MATHJAX`, and
+`check_mathjax` fails the build on any other `mathjax@` reference or on output
+that loads none. The override is a copy of the upstream template with only the
+version changed, so a phase2 test hashes that upstream template and fails if it
+drifts, rather than letting the copy silently diverge. This pins the version, not
+the bytes: the library and its fonts are still fetched from jsdelivr at page load.
+
 Nonzero commands, timeout/interruption, missing/empty assets, escaping asset
 paths, missing alt text, overfull/overflow diagnostics, unsupported features,
 and explicit failure diagnostics are blocking. Exactly two upstream lines are

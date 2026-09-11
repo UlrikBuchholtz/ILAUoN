@@ -127,12 +127,39 @@ dropping the `\hskip-\arraycolsep` tightening, both produce differing content
 streams, and neither is visible to the token gate. Those three tests skip when
 `pdflatex` is absent and say so.
 
-`render_portable` is derived from the same parse but is not compared here. It
-drops spalign's `\hskip-\arraycolsep` tightening, which MathJax has no
-`\arraycolsep` for, and rebuilds `\syseq`'s `\halign` as an array of alternating
-right- and left-aligned columns. Those are deliberate spacing changes to the same
-cells; the system form still needs `\+`, `\=` and `\.` declared as MathJax
-macros, and it needs author review.
+### The Portable Form
+
+`render_portable` is derived from the same parse but is not compared by either
+gate, because it deliberately differs. It drops spalign's `\hskip-\arraycolsep`
+tightening, which MathJax has no `\arraycolsep` for, and rebuilds `\syseq`'s
+`\halign` as `alignedat`, keeping spalign's `{}` wrapping on the operator columns
+so a lone `+` or `=` still sets as a binary or relation.
+
+The author chose `alignedat` on 2026-09-11 after reviewing a render against the
+print reference. Measured against pdfTeX, heights and depths are identical and
+`alignedat` tracks the original width within 16pt, slightly tighter, because it
+has no inter-column space where `\halign` had 1pt of `\spalignsystabspace`. The
+rejected `array` alternative ran 20 to 46pt wide on every system. Matrices and
+vectors sit 6.67 to 10pt looser than print in either case; the author accepted
+that.
+
+The system padding keeps its short `\+`, `\=` and `\.` names, so converted cells
+stay byte-identical to the legacy source. `\=` and `\.` are also the T1 macron
+and dot accents, so `PORTABLE_MACROS` saves those under free names before the
+padding takes the short names back:
+
+```latex
+\let\macron\=      % the T1 macron accent, kept available under a free name
+\let\dotaccent\.   % the T1 dot accent, likewise
+
+\def\+{\mathbin{\phantom{+}}}   % a blank where a binary operator is omitted
+\def\={\mathrel{\phantom{=}}}   % a blank where a relation is omitted
+\def\.{}                        % a blank where a term is omitted
+```
+
+Order is load-bearing and a test pins it. Neither accent is used anywhere in the
+book today, so this reserves them rather than rescues them. The book uses `\+` 67
+times and `\.` 68 times; `\=` is defined by spalign but never used.
 
 ### Call Sites That Are Decisions
 
@@ -214,6 +241,10 @@ element and attribute mapping in Open Decisions below.
   folding its editorial choices into mechanical conversion.
 - Treatment of the three expansion-dependent `\syseq` sites and the three
   `\det\mat\cdots` sites: expand once and inline, or rewrite editorially.
+- Whether to self-host MathJax. The build now pins the version, but still fetches
+  the library and its fonts from jsdelivr at page load, so the published site is
+  not self-contained. This is the same gap Phase 0 recorded for the SageCell
+  jQuery.
 - Whether the 268 `latex-code` blocks convert to `latex-image` or to semantic
   markup, per block. Seventeen carry a `mode` attribute.
 - The two duplicate `xml:id`s recorded as Phase 0 baseline defects

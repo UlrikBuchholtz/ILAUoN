@@ -21,6 +21,10 @@ PILOT = Path('migration/phase1')
 VERSION = '2.52.3'
 CORE = '2c8806b9988f855e94d185fb145226bf6c0a5b20'
 RUNESTONE = '8.2.10'
+# 2.52.3 emits the floating "mathjax@4" tag, so the book's mathematics could change
+# under a CDN release. migration/phase1/xsl/html.xsl overrides the upstream template
+# to pin it; this is the exact version that override must produce.
+MATHJAX = '4.1.3'
 RUNESTONE_ASSETS = Path('migration/phase2/runestone-assets.json')
 ACCEPTED_FOP_WARNING = '[WARN] GlyphClassTable$CoverageSetClassTable - coverage set class table not yet supported'
 # Upstream's preview server prefers port 8888 and its own earlier target still
@@ -92,6 +96,24 @@ def check_assets(root):
     return checked
 
 
+def check_mathjax(root):
+    """Every page must load exactly the pinned MathJax; no floating tag may survive."""
+    pinned = f'https://cdn.jsdelivr.net/npm/mathjax@{MATHJAX}/'
+    floating = re.compile(r'cdn\.jsdelivr\.net/npm/mathjax@(?!' + re.escape(MATHJAX) + r'/)')
+    pages = 0
+    for path in sorted(root.rglob('*.html')):
+        if path.name.startswith('._'):
+            continue
+        text = path.read_text()
+        if floating.search(text):
+            raise ValueError(f'Unpinned MathJax reference in {path}')
+        if pinned in text:
+            pages += 1
+    if not pages:
+        raise ValueError(f'No page loads the pinned MathJax {MATHJAX}')
+    return pages
+
+
 def check_runestone(output, manifest, record=False):
     """Compare the fetched Runestone assets against recorded content hashes.
 
@@ -137,6 +159,7 @@ def build(args):
     run.mkdir(parents=True, exist_ok=False)
     report = {'started': time.strftime('%Y-%m-%dT%H:%M:%S%z'), 'run': str(run),
               'pretext': VERSION, 'core': CORE, 'runestone': RUNESTONE,
+              'mathjax': MATHJAX,
               'python': sys.version, 'steps': [], 'status': 'failed'}
     try:
         for name in ['logs', 'home', 'tmp']:
@@ -252,6 +275,7 @@ def build(args):
                 report['runestone_assets'] = check_runestone(
                     output, ROOT / RUNESTONE_ASSETS, args.record_runestone)
                 report['html_asset_references'] = check_assets(output)
+                report['mathjax_pages'] = check_mathjax(output)
                 for name, digest in hashes(external).items():
                     if hashlib.sha256((output / 'external' / name).read_bytes()).hexdigest() != digest:
                         raise ValueError(f'External asset changed during publication: {name}')

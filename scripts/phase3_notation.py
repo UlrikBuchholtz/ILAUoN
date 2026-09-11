@@ -88,6 +88,20 @@ MATRIX_DELIMITER_SKIP = r'\hskip-\arraycolsep\,'
 VECTOR_DELIMITER_SKIP = r'\hskip-\arraycolsep'
 SYSTEM_DELIMITER_SKIP = r'\,'
 
+# The padding \spalignsys defines inside its own \vcenter, for terms and relations a
+# system omits. The book uses \+ 67 times and \. 68 times; \= is defined but never
+# used. They keep their short names in the converted source. \= and \. are also the
+# T1 macron and dot accents, so PreTeXt's <macros> block, which feeds both MathJax and
+# the LaTeX preamble, saves the accents under new names first. Neither accent is used
+# anywhere in the book today; this keeps them available.
+PORTABLE_MACROS = (
+    (r'\let\macron\=', 'the T1 macron accent, kept available under a free name'),
+    (r'\let\dotaccent\.', 'the T1 dot accent, likewise'),
+    (r'\def\+{\mathbin{\phantom{+}}}', 'a blank where a binary operator is omitted'),
+    (r'\def\={\mathrel{\phantom{=}}}', 'a blank where a relation is omitted'),
+    (r'\def\.{}', 'a blank where a term is omitted'),
+)
+
 
 def tokenize(text):
     """Split LaTeX source into the tokens spalign's parser sees, one at a time."""
@@ -277,20 +291,29 @@ def render_portable(macro, arguments, alignment=None, delimiters=None):
     """A MathJax-renderable form of the same array.
 
     This drops spalign's `\\hskip-\\arraycolsep` delimiter tightening, which MathJax
-    has no `\\arraycolsep` for, and replaces the system's `\\halign` with an array of
-    alternating right- and left-aligned columns. Both are spacing changes to the
-    same parsed cells, not a different reading of the notation.
+    has no `\\arraycolsep` for, and rebuilds the system as `alignedat`, whose column
+    pairs carry no inter-column space and so keep the original's tight setting. Both
+    are spacing changes to the same parsed cells, not a different reading of the
+    notation. The system padding keeps its `\\+`, `\\=` and `\\.` names; see
+    PORTABLE_MACROS for what the <macros> block has to declare.
     """
     definition = COMPACT_MACROS[macro]
     alignment = alignment or definition['alignment']
     parsed = parse(arguments[-1])
     if definition['kind'] == 'system':
         left, right = delimiters or SYSTEM_DELIMITERS
-        width = max((len(row) for row in parsed['rows']), default=0)
-        preamble = ''.join('rl'[index % 2] for index in range(width))
-        body = token_dump(r'\\'.join('&'.join(row) for row in parsed['rows']))
-        return (f'\\left{left}\\begin{{array}}{{{preamble}}}{body}'
-                f'\\end{{array}}\\right{right}')
+        rows = parsed['rows']
+        pairs = (max((len(row) for row in rows), default=0) + 1) // 2
+        lines = []
+        for row in rows:
+            # \spalignsys right-aligns the odd cells and gives the even ones `{}` on
+            # both sides, so a lone `+` or `=` keeps its binary or relation spacing.
+            lines.append('&'.join(
+                cell if index % 2 == 0 else '{}' + cell + '{}'
+                for index, cell in enumerate(row)))
+        body = token_dump(r'\\'.join(lines))
+        return (f'\\left{left}{SYSTEM_DELIMITER_SKIP}\\begin{{alignedat}}{{{pairs}}}'
+                f'{body}\\end{{alignedat}}{SYSTEM_DELIMITER_SKIP}\\right{right}')
     vector = definition['kind'] == 'vector'
     augmented = int(arguments[0]) if macro == 'nmat' else None
     preamble = array_preamble(macro, parsed, alignment, augmented)

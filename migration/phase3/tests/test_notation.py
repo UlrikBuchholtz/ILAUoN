@@ -88,6 +88,27 @@ class RenderingTests(unittest.TestCase):
         self.assertEqual(portable,
                          r'\left(\begin{array}{rr}1&2\\3&4\end{array}\right)')
 
+    def test_system_padding_keeps_its_short_names(self):
+        """The converted cells stay byte-identical to the source for \\+ and \\."""
+        portable = NOTATION.render_portable('syseq', [r'\. \+ y - 4z = -3'])
+        self.assertIn(r'\.', portable)
+        self.assertIn(r'\+', portable)
+        self.assertNotIn('blank', portable)
+
+    def test_the_accents_are_saved_before_the_padding_takes_the_names(self):
+        """\\= and \\. are the T1 macron and dot accents; \\let must come first."""
+        lines = [line for line, _ in NOTATION.PORTABLE_MACROS]
+        self.assertLess(lines.index(r'\let\macron\='), lines.index(r'\def\={\mathrel{\phantom{=}}}'))
+        self.assertLess(lines.index(r'\let\dotaccent\.'), lines.index(r'\def\.{}'))
+        self.assertIn(r'\def\+{\mathbin{\phantom{+}}}', lines)
+
+    def test_the_system_uses_alignedat_with_spaced_operator_columns(self):
+        portable = NOTATION.render_portable('syseq', ['x + 3y = 4; 2x - y = 1'])
+        # five cells make three column pairs
+        self.assertIn(r'\begin{alignedat}{3}', portable)
+        self.assertIn('{}+{}', portable)
+        self.assertNotIn('array', portable)
+
     def test_system_delimiters_are_document_state(self):
         default = NOTATION.render_tex_equivalent('syseq', ['x = 1'])
         self.assertIn(r'\left\{', default)
