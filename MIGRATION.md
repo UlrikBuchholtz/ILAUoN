@@ -600,8 +600,10 @@ Carry these into later phases:
 
 ### 2026-09-11: Portable Notation Accepted and MathJax Pinned
 
-- The author reviewed a render of the portable form against the pdfTeX reference
-  and accepted `alignedat` for systems. Measured against print, heights and depths
+- The author reviewed a render of the portable form against the pdfTeX reference,
+  published at
+  <https://claude.ai/code/artifact/32dae562-42b0-4d48-8d31-44753e4597b4>, and
+  accepted `alignedat` for systems. Measured against print, heights and depths
   are identical and `alignedat` tracks the original width within 16pt, slightly
   tighter, because it has no inter-column space where `\halign` had 1pt of
   `\spalignsystabspace`. The rejected `array` alternative ran 20 to 46pt wide on

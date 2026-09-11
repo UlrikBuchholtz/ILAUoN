@@ -320,7 +320,8 @@ def verify(root, run, typeset):
             'defines them. They remain covered by the token gate.',
             'render_portable is not compared here. It drops spalign\'s \\hskip-\\arraycolsep '
             'delimiter tightening, which MathJax has no \\arraycolsep for, and rebuilds the '
-            'system as an array; those are deliberate spacing changes to the same cells.',
+            'system as alignedat; those are deliberate spacing changes to the same cells, '
+            'measured and accepted by the author rather than gated here.',
             'Verification of the frozen legacy source at one revision. It is not a '
             'conversion, and no book content is changed or reviewed here.',
         ],

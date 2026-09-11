@@ -26,7 +26,9 @@ uv run --locked python -B -m unittest discover -s migration/phase3/tests -v
 ```
 
 The run takes under a second, writes deterministic JSON, and executes no LaTeX.
-`migration/phase3/census.json` is the committed result for `ba732a8`.
+`migration/phase3/census.json` is the committed result for `ba732a8`. Regenerating
+it at a later commit changes only its `git_revision`, exactly as Phase 0 records
+for `migration/baseline-source.json`; a diff in any other field is a real change.
 
 What it is not: it expands no macro and runs no TeX, so macro counts are lexical
 occurrences and include the arguments of macros that suppress them. It does not
@@ -136,7 +138,8 @@ tightening, which MathJax has no `\arraycolsep` for, and rebuilds `\syseq`'s
 so a lone `+` or `=` still sets as a binary or relation.
 
 The author chose `alignedat` on 2026-09-11 after reviewing a render against the
-print reference. Measured against pdfTeX, heights and depths are identical and
+print reference, published at
+<https://claude.ai/code/artifact/32dae562-42b0-4d48-8d31-44753e4597b4>. Measured against pdfTeX, heights and depths are identical and
 `alignedat` tracks the original width within 16pt, slightly tighter, because it
 has no inter-column space where `\halign` had 1pt of `\spalignsystabspace`. The
 rejected `array` alternative ran 20 to 46pt wide on every system. Matrices and
