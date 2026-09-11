@@ -18,7 +18,8 @@ XML_BASE = "{http://www.w3.org/XML/1998/namespace}base"
 XI_INCLUDE = "{http://www.w3.org/2001/XInclude}include"
 
 
-def inventory(root):
+def load_active_source(root):
+    """Expand src/ila.xml's XInclude graph, recording file hashes and element origins."""
     root = Path(root).resolve()
     files = {}
     origins = {}
@@ -59,7 +60,12 @@ def inventory(root):
 
         return expand(tree)
 
-    book = load(root / "src/ila.xml")
+    return load(root / "src/ila.xml"), files, origins, includes
+
+
+def inventory(root):
+    root = Path(root).resolve()
+    book, files, origins, includes = load_active_source(root)
     counts = Counter()
     ids = defaultdict(list)
     xrefs = []

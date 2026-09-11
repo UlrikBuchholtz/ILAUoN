@@ -24,7 +24,9 @@ Accepted direction:
 
 **Phase 0 is complete as of 2026-09-06 under the documented-limitations exit
 gate. Phase 1 is accepted as of 2026-09-09. Phase 2 (modern build) is accepted as
-of 2026-09-10; Phase 3 (content conversion) has not started.** Two successful
+of 2026-09-10. Phase 3 (content conversion) commenced on 2026-09-11 and has so
+far produced measurement and verification tooling only: no book content is
+converted.** Two successful
 isolated legacy HTML/PDF builds, source/output inventories, a static fragment-link
 audit, Chromium interaction checks, desktop/mobile-viewport screenshots, and
 selected PDF page captures form the reference. Its archived evidence was
@@ -595,6 +597,128 @@ Carry these into later phases:
   and reconciling duplicate source IDs and broken fragment targets.
 
 ## Migration Log
+
+### 2026-09-11: Compact-Notation Verification and Recovered Regression Cases
+
+- The author accepted the proposed differential verification of the compact
+  matrix notation and refetched `aborted-port`, closing the evidence gap recorded
+  earlier the same day. No book content was converted and no legacy source was
+  changed.
+- Added `scripts/phase3_notation.py`, a reader for `\vec`, `\mat`, `\amat`,
+  `\nmat`, `\hmat` and `\syseq` that reproduces `spalign.sty`'s TeX-level parsing,
+  together with two renderings: an exact spalign equivalent for checking, and a
+  portable form for MathJax.
+- Added `scripts/phase3_verify.py`, which gates it against TeX rather than
+  against inspection. The token gate has LaTeX run `spalign.sty`'s own
+  `\spalign@process` over every call site and compares the accumulated token list
+  and `\spalignmaxcols` with the reader's; it needs no macro to be defined,
+  because `\the` on a token register does not expand. The typeset gate sets the
+  legacy call and the re-rendering on consecutive pages under the book's own
+  `macros.sty`, each shipped as a single box, and requires byte-identical PDF
+  content streams.
+- Both gates pass for `ba732a8` in `~/tmp/ila/phase3/verify-011`: 1,213 distinct
+  cases and 0 token mismatches, covering 2,431 of 2,437 call sites; 1,165 cases
+  and 0 differing content streams, covering 2,381 of 2,437. The six uncovered
+  sites are the expansion-dependent ones. Forty-eight cases are excluded from the
+  typeset gate because their entries use names the book source redefines, which
+  outside that state are LaTeX accents: `\r`, `\b`, `\g`, `\o`, `\p`, `\a`.
+- The typeset gate is checked for discrimination rather than assumed to work:
+  mutating the rendering to change one column's alignment, or to drop the
+  `\hskip-\arraycolsep` tightening, each produces differing content streams, and
+  neither is visible to the token gate. Those three tests skip, reporting the
+  skip, when `pdflatex` is absent.
+- The gate found three defects in the reader that inspection had passed: a wrong
+  row separator; TeX's rule that the space ending a control word is absorbed and
+  does not separate entries; and the loss of that same space as the token
+  terminator, which silently merged `\r c` into `\rc`. The first typeset attempt
+  also looped forever, because a display taller than any page never stops being
+  broken; shipping each page out as a box removes the page builder entirely.
+- Correcting the parser corrected the census. Treating `,` as spalign's entry
+  separator and absorbing control-word spaces removes every apparently ragged
+  matrix: no `\vec`, `\mat`, `\amat` or `\hmat` in the book is ragged, and only
+  8 of 105 systems are, which is what `\+` and `\.` pad. `migration/phase3/census.json`
+  was regenerated; the earlier ragged counts were artifacts of an approximate
+  splitter and are withdrawn.
+- Found that system delimiters are document state. `\spalignsysdelims` is called
+  18 times, but only 18 of the 105 `\syseq` call sites set their delimiters in
+  their own element; 82 inherit them from an earlier element and 5 take the
+  document default. Twenty-three inherited sites are set to no delimiters at all,
+  so reading each `\syseq` locally would put braces around twenty-three systems
+  that have none. `\spalignsystabspace` is inherited at 9 sites. Both are now
+  carried in document order by the verifier and threaded through the renderers.
+- Added `scripts/phase3_preserve.py` for the well-defined part of the
+  preservation gate: it fails on a lost `xml:id`, a lost MathBox demo contract, a
+  change in division order or titles, or an xref that used to resolve and no
+  longer does. Element-count changes are reported, not gated, because conversion
+  renames markup on purpose. Captions and visibility wait on the
+  `hide-type`/`type-name`/`visible` mapping.
+- Committed `migration/phase3/aborted-port-source.json`, the Phase 0 inventory of
+  `e96ed01` produced by the unchanged tool, so the regression cases survive that
+  branch disappearing again. Measured against the baseline it loses 6 `xml:id`
+  values, all 167 MathBox contracts, and every `essential` (7), `bluebox` (100),
+  `specialcase` (62) and `latex-code` (264) element, and changes the division
+  sequence. The comparator fails on it and passes the baseline against itself.
+- The recovered branch confirms both notation failures exactly. A three-entry
+  vector in `src/vectors-matrices.xml:688` became six rows by splitting on the
+  space that ends `\cdot`; the system in `src/vector-spans.xml:37` became
+  `\left\{\begin{aligned}&{}<\end{aligned}|(|)|>{ x - y; ...}`, a broken template
+  with the delimiter arguments left as literal residue. Both are now tests.
+- Forty-two Phase 3 tests pass, and the phase1, phase2 and demo suites are
+  unchanged. Updated `CLAUDE.local.md` with the Phase 3 commands and a working
+  rule that the notation reader changes only with both gates passing.
+- This verifies a reader against the legacy source. It is not a conversion, not
+  author review of mathematics, and not approval of the portable rendering, whose
+  spacing differs deliberately and whose system form still needs `\+`, `\=` and
+  `\.` declared as MathJax macros.
+
+### 2026-09-11: Phase 3 Commencement and Conversion Census
+
+- Started Phase 3 with measurement rather than conversion. No book content was
+  converted, no legacy source was changed, and the modern build still builds only
+  the Phase 1 pilot fixture. `migration/phase3/README.md` records the measured
+  scope, a proposed gate set, and the open decisions; the gates are a proposal
+  awaiting author acceptance, not an accepted contract.
+- Added `scripts/phase3_census.py` and `migration/phase3/census.json` for
+  `ba732a8`. The census reads the pinned core's XSL and schema from the installed
+  `pretext.resources/core.zip`, keyed by the pinned core commit, so it does not
+  depend on a mutable `~/.ptx` cache and patches nothing. It runs in under a
+  second, executes no LaTeX, and produced byte-identical JSON on repeat runs.
+- Extracted `load_active_source` from `scripts/phase0_inventory.py` so the census
+  walks the same XInclude graph instead of reimplementing it. Regenerating
+  `migration/baseline-source.json` after the refactor matched the committed
+  manifest on every key except the expected `git_revision` change.
+- Measured: 45 active files, 20,723 elements, 100 distinct element names, 10,214
+  math elements holding 221,797 characters, and 268 raw LaTeX blocks holding
+  235,053 characters. Sixteen element names have no pinned-core XSL match after
+  entity expansion, among them `bluebox`, `specialcase`, `essential`, `mathbox`,
+  `concept-library` and `latex-code`. Behavior also rides on `hide-type` (117),
+  `type-name` (36), `visible` (15) and `latex-code/@mode` (17), none of which
+  exist upstream.
+- The XSL-match signal is a review flag, not proof of support, and the schema
+  signal is weaker: the pinned RelaxNG schema is incomplete and omits genuine
+  PreTeXt elements including `me` and `men`. Both limitations are recorded in
+  the report itself.
+- Compact notation: 2,437 call sites, all delimited. `\vec` 1,161 (always one
+  row), `\mat` 1,036 (30 sizes, 462 of them `2x2`, 23 ragged, 63 entries nesting
+  another compact macro), `\amat` 116, `\syseq` 105 (16 ragged), `\hmat` 19,
+  `\nmat` 0. Fourteen sites are not plain brace groups: eight single-token
+  arguments such as `\det\mat a`, three `\det\mat\cdots`, and three
+  `\syseq\eqs` whose argument is built by `\def`/`\edef` earlier in the same
+  block and has no shape before expansion. Each is a conversion decision.
+- Stateful macros are worse than the assessment recorded. Thirty-one control
+  sequences are defined inside the book source and twenty are used outside their
+  defining element, with short names redefined repeatedly and differently: `\r`
+  27 times, `\v` 24, `\w` 20, `\theo` 19, `\b` 17. A page-global MathJax macro
+  block cannot reproduce this. `\rowop` is defined in `macros.sty` and redefined
+  in the source seven more times.
+- Twenty tests in `migration/phase3/tests` cover the TeX argument reader, the
+  shape parser, the package scan, and assertions against the frozen legacy
+  source, including the aborted port's three-entry-vector failure. The phase1,
+  phase2 and demo suites still pass unchanged.
+- Recorded an evidence gap: the aborted-port commit
+  `e96ed016c2de348e2620af01eec9506bbbb9503a`, which this plan names as the source
+  of Phase 3's regression cases, is absent from this checkout and from the bare
+  remote. Only its description in Aborted-Port Findings survives.
 
 ### 2026-09-10: Phase 2 Acceptance
 
